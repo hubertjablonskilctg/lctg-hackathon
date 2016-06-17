@@ -1,0 +1,18 @@
+{
+  "name": "front",
+  "authors": [
+    "Hubert Jabłoński <hubertjablonski@windowslive.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
