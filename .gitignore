@@ -6,3 +6,6 @@ bower_components
 **/*.suo
 **/bin
 **/obj
+.vs
+/backend/hackaton-engine/hackaton-engine/changelog.txt
+/backend/hackaton-engine/hackaton-engine/SolrNet.chm
