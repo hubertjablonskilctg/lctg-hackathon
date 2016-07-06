@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Common.Models;
 using hackaton_engine.Models;
 
 namespace hackaton_engine.Controllers
