@@ -484,6 +484,9 @@
   <ItemGroup>
     <Content Include="bower.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\takeoff2016-krkteam - Web Deploy.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
