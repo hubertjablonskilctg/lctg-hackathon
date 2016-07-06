@@ -57,8 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IocConfig.cs" />
-    <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Models\TestModel.cs" />
+    <Compile Include="Mongo\Entity.cs" />
     <Compile Include="Mongo\MongoNinjectModule.cs" />
     <Compile Include="Mongo\Repositories\IMongoRepository.cs" />
     <Compile Include="Mongo\Repositories\MongoRepository.cs" />

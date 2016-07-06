@@ -56,6 +56,10 @@
       <Project>{e5b31858-f753-45e0-8700-7d9b02b2060d}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\hackaton-engine\hackaton-engine.csproj">
+      <Project>{0eda2e80-1494-4269-bffa-75f375518194}</Project>
+      <Name>hackaton-engine</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

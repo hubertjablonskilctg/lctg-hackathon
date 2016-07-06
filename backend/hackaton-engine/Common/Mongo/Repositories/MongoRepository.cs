@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Common.Mongo.Repositories
 {
-    public class MongoRepository<T> : IMongoRepository<T> where T : BaseModel
+    public class MongoRepository<T> : IMongoRepository<T> where T : Entity
     {
         private readonly IMongoDatabase _mongoDatabase;
         private readonly IMongoCollection<T> _collection;

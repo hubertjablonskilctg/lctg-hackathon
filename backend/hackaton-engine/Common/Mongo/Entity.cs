@@ -2,7 +2,7 @@
 
 namespace Common.Models
 {
-    public class BaseModel
+    public class Entity
     {
         [BsonId]
         public int Id { get; set; }

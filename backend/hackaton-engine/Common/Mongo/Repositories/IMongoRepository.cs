@@ -5,7 +5,7 @@ using Common.Models;
 
 namespace Common.Mongo.Repositories
 {
-    public interface IMongoRepository<T> where T : BaseModel
+    public interface IMongoRepository<T> where T : Entity
     {
         IEnumerable<T> GetAll();
         T Get(int id);
