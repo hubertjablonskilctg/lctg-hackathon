@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Common.Models;
 using MongoDB.Driver;
 
 namespace Common.Mongo.Repositories
