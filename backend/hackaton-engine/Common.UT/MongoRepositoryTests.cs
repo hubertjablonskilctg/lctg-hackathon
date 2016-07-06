@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Common.Models;
 using Common.Mongo.Repositories;
 using hackaton_engine.Models;
 using Ninject;

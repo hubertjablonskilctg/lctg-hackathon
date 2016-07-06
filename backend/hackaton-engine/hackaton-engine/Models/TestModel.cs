@@ -1,4 +1,4 @@
-﻿using Common.Models;
+﻿using Common.Mongo;
 
 namespace hackaton_engine.Models
 {

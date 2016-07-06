@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace Common.Models
+namespace Common.Mongo
 {
     public class Entity
     {
