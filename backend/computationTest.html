@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<script   src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+		<!-- indexes -->
+		<script src="indexComputation/getSalaryIndex.js"></script>
+		<script src="indexComputation/getWorkforceIndex.js"></script>
+		<script src="indexComputation/getTaxIndex.js"></script>
+		<script src="indexComputation/getPropertyPriceIndex.js"></script>
+		
+		<!-- computations -->
+		<script src="cityData.js"></script>
+		<script src="getCityRating.js"></script>
+		<script src="getCityRatings.js"></script>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				var parameters = {
+					neededEmployees: 1200,
+					maximumSalary: 3742, 
+					maximumPropertyPrice: 1200000, 
+					maximumTaxPerEmployee: 54
+				}
+				
+				var result = getCityRatings(parameters);
+				var resultPrettyPrint = JSON.stringify(result, null, 2);
+				
+				$("#result").text(resultPrettyPrint);
+			});
+		</script>
+	</head>
+	<body>
+		computation result:
+		<pre><div id="result"></div></pre>
+	</body>
+</html>

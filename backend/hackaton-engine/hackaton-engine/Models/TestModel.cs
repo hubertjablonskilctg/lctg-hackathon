@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Common.Models;
 
 namespace hackaton_engine.Models
 {
-    public class TestModel
+    public class TestModel : Entity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
