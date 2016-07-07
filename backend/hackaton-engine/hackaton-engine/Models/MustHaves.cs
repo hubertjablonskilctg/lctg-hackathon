@@ -6,7 +6,8 @@ namespace hackaton_engine.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum MustHaves
     {
-        Disability1,
-        ChildFriendly
+        WheelchairAccessible,
+        ChildFriendly,
+        Vegetarian
     }
 }

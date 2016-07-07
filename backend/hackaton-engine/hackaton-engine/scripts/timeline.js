@@ -35,8 +35,9 @@ angular.module('groupTripApp', [])
                 "Portugal"
               ],
               "MustHaves": [
-                "Disability1",
-                "ChildFriendly"
+                "WheelchairAccessible",
+                "ChildFriendly",
+				"Vegetarian"
               ],
               "PriceRange": {
                   "m_Item1": 50,
