@@ -13,15 +13,27 @@ namespace hackaton_engine.Controllers
     public class GroupController : ApiController
     {
         private readonly IMongoRepository<Group> _groupRepository;
+        private readonly IMongoRepository<Hotel> _hotelRepository;
 
-        public GroupController(IMongoRepository<Group> groupRepository)
+        public GroupController(IMongoRepository<Group> groupRepository, IMongoRepository<Hotel> hotelRepository)
         {
             _groupRepository = groupRepository;
+            _hotelRepository = hotelRepository;
         }
 
         public string Get()
         {
             return "wololo";
+        }
+
+        [HttpGet]
+        [Route("api/group/{id}/hotels")]
+        public IHttpActionResult GetHotels(int id)
+        {
+            var group = _groupRepository.Get(id);
+            var hotels = _hotelRepository.GetAll();
+
+            return Json<IEnumerable<Hotel>>(hotels);
         }
 
         [HttpPost]
