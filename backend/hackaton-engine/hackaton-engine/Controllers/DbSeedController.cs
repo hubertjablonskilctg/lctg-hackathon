@@ -43,7 +43,7 @@ namespace hackaton_engine.Controllers
                 Address = "Spain, Barcelona",
                 Localization = Localizations.Spain,
                 Tags = new[] { Tags.Beaches, Tags.Nightlife, Tags.Nature },
-                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star4,
                 ImageUrl = ""
             });
@@ -56,7 +56,7 @@ namespace hackaton_engine.Controllers
                 Address = "Germany, Berlin",
                 Localization = Localizations.Germany,
                 Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
-                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star4,
                 ImageUrl = ""
             });
@@ -69,7 +69,7 @@ namespace hackaton_engine.Controllers
                 Address = "France, Paris",
                 Localization = Localizations.France,
                 Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
-                MustHaves = new[] { MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star5,
                 ImageUrl = ""
             });
@@ -95,7 +95,7 @@ namespace hackaton_engine.Controllers
                 Address = "Poland, Warsaw",
                 Localization = Localizations.Poland,
                 Tags = new[] { Tags.Shopping, Tags.Nightlife },
-                MustHaves = new[] { MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star3,
                 ImageUrl = ""
             });
@@ -121,7 +121,7 @@ namespace hackaton_engine.Controllers
                 Address = "UK, London",
                 Localization = Localizations.United_Kingdom,
                 Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
-                MustHaves = new MustHaves[] { MustHaves.ChildFriendly, MustHaves.Disability1 },
+                MustHaves = new MustHaves[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star5,
                 ImageUrl = ""
             });
@@ -134,7 +134,7 @@ namespace hackaton_engine.Controllers
                 Address = "Spain, Seville",
                 Localization = Localizations.Spain,
                 Tags = new[] { Tags.Beaches, Tags.Nightlife },
-                MustHaves = new[] { MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star3,
                 ImageUrl = ""
             });
@@ -147,7 +147,7 @@ namespace hackaton_engine.Controllers
                 Address = "Germany, Berlin",
                 Localization = Localizations.Germany,
                 Tags = new[] { Tags.Cities },
-                MustHaves = new[] { MustHaves.Disability1 },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star3,
                 ImageUrl = ""
             });
@@ -199,7 +199,7 @@ namespace hackaton_engine.Controllers
                 Address = "Portugal, Viana do Castelo",
                 Localization = Localizations.Portugal,
                 Tags = new[] { Tags.Beaches, Tags.Nightlife },
-                MustHaves = new[] {MustHaves.Disability1 },
+                MustHaves = new[] {MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star2,
                 ImageUrl = ""
             });
