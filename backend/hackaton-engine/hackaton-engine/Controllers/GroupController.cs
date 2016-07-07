@@ -85,5 +85,36 @@ namespace hackaton_engine.Controllers
 
             return Ok(group);
         }
+
+        [HttpGet]
+        [Route("UpvoteHotel/{userId}/{groupId}/{hotelId}/{upvote}")]
+        public IHttpActionResult UpvoteHotel(int userId, int groupId, int hotelId, bool upvote)
+        {
+            var group = _groupRepository.Get(groupId);
+
+            var userHotelUpvotes = new HashSet<int>();
+            if (upvote)
+            {
+                userHotelUpvotes.Add(hotelId);
+                if (group.UserHotelUpVotes.ContainsKey(userId))
+                {
+                    userHotelUpvotes.UnionWith(group.UserHotelUpVotes[userId]);
+                }
+            }
+            else
+            {
+                if (group.UserHotelUpVotes.ContainsKey(userId))
+                {
+                    userHotelUpvotes.UnionWith(group.UserHotelUpVotes[userId]);
+                    userHotelUpvotes.Remove(hotelId);
+                }
+            }
+
+            group.UserHotelUpVotes[userId] = userHotelUpvotes.ToArray();
+
+            _groupRepository.Update(group.Id, group);
+
+            return Ok(group);
+        }
     }
 }

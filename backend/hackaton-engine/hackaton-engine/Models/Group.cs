@@ -14,6 +14,7 @@ namespace hackaton_engine.Models
         public int[] UserIds { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        // userId, preference
         public Dictionary<int, Preference> UserPreferences
         {
             get { return _userPreferences; }
@@ -21,6 +22,7 @@ namespace hackaton_engine.Models
         }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        // userId, hotelIds[]
         public Dictionary<int, int[]> UserHotelUpVotes
         {
             get { return _userHotelUpVotes; }
