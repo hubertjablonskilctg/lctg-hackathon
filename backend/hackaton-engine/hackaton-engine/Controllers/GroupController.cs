@@ -25,6 +25,8 @@ namespace hackaton_engine.Controllers
         public IHttpActionResult Get(int id)
         {
             var group = _groupRepository.Get(id);
+            group.HydrateUsers(_userRepository);
+
             return Ok(group);
         }
 
