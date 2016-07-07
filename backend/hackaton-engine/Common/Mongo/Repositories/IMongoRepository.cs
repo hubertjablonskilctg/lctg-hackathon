@@ -9,6 +9,8 @@ namespace Common.Mongo.Repositories
         IEnumerable<T> GetAll();
         T Get(int id);
 
+        IEnumerable<T> Find(Expression<Func<T, bool>> findFunc);
+
         void Add(T item);
         void Add(IEnumerable<T> item);
 
