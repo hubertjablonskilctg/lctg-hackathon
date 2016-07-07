@@ -20,6 +20,7 @@ namespace hackaton_engine.Models
 
         public int AdminUserId { get; set; }
         public int[] UserIds { get; set; }
+        public string Name { get; set; }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         // userId, preference
