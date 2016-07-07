@@ -38,12 +38,12 @@
 				Interests:
 			</div>
 			<div class="col-xs-10" data-group="tags">
-				<p class="badgeSelect"><span class="fa fa-building-o fa-4x"></span><span>Cities</span></p>
-				<p class="badgeSelect"><span class="fa fa-life-ring fa-4x"></span><span>Beaches</span></p>
-				<p class="badgeSelect"><span class="fa fa-tree fa-4x"></span><span>Nature</span></p>
-				<p class="badgeSelect"><span class="fa fa-sort-numeric-desc fa-4x"></span><span>Skiing</span></p>
-				<p class="badgeSelect"><span class="fa fa-shopping-cart fa-4x"></span><span>Shopping</span></p>
-				<p class="badgeSelect"><span class="fa fa-music fa-4x"></span><span>Nightlife</span></p>
+				<p class="badgeSelect" id="Cities"><span class="fa fa-building-o fa-4x"></span><span>Cities</span></p>
+				<p class="badgeSelect" id="Beaches"><span class="fa fa-life-ring fa-4x"></span><span>Beaches</span></p>
+				<p class="badgeSelect" id="Nature"><span class="fa fa-tree fa-4x"></span><span>Nature</span></p>
+				<p class="badgeSelect" id="Skiing"><span class="fa fa-sort-numeric-desc fa-4x"></span><span>Skiing</span></p>
+				<p class="badgeSelect" id="Shopping"><span class="fa fa-shopping-cart fa-4x"></span><span>Shopping</span></p>
+				<p class="badgeSelect" id="Nightlife"><span class="fa fa-music fa-4x"></span><span>Nightlife</span></p>
 			</div>
 		</div>
 		<div class="row">
@@ -51,13 +51,13 @@
 				Preffered locations:
 			</div>
 			<div class="col-xs-10" data-group="localization">
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/Spain.png" /></span><span>Spain</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/Portugal.png" /></span><span>Portugal</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/France.png" /></span><span>France</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/Germany.png" /></span><span>Germany</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/Poland.png" /></span><span>Poland</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/United_Kingdom.png" /></span><span>UK</span></p>
-				<p class="badgeSelect"><span class="flag"><img src="images/Flags/Italy.png" /></span><span>Italy</span></p>
+				<p class="badgeSelect" id="Spain"><span class="flag"><img src="images/Flags/Spain.png" /></span><span>Spain</span></p>
+				<p class="badgeSelect" id="Portugal"><span class="flag"><img src="images/Flags/Portugal.png" /></span><span>Portugal</span></p>
+				<p class="badgeSelect" id="France"><span class="flag"><img src="images/Flags/France.png" /></span><span>France</span></p>
+				<p class="badgeSelect" id="Germany"><span class="flag"><img src="images/Flags/Germany.png" /></span><span>Germany</span></p>
+				<p class="badgeSelect" id="Poland"><span class="flag"><img src="images/Flags/Poland.png" /></span><span>Poland</span></p>
+				<p class="badgeSelect" id="UnitedKingdom"><span class="flag"><img src="images/Flags/United_Kingdom.png" /></span><span>UK</span></p>
+				<p class="badgeSelect" id="Italy"><span class="flag"><img src="images/Flags/Italy.png" /></span><span>Italy</span></p>
 			</div>
 		</div>
 		
@@ -66,9 +66,9 @@
 				Must haves:
 			</div>
 			<div class="col-xs-10" data-group="musthaves">
-				<p class="badgeSelect"><span class="fa fa-wheelchair fa-4x"></span><span>Disability</span></p>
-				<p class="badgeSelect"><span class="fa fa-child fa-4x"></span><span>Child Friendly</span></p>
-				<p class="badgeSelect"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
+				<p class="badgeSelect" id=""><span class="fa fa-wheelchair fa-4x"></span><span>Disability</span></p>
+				<p class="badgeSelect" id=""><span class="fa fa-child fa-4x"></span><span>Child Friendly</span></p>
+				<p class="badgeSelect" id=""><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
 			</div>
 		</div>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -102,6 +102,19 @@
                             console.log(localizations);
                             console.log(tags);
                             console.log(mustHaves);
+
+                            for (var i = 0; i < localizations.length; i++) {
+                                $('p#' + localizations[i]).addClass('active');
+                                // console.log('p#' + localizations[i]);
+                            }
+
+                            for (var i = 0; i < tags.length; i++) {
+                                $('p#' + tags[i]).addClass('active');
+                            }
+
+                            for (var i = 0; i < mustHaves.length; i++) {
+                                $('p#' + mustHaves[i]).addClass('active');
+                            }
                         }
                     );
                 }
@@ -110,13 +123,10 @@
 
                 $('.badgeSelect').click(function () {
                     // highlight badge
-                    var arrRefference = chosenElements[$(this).parent().attr('data-group')];
-                    if (arrRefference.indexOf($(this).text()) != -1) {
+                    if ($(this).hasClass('active')) {
                         $(this).removeClass('active');
-                        arrRefference.splice(arrRefference.indexOf($(this).text()), 1);
                     } else {
                         $(this).addClass('active');
-                        arrRefference.push($(this).text());
                     }
                     // /highglight badge
 
@@ -139,7 +149,6 @@
                     }
 
                     postSelection(userId, groupId, selectedName);
-
                     // /save selection
                 });
             });
