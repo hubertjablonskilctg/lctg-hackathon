@@ -22,6 +22,13 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult Get(int id)
+        {
+            var group = _groupRepository.Get(id);
+            return Ok(group);
+        }
+
+        [HttpGet]
         [Route("{id}/hotelvotes")]
         public IHttpActionResult GetHotelVotes(int id)
         {
