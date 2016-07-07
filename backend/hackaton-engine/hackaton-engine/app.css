@@ -18,7 +18,7 @@ body{
     max-width: 500px;
 }
 
-.member {
+.row-padding {
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -32,6 +32,10 @@ body{
 .btn-main {
     max-width: 150px;
     margin: 20px;
+}
+
+.fa-close {
+    cursor: pointer;
 }
 
 .badgeSelect {
