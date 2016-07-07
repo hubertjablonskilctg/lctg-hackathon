@@ -42,5 +42,13 @@ namespace Common.Mongo.Repositories
         {
             return _collection.DeleteMany(delExpression).IsAcknowledged;
         }
+
+        public bool Update(int id, T item)
+        {
+            Remove(id);
+            Add(item);
+
+            return true;
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace Common.Mongo.Repositories
 
         bool Remove(int id);
         bool Remove(Expression<Func<T, bool>> delExpression);
+
+        bool Update(int id, T item);
     }
 }
