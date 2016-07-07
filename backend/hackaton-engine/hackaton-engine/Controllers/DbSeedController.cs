@@ -335,6 +335,39 @@ namespace hackaton_engine.Controllers
                     } }
                 }
             });
+
+            _groupRepository.Add(new Group()
+            {
+                Id = 3,
+                AdminUserId = 3,
+                CurrentTripPreparationStage = TripPreparationStages.VoteForDestination,
+                Name = "VOTEVOTEVOTE!11",
+                UserIds = new[] { 3, 4 },
+                Users = _userRepository.Find((u) => new[] { 1, 2 }.Contains(u.Id)),
+                UserHotelUpVotes = new Dictionary<int, int[]>()
+                {
+                    {3,new[] { 5} }, {4,new [] {9} }
+                },
+                UserPreferences = new Dictionary<int, Preference>()
+                {
+                    { 3,new Preference()
+                    {
+                        Tags = new [] {Tags.Beaches, Tags.Cities},
+                        MustHaves = new MustHaves[] {},
+                        Localizations = new Localizations[] {Localizations.United_Kingdom, Localizations.Italy, },
+                        PriceRange = new Tuple<double,double>(600,800),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } },
+                    { 4,new Preference()
+                    {
+                        Tags = new [] {Tags.Cities, Tags.Nature},
+                        MustHaves = new MustHaves[] {MustHaves.ChildFriendly, },
+                        Localizations = new Localizations[] {Localizations.United_Kingdom, Localizations.France, },
+                        PriceRange = new Tuple<double,double>(600,800),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } }
+                }
+            });
         }
     }
 }
