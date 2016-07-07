@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="groupTripApp">
 
 <head>
 	<title>Date Time picker</title>
@@ -12,106 +12,23 @@
 	<link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />	
 </head>
 
-<body>
-	<div id="timeline"></div>
-	<div class="input-group input-daterange">
-		<input id="fromDate" type="text" class="form-control" value="22/05/2016">
-		<span class="input-group-addon">to</span>
-		<input id="toDate" type="text" class="form-control" value="07/06/2016">
+<body ng-controller="TimelineController as ctrl" ng-cloak>
+	<div class="content">
+		<div id="timeline"></div>
+		<div class="input-group input-daterange">
+			<input id="fromDate" type="text" class="form-control" value="22/05/2016">
+			<span class="input-group-addon">to</span>
+			<input id="toDate" type="text" class="form-control" value="07/06/2016">
+		</div>
+		<button id="addTime" class="btn btn-active">Add your choice</button>
 	</div>
-	<button id="addTime" class="btn btn-active">Add your choice</button>
-	
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
-    <script>
-		$(function () {
-			google.charts.load('current', {'packages':['timeline']});
-			google.charts.setOnLoadCallback(drawChart);
-		
-			$('#fromDate').datetimepicker({
-				format: 'DD/MM/YYYY',
-			});
-			$('#toDate').datetimepicker({
-				useCurrent: false,
-				format: 'DD/MM/YYYY',
-			});
-			$("#fromDate").on("dp.change", function (e) {
-				$('#toDate').data("DateTimePicker").minDate(e.date);
-			});
-			$("#toDate").on("dp.change", function (e) {
-				$('#fromDate').data("DateTimePicker").maxDate(e.date);
-			});
-		
-			var selectedDates = [['Who', 'From', 'To'],
-            ['Bob',  new Date(2016, 4, 29), new Date(2016, 5, 4)],
-            ['Mike',  new Date(2016, 4, 27),  new Date(2016, 5, 14)],
-            ['Frank',  new Date(2016, 5, 1),  new Date(2016, 5, 10)]];
-		
-			$('#addTime').click( function() {
-				selectedDates.push([
-					'Rob',
-					new Date(moment($('#fromDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD')),
-					new Date(moment($('#toDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD'))
-				]);
-				drawChart();
-			});
-			
-			
-			function drawChart() {
-				var container = document.getElementById('timeline');
-				var chart = new google.visualization.Timeline(container);
-				var dataTable = new google.visualization.DataTable();
-				
-				var numRows = selectedDates.length;
-				var numCols = selectedDates[0].length;
-
-				dataTable.addColumn('string', selectedDates[0][0]);
-
-				for (var i = 1; i < numCols; i++)
-				dataTable.addColumn('date', selectedDates[0][i]);           
-
-				for (var i = 1; i < numRows; i++)
-				dataTable.addRow(selectedDates[i]);            
-
-				chart.draw(dataTable, { height: (numRows+1)*38 });
-			}
-			
-			function checkIfAllDatesOverlaps() {
-				var numRows = selectedDates.length;
-				var numCols = selectedDates[0].length;
-				
-				for (var i = 1; i < numRows; i++) {
-					if(selectedDates[i+1]) {
-						var start1 = moment(selectedDates[i][1]);
-						var end1 = moment(selectedDates[i][1])
-						var start2 = moment(selectedDates[i][2]);
-						var end2 = moment(selectedDates[i][2])
-						console.log(start1, end2)
-						console.log(start1.diff(end1, 'days', true))
-						var duration1 = moment.duration(start1.diff(end1, 'days', true));
-						var days1 = duration1.asDays();
-						console.log(days1)
-						var duration2 = moment.duration(start2.diff(end2, 'days', true));
-						var days2 = duration2.asDays();
-						if(days1 && days2) {
-							console.log(true)
-						}
-					}
-					
-					//var duration = moment.duration(now.diff(end));
-					//var days = duration.asDays();
-					
-				
-				}
-			}
-			
-			checkIfAllDatesOverlaps();
-		});
-	</script>
+    <script src="scripts/timeline.js"></script>
 	      
 </body>
 </html>

@@ -10,6 +10,11 @@ namespace hackaton_engine.Models
         private Dictionary<int, Preference> _userPreferences = new Dictionary<int, Preference>();
         private Dictionary<int, int[]> _userHotelUpVotes = new Dictionary<int, int[]>();
 
+        public Group()
+        {
+            CurrentTripPreparationStage = TripPreparationStages.GatherPreferences;
+        }
+
         public int AdminUserId { get; set; }
         public int[] UserIds { get; set; }
 
@@ -28,5 +33,7 @@ namespace hackaton_engine.Models
             get { return _userHotelUpVotes; }
             set { _userHotelUpVotes = value; }
         }
+
+        public TripPreparationStages CurrentTripPreparationStage { get; set; }
     }
 }
