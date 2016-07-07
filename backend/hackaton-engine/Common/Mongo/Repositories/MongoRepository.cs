@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using MongoDB.Driver;
 
@@ -49,6 +50,15 @@ namespace Common.Mongo.Repositories
             Add(item);
 
             return true;
+        }
+
+        public int GetHighestId()
+        {
+            var records = GetAll();
+
+            if (!records.Any()) return 0;
+
+            return GetAll().Max(o => o.Id);
         }
     }
 }

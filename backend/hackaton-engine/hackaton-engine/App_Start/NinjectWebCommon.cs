@@ -70,7 +70,7 @@ namespace hackaton_engine.App_Start
                 //.WithConstructorArgument(typeof(string), "mongodb://localhost:27017");
                 .WithConstructorArgument(typeof(string), "mongodb://root:bitnami@13.79.175.46/admin");
             //.WithConstructorArgument(typeof(MongoClientSettings), mongoSettings);
-            kernel.Bind<IMongoDatabase>().ToMethod((context) => context.Kernel.Get<IMongoClient>().GetDatabase("core", null));
+            kernel.Bind<IMongoDatabase>().ToMethod((context) => context.Kernel.Get<IMongoClient>().GetDatabase("takeoff2016", null));
 
             kernel.Bind(typeof(IMongoRepository<>)).To(typeof(MongoRepository<>));
         }        

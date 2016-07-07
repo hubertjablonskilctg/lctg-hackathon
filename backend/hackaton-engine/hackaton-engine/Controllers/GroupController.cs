@@ -25,15 +25,33 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult AddUser(int groupId, int userId)
+        // if groupId empty, creates new group
+        public IHttpActionResult AddUserToGroup(int userId, int? groupId = null)
         {
-            // don't check the user availability now
+            // trust the data - don't check the if user exists
             // var user = _userRepository.Get(userId);
 
-            var group = _groupRepository.Get(groupId);
-            group.UserIds.Add(userId);
+            Group group;
 
-            _groupRepository.Update(groupId, group);
+            if (!groupId.HasValue)
+            {
+                group = new Group()
+                {
+                    Id = _groupRepository.GetHighestId() + 1,
+                    AdminUserId = userId,
+                    UserIds = new HashSet<int>() {userId}
+                };
+
+                _groupRepository.Add(group);
+
+            }
+            else
+            {
+                group = _groupRepository.Get(groupId.Value);
+                group.UserIds.Add(userId);
+
+                _groupRepository.Update(groupId.Value, group);
+            }
 
             return Ok(group);
         }
