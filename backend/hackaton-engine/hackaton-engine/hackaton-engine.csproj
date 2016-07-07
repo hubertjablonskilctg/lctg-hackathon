@@ -161,7 +161,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Hotel.cs" />
+    <Compile Include="Models\HotelRating.cs" />
+    <Compile Include="Models\Localizations.cs" />
+    <Compile Include="Models\MustHaves.cs" />
+    <Compile Include="Models\Preference.cs" />
+    <Compile Include="Models\Tags.cs" />
     <Compile Include="Models\TestModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
