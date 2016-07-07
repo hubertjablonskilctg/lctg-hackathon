@@ -176,7 +176,9 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\GroupController.cs" />    <Compile Include="Controllers\DbSeedController.cs" />    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\DbSeedController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,6 +195,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="images\Hotels\hotel1.jpg" />
+    <Content Include="images\Hotels\hotel10.jpg" />
+    <Content Include="images\Hotels\hotel11.jpg" />
+    <Content Include="images\Hotels\hotel12.jpg" />
+    <Content Include="images\Hotels\hotel13.jpg" />
+    <Content Include="images\Hotels\hotel14.jpg" />
+    <Content Include="images\Hotels\hotel15.jpg" />
+    <Content Include="images\Hotels\hotel16.jpg" />
+    <Content Include="images\Hotels\hotel17.jpg" />
+    <Content Include="images\Hotels\hotel18.jpg" />
+    <Content Include="images\Hotels\hotel19.jpg" />
+    <Content Include="images\Hotels\hotel2.jpg" />
+    <Content Include="images\Hotels\hotel20.jpg" />
+    <Content Include="images\Hotels\hotel21.jpg" />
+    <Content Include="images\Hotels\hotel3.jpg" />
+    <Content Include="images\Hotels\hotel4.jpg" />
+    <Content Include="images\Hotels\hotel5.jpg" />
+    <Content Include="images\Hotels\hotel6.jpg" />
+    <Content Include="images\Hotels\hotel7.jpg" />
+    <Content Include="images\Hotels\hotel8.jpg" />
+    <Content Include="images\Hotels\hotel9.jpg" />
+    <Content Include="results.html" />
     <Content Include="scripts\app.js" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
