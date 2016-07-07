@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Common.Mongo.Repositories;
 using hackaton_engine.Models;
@@ -23,13 +21,22 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpGet]
-        [Route("api/group/{id}/hotels")]
+        [Route("{id}/hotels")]
         public IHttpActionResult GetHotels(int id)
         {
             var group = _groupRepository.Get(id);
             var hotels = _hotelRepository.GetAll();
 
-            return Json<IEnumerable<Hotel>>(hotels);
+            var results = new List<Hotel>();
+
+            var hotelsOrder = group.UserHotelUpVotes.SelectMany(x => x.Value).Distinct().ToArray();
+
+            for (int i = 0; i < hotelsOrder.Count(); i++)
+            {
+                results.Add(hotels.First(x => x.Id == hotelsOrder[i]));
+            }            
+
+            return Json<IEnumerable<Hotel>>(hotels.Take(20));
         }
 
         [HttpGet]
