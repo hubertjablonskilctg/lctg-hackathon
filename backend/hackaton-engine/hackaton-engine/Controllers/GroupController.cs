@@ -65,10 +65,12 @@ namespace hackaton_engine.Controllers
             return Ok(group);
         }
 
+        [HttpPost]
         [Route("ChangePreferences")]
         public IHttpActionResult ChangeUserPreferences(Preference preferences)
         {
-            return Ok();
+            //return Ok(DateTime.Now);
+            return Ok(preferences);
         }
     }
 }
