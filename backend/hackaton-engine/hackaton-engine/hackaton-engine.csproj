@@ -218,6 +218,7 @@
     <Content Include="images\Hotels\hotel8.jpg" />
     <Content Include="images\Hotels\hotel9.jpg" />
     <Content Include="results.html" />
+    <Content Include="scripts\results.js" />
     <Content Include="scripts\app.js" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
