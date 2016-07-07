@@ -33,3 +33,26 @@ body{
     max-width: 150px;
     margin: 20px;
 }
+
+.badgeSelect {
+	cursor: pointer;
+	background: green;
+	display: inline-block;
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	color: #fff;
+	text-align: center;
+}
+
+.badgeSelect.active {
+	background-color: red;
+}
+
+.badgeSelect .fa {
+	margin-top: 15px;
+}
+
+.badgeSelect span:not(.fa) {
+	display: block;
+}

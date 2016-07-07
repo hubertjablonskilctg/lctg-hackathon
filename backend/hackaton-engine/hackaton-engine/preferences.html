@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+</head>
+
+<body>
+    <div class="content">
+		<div class="row">
+			<div class="col-xs-2">
+				How many people are with you:
+			</div>
+			<div class="col-xs-4 form-group">
+				<input type="text" class="form-control" />
+			</div>
+			<div class="col-xs-2">
+				How many free days do you have:
+			</div>
+			<div class="col-xs-4 form-group">
+				<input type="text" class="form-control" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">
+				Interests:
+			</div>
+			<div class="col-xs-10" data-group="tags">
+				<p class="badgeSelect"><span class="fa fa-building-o fa-4x"></span><span>Cities</span></p>
+				<p class="badgeSelect"><span class="fa fa-life-ring fa-4x"></span><span>Beaches</span></p>
+				<p class="badgeSelect"><span class="fa fa-tree fa-4x"></span><span>Nature</span></p>
+				<p class="badgeSelect"><span class="fa fa-sort-numeric-desc fa-4x"></span><span>Skiing</span></p>
+				<p class="badgeSelect"><span class="fa fa-shopping-cart fa-4x"></span><span>Shopping</span></p>
+				<p class="badgeSelect"><span class="fa fa-music fa-4x"></span><span>Nightlife</span></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">
+				Preffered locations:
+			</div>
+			<div class="col-xs-10" data-group="localization">
+				<p class="badgeSelect"><span class="fa fa-building-o fa-4x"></span><span>Spain</span></p>
+				<p class="badgeSelect"><span class="fa fa-life-ring fa-4x"></span><span>Portugal</span></p>
+				<p class="badgeSelect"><span class="fa fa-tree fa-4x"></span><span>France</span></p>
+				<p class="badgeSelect"><span class="fa fa-sort-numeric-desc fa-4x"></span><span>Germany</span></p>
+				<p class="badgeSelect"><span class="fa fa-shopping-cart fa-4x"></span><span>Poland</span></p>
+				<p class="badgeSelect"><span class="fa fa-music fa-4x"></span><span>England</span></p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-2">
+				Must haves:
+			</div>
+			<div class="col-xs-10" data-group="musthaves">
+				<p class="badgeSelect"><span class="fa fa-wheelchair fa-4x"></span><span>Disability</span></p>
+				<p class="badgeSelect"><span class="fa fa-child fa-4x"></span><span>Child Friendly</span></p>
+				<p class="badgeSelect"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
+			</div>
+		</div>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+		<script>
+			$(function() {
+				var chosenElements = {
+					tags: [],
+					localization: [],
+					musthaves: []
+				};
+
+				$('.badgeSelect').click(function() {
+					var arrRefference = chosenElements[$(this).parent().attr('data-group')];
+					if(arrRefference.indexOf($(this).text()) != -1) {
+						$(this).removeClass('active');
+						arrRefference.splice(arrRefference.indexOf($(this).text()), 1);
+					} else {
+						$(this).addClass('active');
+						arrRefference.push($(this).text())
+						
+					}
+				});
+			});
+		
+		</script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="scripts/app.js"></script>
+    </div>
+</body>
+</html>
