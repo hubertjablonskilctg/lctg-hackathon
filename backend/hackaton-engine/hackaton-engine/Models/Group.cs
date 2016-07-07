@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Mongo;
+using Common.Mongo.Repositories;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
 
@@ -26,6 +28,16 @@ namespace hackaton_engine.Models
         {
             get { return _userIds; }
             set { _userIds = value; }
+        }
+
+        /// <summary>
+        /// Shows full user data from UserIds... Can be hydrated by HydrateUsers().
+        /// </summary>
+        public IEnumerable<User> Users { get; set; }
+
+        public void HydrateUsers(IMongoRepository<User> userRepository)
+        {
+            Users = UserIds.Select(userId => userRepository.Get(userId)).ToList();
         }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
