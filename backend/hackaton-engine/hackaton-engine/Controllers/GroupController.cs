@@ -116,5 +116,26 @@ namespace hackaton_engine.Controllers
 
             return Ok(group);
         }
+
+        [HttpGet]
+        [Route("AdvanceTripStage/{groupId}")]
+        public IHttpActionResult AdvanceTripStage(int groupId)
+        {
+            var group = _groupRepository.Get(groupId);
+
+            var currentTripPreparationStageId = (int)group.CurrentTripPreparationStage;
+            var maximumTripPreparationStagesValue = Enum.GetValues(typeof(TripPreparationStages)).Cast<int>().Max();
+
+            if (currentTripPreparationStageId >= maximumTripPreparationStagesValue)
+            {
+                throw new InvalidOperationException("Maximum stage reached.");
+            }
+
+            group.CurrentTripPreparationStage = (TripPreparationStages) (currentTripPreparationStageId + 1);
+
+            _groupRepository.Update(group.Id, group);
+
+            return Ok(group);
+        }
     }
 }
