@@ -14,6 +14,11 @@ body{
     background: rgba(255, 255, 255, 0.8);
 }
 
+.member {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .slider-input {
 	padding-top:10px;
 	padding-bottom:20px;
