@@ -33,7 +33,7 @@ namespace hackaton_engine.Helpers
             foreach (var preference in preferences)
             {
                 preferenceMatchedHotels.AddRange(
-                    filteredHotels.Where(h => GetFilterExpression(preference).Compile()(h)));
+                    filteredHotels.Where(h => GetFilterExpression(preference)(h)));
             }
 
             return filteredHotels.OrderByDescending(h =>
@@ -51,7 +51,7 @@ namespace hackaton_engine.Helpers
                         joinedPreference.PriceRange.Item2 >= h.Price &&
                         (joinedPreference.Tags.Length == 0 || joinedPreference.Tags.Any(t => h.Tags.Contains(t)));
         }
-        private static Expression<Func<Hotel, bool>> GetFilterExpression(Preference joinedPreference)
+        private static Func<Hotel, bool> GetFilterExpression(Preference joinedPreference)
         {
             return h => (joinedPreference.Localizations.Length == 0 || joinedPreference.Localizations.Contains(h.Localization)) &&
                         (joinedPreference.MustHaves.Length == 0 || joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh))) &&
