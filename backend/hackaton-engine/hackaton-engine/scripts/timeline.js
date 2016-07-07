@@ -4,13 +4,6 @@ angular.module('groupTripApp', [])
 
       var groupId = localStorage.getItem("groupId");
 
-      //      ctrl.selectedDates =[['Who', 'From', 'To'],
-      //['Bob', new Date(2016, 4, 29), new Date(2016, 5, 8)],
-      //['Mike', new Date(2016, 4, 27), new Date(2016, 5, 14)],
-      //['Frank', new Date(2016, 5, 1), new Date(2016, 5, 10)],
-      //['Michelle', new Date(2016, 4, 25), new Date(2016, 5, 7)]];
-
-
       ctrl.loadChartData = $.ajax({
           url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId,
           type: 'GET',
@@ -57,8 +50,8 @@ angular.module('groupTripApp', [])
                   "m_Item2": 100
               },
               "DateRange": {
-                  "m_Item1": "2016-07-07T12:00:00+02:00",
-                  "m_Item2": "2016-07-07T12:00:00+02:00"
+                  "m_Item1": new Date($('#fromDate').val()),
+                  "m_Item2": new Date($('#toDate').val())
               }
           }
           var url = 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changepreferences/' + userId + '/' + groupId;
@@ -82,14 +75,16 @@ angular.module('groupTripApp', [])
       }
 
       google.charts.load('current', { 'packages': ['timeline'] });
-      google.charts.setOnLoadCallback(ctrl.loadChartData);
+      google.charts.setOnLoadCallback(function () {
+          setTimeout(ctrl.loadChartData, 2000);
+      });
 
       $('#fromDate').datetimepicker({
-          format: 'DD/MM/YYYY',
+          format: 'YYYY-MM-DD',
       });
       $('#toDate').datetimepicker({
           useCurrent: false,
-          format: 'DD/MM/YYYY',
+          format: 'YYYY-MM-DD',
       });
       $("#fromDate").on("dp.change", function (e) {
           $('#toDate').data("DateTimePicker").minDate(e.date);
@@ -111,8 +106,8 @@ angular.module('groupTripApp', [])
           ctrl.selectedDates.pop();
           ctrl.selectedDates.push([
               'Rob',
-              new Date(moment($('#fromDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD')),
-              new Date(moment($('#toDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD'))
+              new Date(moment($('#fromDate').val(), 'YYYY-MM-DD').format('YYYY-MM-DD')),
+              new Date(moment($('#toDate').val(), 'YYYY-MM-DD').format('YYYY-MM-DD'))
           ]);
           if (!checkIfAllDatesOverlaps()) {
               ctrl.selectedDates.pop();

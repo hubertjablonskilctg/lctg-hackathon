@@ -31,14 +31,19 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/hotelvotes")]
-        public IHttpActionResult GetHotelVotes(int id)
+        [Route("{groupId}/hotelvotes")]
+        public IHttpActionResult GetDHotelVotes(int groupId)
         {
-            var group = _groupRepository.Get(id);
-            var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(id);
+            var group = _groupRepository.Get(groupId);
+            var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(groupId);
 
             var hotelIdUpVotes = group.UserHotelUpVotes.SelectMany(x => x.Value);
             var hotels = preferencedHotels.OrderByDescending(h => hotelIdUpVotes.Count(hid => hid == h.Id));
+
+            foreach (var hotel in hotels)
+            {
+                hotel.HydrateUsersWhoUpvoted(groupId, _groupRepository, _userRepository);
+            }
 
             return Json<IEnumerable<Hotel>>(hotels);
         }

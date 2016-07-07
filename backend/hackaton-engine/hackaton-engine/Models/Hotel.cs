@@ -1,4 +1,7 @@
-﻿using Common.Mongo;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Common.Mongo;
+using Common.Mongo.Repositories;
 
 namespace hackaton_engine.Models
 {
@@ -13,5 +16,26 @@ namespace hackaton_engine.Models
         public Tags[] Tags { get; set; }
         public Localizations Localization { get; set; }
         public MustHaves[] MustHaves { get; set; }
+
+        public IEnumerable<User> UsersWhoUpvoted { get; set; }
+
+        public void HydrateUsersWhoUpvoted(int groupId, IMongoRepository<Group> groupRepository, IMongoRepository<User> userRepository)
+        {
+            var group = groupRepository.GetAll().FirstOrDefault(g => g.Id == groupId);
+            var usersWhoUpvoted = new List<User>();
+
+            foreach (KeyValuePair<int, int[]> kvp in group.UserHotelUpVotes)
+            {
+                var userId = kvp.Key;
+                var userUpvotedHotelIds = kvp.Value;
+
+                if (userUpvotedHotelIds.Contains(Id))
+                {
+                    usersWhoUpvoted.Add(userRepository.Get(userId));
+                }
+            }
+
+            UsersWhoUpvoted = usersWhoUpvoted.ToArray();
+        }
     }
 }
