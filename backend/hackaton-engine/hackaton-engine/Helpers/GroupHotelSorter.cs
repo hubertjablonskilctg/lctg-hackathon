@@ -26,7 +26,7 @@ namespace hackaton_engine.Helpers
 
             Preference joinedPreference = JoinPreferences(preferences);
             var filteredHotels = IocConfig.GetKernel().Get<MongoRepository<Hotel>>()
-                .Find(GetFilterExpression(joinedPreference))
+                .Find(GetDbFilterExpression(joinedPreference))
                 .ToArray();
 
             List<Hotel> preferenceMatchedHotels = new List<Hotel>();
@@ -36,9 +36,21 @@ namespace hackaton_engine.Helpers
                     filteredHotels.Where(h => GetFilterExpression(preference).Compile()(h)));
             }
 
-            return filteredHotels.OrderBy(h => preferenceMatchedHotels.Count(pmh => pmh.Id == h.Id));
+            return filteredHotels.OrderByDescending(h => 
+                preferenceMatchedHotels.Count(pmh => pmh.Id == h.Id) +
+                //if have same preference hits take Rating into account (not bigger than 1.0)
+                (double)h.Rating / (double)Enum.GetValues(typeof(HotelRating)).Cast<HotelRating>().Max()
+            );
         }
 
+        private static Expression<Func<Hotel, bool>> GetDbFilterExpression(Preference joinedPreference)
+        {
+            return h => joinedPreference.Localizations.Contains(h.Localization) &&
+                        joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh)) &&
+                        joinedPreference.PriceRange.Item1 <= h.Price &&
+                        joinedPreference.PriceRange.Item2 >= h.Price &&
+                        joinedPreference.Tags.Any(t => h.Tags.Contains(t));
+        }
         private static Expression<Func<Hotel, bool>> GetFilterExpression(Preference joinedPreference)
         {
             return h => joinedPreference.Localizations.Contains(h.Localization) &&
