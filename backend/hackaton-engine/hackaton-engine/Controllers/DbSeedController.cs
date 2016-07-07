@@ -5,6 +5,7 @@ using System;
 using Ninject;
 using System.Web.Http;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace hackaton_engine.Controllers
 {
@@ -27,14 +28,16 @@ namespace hackaton_engine.Controllers
         public IHttpActionResult Get()
         {
             GenerateHotels();
-            //GenerateUsers();
-            //GenerateGroups();
+            GenerateUsers();
+            GenerateGroups();
 
             return Ok();
         }
 
         private void GenerateHotels()
         {
+            _hotelRepository.Remove((x) => true);
+
             _hotelRepository.Add(new Hotel()
             {
                 Id = 1,
@@ -199,7 +202,7 @@ namespace hackaton_engine.Controllers
                 Address = "Portugal, Viana do Castelo",
                 Localization = Localizations.Portugal,
                 Tags = new[] { Tags.Beaches, Tags.Nightlife },
-                MustHaves = new[] {MustHaves.WheelchairAccessible },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
                 Rating = HotelRating.Star2,
                 ImageUrl = ""
             });
@@ -212,7 +215,7 @@ namespace hackaton_engine.Controllers
                 Address = "UK, Paignton",
                 Localization = Localizations.United_Kingdom,
                 Tags = new[] { Tags.Cities },
-                MustHaves = new MustHaves[] {},
+                MustHaves = new MustHaves[] { },
                 Rating = HotelRating.Star1,
                 ImageUrl = ""
             });
@@ -225,7 +228,7 @@ namespace hackaton_engine.Controllers
                 Address = "France, Chamonix",
                 Localization = Localizations.France,
                 Tags = new[] { Tags.Skiing },
-                MustHaves = new MustHaves[] {},
+                MustHaves = new MustHaves[] { },
                 Rating = HotelRating.Star4,
                 ImageUrl = ""
             });
@@ -235,60 +238,103 @@ namespace hackaton_engine.Controllers
         private void GenerateUsers()
         {
             _userRepository.Remove(x => true);
-            for (int i = 0; i < 30; i++)
+
+            _userRepository.Add(new User()
             {
-                var user = new User();
-                user.Id = i;
-                user.Name = String.Format("user_{0}", i);
-                _userRepository.Add(user);
-            }
+                Id = 1,
+                Name = "Mikolaj Kopernik",
+                Email = "mikolaj.kopernik@moon.pl",
+                Adults = 1,
+            });
+
+            _userRepository.Add(new User()
+            {
+                Id = 2,
+                Name = "John Smith",
+                Email = "John.Smith@matrix.com",
+                Adults = 1,
+            });
+
+            _userRepository.Add(new User()
+            {
+                Id = 3,
+                Name = "Hanz Muller",
+                Email = "muller66@mail.de",
+                Adults = 1,
+            });
+
+            _userRepository.Add(new User()
+            {
+                Id = 4,
+                Name = "Joanna Kowalska",
+                Email = "joko@wp.pl",
+                Adults = 1,
+            });
         }
 
         private void GenerateGroups()
         {
             _groupRepository.Remove(x => true);
 
-            Random random = new Random();
-
-            for (int i = 1; i <= 10; ++i)
+            _groupRepository.Add(new Group()
             {
-                var group = new Group();
-                group.Id = i;
-                group.UserIds = new[] { i, i + 1, i + 2 };
-
-                group.UserHotelUpVotes = new Dictionary<int, int[]>();
-                group.UserHotelUpVotes.Add(i, new[] { i, i + 1 });
-                group.UserHotelUpVotes.Add(i + 1, new[] { i, i + 1, i + 2 });
-                //group.UserHotelUpVotes.Add(i + 2, new[] { i, i + 3 });
-
-                group.UserPreferences = new Dictionary<int, Preference>();
-                group.UserPreferences.Add(i, new Preference()
+                Id = 1,
+                AdminUserId = 1,
+                CurrentTripPreparationStage = TripPreparationStages.GatherPreferences,
+                Name = "TestowaWycieczka",
+                UserIds = new[] { 1, 2 },
+                Users = _userRepository.Find((u) => new[] { 1, 2 }.Contains(u.Id)),
+                UserHotelUpVotes = new Dictionary<int, int[]>(),
+                UserPreferences = new Dictionary<int, Preference>()
                 {
-                    DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue),
-                    PriceRange = new Tuple<double, double>(random.Next(100), 300 + random.Next(1700)),
-                    Localizations = new[] { (Localizations)(i % 7), (Localizations)((i + 1) % 7), (Localizations)((i + 2) % 7), (Localizations)((i + 6) % 7) },
-                    Tags = new[] { (Tags)(i % 6), (Tags)((i + 1) % 6), (Tags)((i + 2) % 6) },
-                    MustHaves = new MustHaves[0]
-                });
-                group.UserPreferences.Add(i + 1, new Preference()
-                {
-                    DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue),
-                    PriceRange = new Tuple<double, double>(random.Next(100), 700 + random.Next(500)),
-                    Localizations = new[] { (Localizations)(i % 7), (Localizations)((i + 2) % 7), (Localizations)((i + 3) % 7) },
-                    Tags = new[] { (Tags)(i % 6), (Tags)((i + 2) % 6), (Tags)((i + 4) % 6) },
-                    MustHaves = new[] { (MustHaves)random.Next(2) }
-                });
-                //group.UserPreferences.Add(i + 2, new Preference()
-                //{
-                //    DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue),
-                //    PriceRange = new Tuple<double, double>(200, 200 + random.Next(2000)),
-                //    Localizations = new[] { (Localizations)random.Next(7), (Localizations)random.Next(7) },
-                //    Tags = new[] { (Tags)random.Next(6), (Tags)random.Next(6) },
-                //    MustHaves = new[] { (MustHaves)random.Next(2) }
-                //});
+                    { 1,new Preference()
+                    {
+                        Tags = new [] {Tags.Beaches, Tags.Cities},
+                        MustHaves = new MustHaves[] {},
+                        Localizations = new Localizations[] {Localizations.Poland, Localizations.France, },
+                        PriceRange = new Tuple<double,double>(100,500),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } },
+                    { 2,new Preference()
+                    {
+                        Tags = new [] {Tags.Beaches, Tags.Nature},
+                        MustHaves = new MustHaves[] {},
+                        Localizations = new Localizations[] {Localizations.Germany, Localizations.France, },
+                        PriceRange = new Tuple<double,double>(100,500),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } }
+                }
+            });
 
-                _groupRepository.Add(group);
-            }
+            _groupRepository.Add(new Group()
+            {
+                Id = 2,
+                AdminUserId = 2,
+                CurrentTripPreparationStage = TripPreparationStages.GatherPreferences,
+                Name = "Woah trip",
+                UserIds = new[] { 2, 3, 4 },
+                Users = _userRepository.Find((u) => new[] { 1, 2 }.Contains(u.Id)),
+                UserHotelUpVotes = new Dictionary<int, int[]>(),
+                UserPreferences = new Dictionary<int, Preference>()
+                {
+                    { 2,new Preference()
+                    {
+                        Tags = new [] {Tags.Beaches, Tags.Cities},
+                        MustHaves = new MustHaves[] {},
+                        Localizations = new Localizations[] {Localizations.Poland, Localizations.Italy, },
+                        PriceRange = new Tuple<double,double>(400,800),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } },
+                    { 3,new Preference()
+                    {
+                        Tags = new [] {Tags.Cities, Tags.Nature},
+                        MustHaves = new MustHaves[] {MustHaves.ChildFriendly, },
+                        Localizations = new Localizations[] {Localizations.Poland, Localizations.France, },
+                        PriceRange = new Tuple<double,double>(400,800),
+                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                    } }
+                }
+            });
         }
     }
 }
