@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common.Mongo;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Options;
@@ -13,6 +14,8 @@ namespace hackaton_engine.Models
         public Group()
         {
             CurrentTripPreparationStage = TripPreparationStages.GatherPreferences;
+            IsPublic = false;
+            Comments = new List<Tuple<int, DateTime, string>>();
         }
 
         public int AdminUserId { get; set; }
@@ -35,5 +38,10 @@ namespace hackaton_engine.Models
         }
 
         public TripPreparationStages CurrentTripPreparationStage { get; set; }
+
+        //userId, DateTime.Now, comment
+        public IList<Tuple<int, DateTime, string>> Comments { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }
