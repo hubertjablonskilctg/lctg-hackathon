@@ -9,9 +9,17 @@ namespace Common.Mongo
     {
         public override void Load()
         {
+            var credential = MongoCredential.CreateMongoCRCredential("admin", "root", "bitnami");
+            var mongoSettings = new MongoClientSettings
+            {
+                Credentials = new[] { credential }
+            };
+
+
             Bind<IMongoClient>()
                 .To<MongoClient>().InSingletonScope()
-                .WithConstructorArgument(typeof(string), "mongodb://localhost:27017");
+                //.WithConstructorArgument(typeof(string), "mongodb://localhost:27017");
+                .WithConstructorArgument(typeof(MongoClientSettings), mongoSettings);
             Bind<IMongoDatabase>().ToMethod((context) => context.Kernel.Get<IMongoClient>().GetDatabase("core", null));
 
             Bind(typeof(IMongoRepository<>)).To(typeof(MongoRepository<>));
