@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common.Mongo;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 
 namespace hackaton_engine.Models
 {
@@ -7,11 +9,9 @@ namespace hackaton_engine.Models
     {
         public int AdminUserId { get; set; }
         public HashSet<int> UserIds { get; set; }
-
-        // id, preference
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, Preference> UserPreferences { get; set; }
-
-        // id, preference
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, int[]> UserHotelUpVotes { get; set; }
     }
 }

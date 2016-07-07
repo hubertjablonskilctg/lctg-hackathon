@@ -11,9 +11,9 @@ namespace hackaton_engine.Controllers
     {
         IMongoRepository<Hotel> _hotelRepository;
 
-        public DbSeedController()
+        public DbSeedController(IMongoRepository<Hotel> hotelRepository)
         {
-            this._hotelRepository = IocConfig.GetKernel().Get<IMongoRepository<Hotel>>();
+            this._hotelRepository = hotelRepository;
         }
 
         public IHttpActionResult Get()

@@ -5,7 +5,7 @@ namespace hackaton_engine.Models
     public class Hotel : Entity
     {
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public HotelRating Rating { get; set; }
         public string Address { get; set; }
         public byte[] ImageSource { get; set; }
