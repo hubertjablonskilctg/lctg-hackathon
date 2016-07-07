@@ -7,6 +7,7 @@ namespace hackaton_engine.Models
     {
         public int AdminUserId { get; set; }
         public int[] UserIds { get; set; }
-        public Dictionary<int,Preference> UserPreferences { get; set; }
+        public Dictionary<int, Preference> UserPreferences { get; set; }
+        public Dictionary<int, int[]> UserHotelUpVotes { get; set; }
     }
 }
