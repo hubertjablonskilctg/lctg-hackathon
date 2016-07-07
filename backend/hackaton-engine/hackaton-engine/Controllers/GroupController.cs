@@ -10,6 +10,7 @@ using MongoDB.Driver;
 
 namespace hackaton_engine.Controllers
 {
+    [RoutePrefix("api/Group")]
     public class GroupController : ApiController
     {
         private readonly IMongoRepository<Group> _groupRepository;
@@ -19,12 +20,8 @@ namespace hackaton_engine.Controllers
             _groupRepository = groupRepository;
         }
 
-        public string Get()
-        {
-            return "wololo";
-        }
-
-        [HttpPost]
+        [HttpGet]
+        [Route("AddUser")]
         // if groupId empty, creates new group
         public IHttpActionResult AddUserToGroup(int userId, int? groupId = null)
         {
@@ -54,6 +51,12 @@ namespace hackaton_engine.Controllers
             }
 
             return Ok(group);
+        }
+
+        [Route("ChangePreferences")]
+        public IHttpActionResult ChangeUserPreferences(Preference preferences)
+        {
+            return Ok();
         }
     }
 }
