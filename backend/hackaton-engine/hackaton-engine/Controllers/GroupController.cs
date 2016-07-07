@@ -48,7 +48,7 @@ namespace hackaton_engine.Controllers
                 {
                     Id = _groupRepository.GetHighestId() + 1,
                     AdminUserId = userId,
-                    UserIds = new HashSet<int>() {userId}
+                    UserIds = new[] {userId}
                 };
 
                 _groupRepository.Add(group);
@@ -57,7 +57,8 @@ namespace hackaton_engine.Controllers
             else
             {
                 group = _groupRepository.Get(groupId.Value);
-                group.UserIds.Add(userId);
+                var userIds = new HashSet<int>(group.UserIds) {userId};
+                group.UserIds = userIds.ToArray();
 
                 _groupRepository.Update(groupId.Value, group);
             }
@@ -66,11 +67,14 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpPost]
-        [Route("ChangePreferences")]
-        public IHttpActionResult ChangeUserPreferences(Preference preferences)
+        [Route("ChangePreferences/{userId}/{groupId}")]
+        public IHttpActionResult ChangeUserPreferences([FromUri] int userId, [FromUri] int groupId, Preference preferences)
         {
-            //return Ok(DateTime.Now);
-            return Ok(preferences);
+            var group = _groupRepository.Get(groupId);
+            group.UserPreferences[userId] = preferences;
+            _groupRepository.Update(groupId, group);
+
+            return Ok(group);
         }
     }
 }

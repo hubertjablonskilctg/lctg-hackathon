@@ -7,11 +7,24 @@ namespace hackaton_engine.Models
 {
     public class Group : Entity
     {
+        private Dictionary<int, Preference> _userPreferences = new Dictionary<int, Preference>();
+        private Dictionary<int, int[]> _userHotelUpVotes = new Dictionary<int, int[]>();
+
         public int AdminUserId { get; set; }
-        public HashSet<int> UserIds { get; set; }
+        public int[] UserIds { get; set; }
+
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        public Dictionary<int, Preference> UserPreferences { get; set; }
+        public Dictionary<int, Preference> UserPreferences
+        {
+            get { return _userPreferences; }
+            set { _userPreferences = value; }
+        }
+
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
-        public Dictionary<int, int[]> UserHotelUpVotes { get; set; }
+        public Dictionary<int, int[]> UserHotelUpVotes
+        {
+            get { return _userHotelUpVotes; }
+            set { _userHotelUpVotes = value; }
+        }
     }
 }
