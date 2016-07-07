@@ -78,7 +78,7 @@ namespace hackaton_engine.Controllers
             {
                 var group = new Group();
                 group.Id = i;
-                group.UserIds = new HashSet<int>() { i, i + 1, i + 2 };
+                group.UserIds = new[] { i, i + 1, i + 2 };
 
                 group.UserHotelUpVotes = new Dictionary<int, int[]>();
                 group.UserHotelUpVotes.Add(i, new[] { i, i + 1 });
