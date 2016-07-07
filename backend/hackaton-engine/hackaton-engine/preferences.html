@@ -80,6 +80,34 @@
                     musthaves: []
                 };
 
+                var groupId = localStorage.getItem("groupId");
+                var userId = localStorage.getItem("userId");
+
+                // TODO
+                // assume they're there
+                groupId = 1;
+                userId = 1;
+
+                var highlightAssignedInDatabase = function (userId, groupId) {
+                    $.get('http://localhost/takeoff2016/api/group/' + groupId + '/',
+                        // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+                        function (data) {
+                            console.log(data);
+
+                            var userPreferences = data.UserPreferences[userId];
+                            var localizations = userPreferences.Localizations;
+                            var tags = userPreferences.Tags;
+                            var mustHaves = userPreferences.MustHaves;
+
+                            console.log(localizations);
+                            console.log(tags);
+                            console.log(mustHaves);
+                        }
+                    );
+                }
+
+                highlightAssignedInDatabase(userId, groupId);
+
                 $('.badgeSelect').click(function () {
                     // highlight badge
                     var arrRefference = chosenElements[$(this).parent().attr('data-group')];
@@ -95,14 +123,6 @@
                     // save selection
                     var selectedName = $(this).text();
 
-                    var groupId = localStorage.getItem("groupId");
-                    var userId = localStorage.getItem("userId");
-
-                    // TODO
-                    // assume they're there
-                    groupId = 1;
-                    userId = 1;
-
                     var postSelection = function (userId, groupId, selectedName) {
                         $.ajax({
                             url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/' + selectedName + '/',
@@ -110,10 +130,6 @@
                             success: function (data) {
                                 console.log(data);
                                 console.log('success');
-                                //localStorage.setItem("groupId", data.Id);
-                                //localStorage.setItem("userId", data.UserIds[0]);
-                                //localStorage.setItem("userEmail", ctrl.email);
-                                //$window.location.href = '/timelines.html';
                             },
                             error: function(data) {
                                 console.log(data);
