@@ -25,7 +25,7 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpPost]
-        public bool AddUser(int groupId, int userId)
+        public IHttpActionResult AddUser(int groupId, int userId)
         {
             // don't check the user availability now
             // var user = _userRepository.Get(userId);
@@ -35,7 +35,7 @@ namespace hackaton_engine.Controllers
 
             _groupRepository.Update(groupId, group);
 
-            return true;
+            return Ok(group);
         }
     }
 }
