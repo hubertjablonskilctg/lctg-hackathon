@@ -7,6 +7,7 @@ using Common;
 using Common.Mongo.Repositories;
 using hackaton_engine.Helpers;
 using hackaton_engine.Models;
+using MongoDB.Driver;
 using Ninject;
 using NUnit.Framework;
 
@@ -91,6 +92,10 @@ namespace hackaton_engine.UT
         [Test]
         public void SortsByMatchedPreferences()
         {
+            IocConfig.GetKernel().Rebind<IMongoClient>()
+                .To<MongoClient>().InSingletonScope()
+                .WithConstructorArgument(typeof(string), "mongodb://localhost:27017");
+
             SeedHotels();
             var sortedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(1).ToArray();
 
