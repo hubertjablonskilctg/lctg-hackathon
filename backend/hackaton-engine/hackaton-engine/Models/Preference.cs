@@ -13,7 +13,7 @@ namespace hackaton_engine.Models
             "Portugal"
           ],
           "MustHaves": [
-            "Disability1",
+            "WheelchairAccessible",
             "ChildFriendly"
           ],
           "PriceRange": {
