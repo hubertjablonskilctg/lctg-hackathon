@@ -21,14 +21,13 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/hotels")]
+        [Route("{id}/hotelvotes")]
         public IHttpActionResult GetHotels(int id)
         {
             var group = _groupRepository.Get(id);
             var hotels = _hotelRepository.GetAll();
 
             var results = new List<Hotel>();
-
             var hotelsOrder = group.UserHotelUpVotes.SelectMany(x => x.Value).Distinct().ToArray();
 
             for (int i = 0; i < hotelsOrder.Count(); i++)
@@ -36,7 +35,7 @@ namespace hackaton_engine.Controllers
                 results.Add(hotels.First(x => x.Id == hotelsOrder[i]));
             }            
 
-            return Json<IEnumerable<Hotel>>(hotels.Take(20));
+            return Json<IEnumerable<Hotel>>(results.Take(20));
         }
 
         [HttpGet]

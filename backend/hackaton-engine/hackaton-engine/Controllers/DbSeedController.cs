@@ -79,16 +79,17 @@ namespace hackaton_engine.Controllers
                 var group = new Group();
                 group.Id = i;
                 group.UserIds = new HashSet<int>() { i, i + 1, i + 2 };
-                group.UserHotelUpVotes = new Dictionary<int, int[]>() {
-                    { i, new[] { i, i + 1 } },
-                    { i+1, new[] { i, i + 1, i+2 } },
-                    { i+2, new[] { i , i + 3 } }
-                };
-                group.UserPreferences = new Dictionary<int, Preference>() {
-                    { i, new Preference()},
-                    { i+1, new Preference() },
-                    { i+2, new Preference() }
-                };
+
+                group.UserHotelUpVotes = new Dictionary<int, int[]>();
+                group.UserHotelUpVotes.Add(i, new[] { i, i + 1 });
+                group.UserHotelUpVotes.Add(i + 1, new[] { i, i + 1, i + 2 });
+                group.UserHotelUpVotes.Add(i + 2, new[] { i, i + 3 });
+
+                group.UserPreferences = new Dictionary<int, Preference>();
+                group.UserPreferences.Add(i, new Preference());
+                group.UserPreferences.Add(i + 1, new Preference());
+                group.UserPreferences.Add(i + 2, new Preference());
+
                 _groupRepository.Add(group);
             }
         }
