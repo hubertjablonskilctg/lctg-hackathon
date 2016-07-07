@@ -25,7 +25,7 @@ namespace hackaton_engine.UT
                 Id = 1,
                 Name = "hotel1",
                 Localization = Localizations.Poland,
-                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.Disability1, },
+                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.Vegetarian, },
                 Tags = new[] { Tags.Beaches, Tags.Cities, Tags.Nature, Tags.Nightlife },
                 Price = 500,
                 Rating = HotelRating.Star5

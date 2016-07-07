@@ -27,34 +27,208 @@ namespace hackaton_engine.Controllers
         public IHttpActionResult Get()
         {
             GenerateHotels();
-            GenerateUsers();
-            GenerateGroups();
+            //GenerateUsers();
+            //GenerateGroups();
 
             return Ok();
         }
 
         private void GenerateHotels()
         {
-            Array values = Enum.GetValues(typeof(Localizations));
-            Random random = new Random();
-
-            _hotelRepository.Remove(x => true);
-
-            for (int i = 1; i <= 100; ++i)
+            _hotelRepository.Add(new Hotel()
             {
-                var hotel = new Hotel();
-                hotel.Id = i;
-                hotel.Price = 100 + random.Next(900);
-                hotel.Name = string.Format("hotel{0}", i);
-                hotel.Address = "";
-                hotel.Localization = (Localizations)values.GetValue(random.Next(values.Length));
-                hotel.Address = String.Format("{0} Street, {1}", i, hotel.Localization.ToString());
-                hotel.Tags = new[] { (Tags)(i % 6), (Tags)((i + 1) % 6), (Tags)((i + 4) % 6), (Tags)((i + 7) % 6) };
-                hotel.MustHaves = new[] { (MustHaves)(i % 2) };
-                hotel.ImageUrl = hotel.Name;
+                Id = 1,
+                Name = "El Palace Hotel",
+                Price = 421,
+                Address = "Spain, Barcelona",
+                Localization = Localizations.Spain,
+                Tags = new[] { Tags.Beaches, Tags.Nightlife, Tags.Nature },
+                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star4,
+                ImageUrl = ""
+            });
 
-                _hotelRepository.Add(hotel);
-            }
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 2,
+                Name = "Regent Berlin",
+                Price = 224,
+                Address = "Germany, Berlin",
+                Localization = Localizations.Germany,
+                Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
+                MustHaves = new[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star4,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 4,
+                Name = "Maison Souquet",
+                Price = 298,
+                Address = "France, Paris",
+                Localization = Localizations.France,
+                Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star5,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 5,
+                Name = "Portrait Firenze",
+                Price = 699,
+                Address = "Italy, Florence",
+                Localization = Localizations.Italy,
+                Tags = new[] { Tags.Cities, Tags.Nightlife },
+                MustHaves = new[] { MustHaves.ChildFriendly },
+                Rating = HotelRating.Star5,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 6,
+                Name = "Hotel Rialto",
+                Price = 135,
+                Address = "Poland, Warsaw",
+                Localization = Localizations.Poland,
+                Tags = new[] { Tags.Shopping, Tags.Nightlife },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star3,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 7,
+                Name = "Quinta Jardins do Lago",
+                Price = 155,
+                Address = "Portugal, Funchal",
+                Localization = Localizations.Portugal,
+                Tags = new[] { Tags.Nature, Tags.Nightlife },
+                MustHaves = new MustHaves[] { },
+                Rating = HotelRating.Star5,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 9,
+                Name = "Taj 51 Buckingham Gate Suites and Residences",
+                Price = 700,
+                Address = "UK, London",
+                Localization = Localizations.United_Kingdom,
+                Tags = new[] { Tags.Cities, Tags.Nightlife, Tags.Shopping },
+                MustHaves = new MustHaves[] { MustHaves.ChildFriendly, MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star5,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 10,
+                Name = "Corral del Rey",
+                Price = 150,
+                Address = "Spain, Seville",
+                Localization = Localizations.Spain,
+                Tags = new[] { Tags.Beaches, Tags.Nightlife },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star3,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 11,
+                Name = "Ibis Berlin Kurfurstendamm",
+                Price = 77,
+                Address = "Germany, Berlin",
+                Localization = Localizations.Germany,
+                Tags = new[] { Tags.Cities },
+                MustHaves = new[] { MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star3,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 12,
+                Name = "Citotel de France",
+                Price = 69,
+                Address = "France, Rochefort",
+                Localization = Localizations.France,
+                Tags = new[] { Tags.Nightlife },
+                MustHaves = new MustHaves[] { },
+                Rating = HotelRating.Star2,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 13,
+                Name = "Residence Aramis Milan Downtown",
+                Price = 469,
+                Address = "Italy, Milan",
+                Localization = Localizations.Italy,
+                Tags = new[] { Tags.Nightlife, Tags.Cities },
+                MustHaves = new MustHaves[] { },
+                Rating = HotelRating.Star3,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 14,
+                Name = "Ibis Poznan Centrum",
+                Price = 39,
+                Address = "Poland, Poznan",
+                Localization = Localizations.Poland,
+                Tags = new[] { Tags.Shopping },
+                MustHaves = new[] { MustHaves.ChildFriendly },
+                Rating = HotelRating.Star1,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 15,
+                Name = "Hotel Laranjeira",
+                Price = 59,
+                Address = "Portugal, Viana do Castelo",
+                Localization = Localizations.Portugal,
+                Tags = new[] { Tags.Beaches, Tags.Nightlife },
+                MustHaves = new[] {MustHaves.WheelchairAccessible },
+                Rating = HotelRating.Star2,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 16,
+                Name = "Summerhill Hotel",
+                Price = 110,
+                Address = "UK, Paignton",
+                Localization = Localizations.United_Kingdom,
+                Tags = new[] { Tags.Cities },
+                MustHaves = new MustHaves[] {},
+                Rating = HotelRating.Star1,
+                ImageUrl = ""
+            });
+
+            _hotelRepository.Add(new Hotel()
+            {
+                Id = 17,
+                Name = "Sanglard Sports",
+                Price = 146,
+                Address = "France, Chamonix",
+                Localization = Localizations.France,
+                Tags = new[] { Tags.Skiing },
+                MustHaves = new MustHaves[] {},
+                Rating = HotelRating.Star4,
+                ImageUrl = ""
+            });
         }
 
 
