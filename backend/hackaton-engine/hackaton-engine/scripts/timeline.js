@@ -1,5 +1,7 @@
 angular.module('groupTripApp', [])
   .controller('TimelineController', function () {
+	var ctrl = this;  
+	  
 	google.charts.load('current', {'packages':['timeline']});
 	google.charts.setOnLoadCallback(drawChart);
 
@@ -17,68 +19,91 @@ angular.module('groupTripApp', [])
 		$('#fromDate').data("DateTimePicker").maxDate(e.date);
 	});
 
-	var selectedDates = [['Who', 'From', 'To'],
-	['Bob',  new Date(2016, 4, 29), new Date(2016, 5, 4)],
+	ctrl.selectedDates = [['Who', 'From', 'To'],
+	['Bob',  new Date(2016, 4, 29), new Date(2016, 5, 8)],
 	['Mike',  new Date(2016, 4, 27),  new Date(2016, 5, 14)],
-	['Frank',  new Date(2016, 5, 1),  new Date(2016, 5, 10)]];
+	['Frank',  new Date(2016, 5, 1),  new Date(2016, 5, 10)],
+	['Michelle',  new Date(2016, 4, 25),  new Date(2016, 5, 7)]];
 
-	$('#addTime').click( function() {
-		selectedDates.push([
+	ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
+	
+	ctrl.addNewDate = function() {
+		ctrl.selectedDates.push([
 			'Rob',
 			new Date(moment($('#fromDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD')),
 			new Date(moment($('#toDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD'))
 		]);
-		drawChart();
-	});
-
+		if(!checkIfAllDatesOverlaps()) {
+			ctrl.selectedDates.pop();
+			ctrl.timelinesOverlapping = false;
+		} else {
+			findCommonRange();
+			ctrl.selectedDates.push(findCommonRange());
+			console.log(ctrl.selectedDates)
+			drawChart();
+		}
+	}
 
 	function drawChart() {
 		var container = document.getElementById('timeline');
 		var chart = new google.visualization.Timeline(container);
 		var dataTable = new google.visualization.DataTable();
 		
-		var numRows = selectedDates.length;
-		var numCols = selectedDates[0].length;
+		var numRows = ctrl.selectedDates.length;
+		var numCols = ctrl.selectedDates[0].length;
 
-		dataTable.addColumn('string', selectedDates[0][0]);
+		dataTable.addColumn('string', ctrl.selectedDates[0][0]);
 
 		for (var i = 1; i < numCols; i++)
-		dataTable.addColumn('date', selectedDates[0][i]);           
+		dataTable.addColumn('date', ctrl.selectedDates[0][i]);           
 
 		for (var i = 1; i < numRows; i++)
-		dataTable.addRow(selectedDates[i]);            
+		dataTable.addRow(ctrl.selectedDates[i]);            
 
 		chart.draw(dataTable, { height: (numRows+1)*38 });
 	}
 
 	function checkIfAllDatesOverlaps() {
-		var numRows = selectedDates.length;
-		var numCols = selectedDates[0].length;
-		
+		var numRows = ctrl.selectedDates.length;
+		var doesntOverlaps = 0;
 		for (var i = 1; i < numRows; i++) {
-			if(selectedDates[i+1]) {
-				var start1 = moment(selectedDates[i][1]);
-				var end1 = moment(selectedDates[i][2])
-				var start2 = moment(selectedDates[i+1][1]);
-				var end2 = moment(selectedDates[i+1][2])
-				console.log(start1, end2)
-				console.log(start1.diff(end1, 'days', true))
-				var duration1 = moment.duration(start1.diff(end1, 'days', true));
+			if(ctrl.selectedDates[i+1]) {
+				var start1 = moment(ctrl.selectedDates[i][1]);
+				var end1 = moment(ctrl.selectedDates[i][2])
+				var start2 = moment(ctrl.selectedDates[i+1][1]);
+				var end2 = moment(ctrl.selectedDates[i+1][2])
+				var duration1 = moment.duration(start1.diff(end2, 'days', true));
 				var days1 = duration1.asDays();
-				console.log(days1)
-				var duration2 = moment.duration(start2.diff(end2, 'days', true));
+				var duration2 = moment.duration(start2.diff(end1, 'days', true));
 				var days2 = duration2.asDays();
-				if(days1 && days2) {
-					console.log(true)
+				if(!(days1 < 0 && days2 < 0)) {
+					doesntOverlaps++;
 				}
 			}
-			
-			//var duration = moment.duration(now.diff(end));
-			//var days = duration.asDays();
-			
-		
 		}
+		return (doesntOverlaps) ? false : true;
 	}
-
-	checkIfAllDatesOverlaps();
+	
+	function findCommonRange() {
+		var numRows = ctrl.selectedDates.length;
+		var startDate = ctrl.selectedDates[1][1];
+		var endDate = ctrl.selectedDates[1][1];
+		for (var i = 1; i < numRows; i++) {
+			if(ctrl.selectedDates[i+1]) {
+				var start1 = moment(ctrl.selectedDates[i][1]);
+				var start2 = moment(ctrl.selectedDates[i+1][1]);
+				var duration1 = moment.duration(start1.diff(start2, 'days', true));
+				var days1 = duration1.asDays();
+				if(days1<0)
+					startDate = start2;
+				var end1 = moment(ctrl.selectedDates[i][2]);
+				var end2 = moment(ctrl.selectedDates[i+1][2]);
+				var duration2 = moment.duration(end1.diff(end2, 'days', true));
+				var days2 = duration2.asDays();
+				if(days2>0)
+					endDate = end2;
+			}
+		}
+		return ['Common daterange', new Date(startDate), new Date(endDate)];
+	}
 });
