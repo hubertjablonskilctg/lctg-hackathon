@@ -36,7 +36,7 @@ namespace hackaton_engine.Helpers
                     filteredHotels.Where(h => GetFilterExpression(preference).Compile()(h)));
             }
 
-            return filteredHotels.OrderByDescending(h => 
+            return filteredHotels.OrderByDescending(h =>
                 preferenceMatchedHotels.Count(pmh => pmh.Id == h.Id) +
                 //if have same preference hits take Rating into account (not bigger than 1.0)
                 (double)h.Rating / (double)Enum.GetValues(typeof(HotelRating)).Cast<HotelRating>().Max()
@@ -45,19 +45,19 @@ namespace hackaton_engine.Helpers
 
         private static Expression<Func<Hotel, bool>> GetDbFilterExpression(Preference joinedPreference)
         {
-            return h => joinedPreference.Localizations.Contains(h.Localization) &&
-                        joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh)) &&
+            return h => (joinedPreference.Localizations.Length == 0 || joinedPreference.Localizations.Contains(h.Localization)) &&
+                        (joinedPreference.MustHaves.Length == 0 || joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh))) &&
                         joinedPreference.PriceRange.Item1 <= h.Price &&
                         joinedPreference.PriceRange.Item2 >= h.Price &&
-                        joinedPreference.Tags.Any(t => h.Tags.Contains(t));
+                        (joinedPreference.Tags.Length == 0 || joinedPreference.Tags.Any(t => h.Tags.Contains(t)));
         }
         private static Expression<Func<Hotel, bool>> GetFilterExpression(Preference joinedPreference)
         {
-            return h => joinedPreference.Localizations.Contains(h.Localization) &&
-                        joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh)) &&
+            return h => (joinedPreference.Localizations.Length == 0 || joinedPreference.Localizations.Contains(h.Localization)) &&
+                        (joinedPreference.MustHaves.Length == 0 || joinedPreference.MustHaves.All(mh => h.MustHaves.Contains(mh))) &&
                         joinedPreference.PriceRange.Item1 <= h.Price &&
                         joinedPreference.PriceRange.Item2 >= h.Price &&
-                        joinedPreference.Tags.All(t => h.Tags.Contains(t));
+                        (joinedPreference.Tags.Length == 0 || joinedPreference.Tags.All(t => h.Tags.Contains(t)));
         }
 
         private static Preference JoinPreferences(List<Preference> preferences)

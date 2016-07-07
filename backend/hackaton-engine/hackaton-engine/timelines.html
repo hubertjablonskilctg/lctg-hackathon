@@ -14,13 +14,22 @@
 
 <body ng-controller="TimelineController as ctrl" ng-cloak>
 	<div class="content">
+		<h3>Dates choosen by other people:</h3>
 		<div id="timeline"></div>
-		<div class="input-group input-daterange">
-			<input id="fromDate" type="text" class="form-control" value="22/05/2016">
-			<span class="input-group-addon">to</span>
-			<input id="toDate" type="text" class="form-control" value="07/06/2016">
+		<div data-ng-show="!ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>
+		<div class="row">
+			<div class="col-xs-4">Choose your preffered dates:</div>
+			<div class="col-xs-6">
+				<div class="input-group input-daterange">
+					<input id="fromDate" type="text" class="form-control" value="22/05/2016">
+					<span class="input-group-addon">to</span>
+					<input id="toDate" type="text" class="form-control" value="09/06/2016">
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<button data-ng-click="ctrl.addNewDate()" class="btn btn-primary">Add your dates</button>
+			</div>
 		</div>
-		<button id="addTime" class="btn btn-active">Add your choice</button>
 	</div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -29,6 +38,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
     <script src="scripts/timeline.js"></script>
-	      
 </body>
 </html>
