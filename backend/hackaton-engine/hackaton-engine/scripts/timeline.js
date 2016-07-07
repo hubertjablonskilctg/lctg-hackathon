@@ -26,8 +26,10 @@ angular.module('groupTripApp', [])
 	['Michelle',  new Date(2016, 4, 25),  new Date(2016, 5, 7)]];
 
 	ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
+	ctrl.datesSelected = false;
 	
 	ctrl.addNewDate = function() {
+		ctrl.selectedDates.pop();
 		ctrl.selectedDates.push([
 			'Rob',
 			new Date(moment($('#fromDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD')),
@@ -37,17 +39,25 @@ angular.module('groupTripApp', [])
 			ctrl.selectedDates.pop();
 			ctrl.timelinesOverlapping = false;
 		} else {
-			findCommonRange();
-			ctrl.selectedDates.push(findCommonRange());
-			console.log(ctrl.selectedDates)
 			drawChart();
+			ctrl.datesSelectedValues = $('#fromDate').val() + ' - ' + $('#toDate').val();
+			ctrl.datesSelected = true;
 		}
-	}
+	};
+	
+	ctrl.editSelectedDate = function() {
+		ctrl.selectedDates.pop();
+		ctrl.selectedDates.pop();
+		ctrl.datesSelected = false;
+		drawChart();
+	};
 
 	function drawChart() {
 		var container = document.getElementById('timeline');
 		var chart = new google.visualization.Timeline(container);
 		var dataTable = new google.visualization.DataTable();
+		
+		ctrl.selectedDates.push(findCommonRange());
 		
 		var numRows = ctrl.selectedDates.length;
 		var numCols = ctrl.selectedDates[0].length;
@@ -58,7 +68,7 @@ angular.module('groupTripApp', [])
 		dataTable.addColumn('date', ctrl.selectedDates[0][i]);           
 
 		for (var i = 1; i < numRows; i++)
-		dataTable.addRow(ctrl.selectedDates[i]);            
+		dataTable.addRow(ctrl.selectedDates[i]);
 
 		chart.draw(dataTable, { height: (numRows+1)*38 });
 	}
@@ -104,6 +114,12 @@ angular.module('groupTripApp', [])
 					endDate = end2;
 			}
 		}
+		var duration = moment.duration(endDate.diff(startDate)).asDays();
+		if(duration < 7) {
+			
+		} else {
+			
+		}
 		return ['Common daterange', new Date(startDate), new Date(endDate)];
 	}
-});
+}
