@@ -20,6 +20,13 @@ namespace hackaton_engine.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult Get(int id)
+        {
+            var group = _groupRepository.Get(id);
+            return Ok(group);
+        }
+
+        [HttpGet]
         [Route("{id}/hotelvotes")]
         public IHttpActionResult GetHotelVotes(int id)
         {
@@ -39,10 +46,10 @@ namespace hackaton_engine.Controllers
             return Json<IEnumerable<Hotel>>(GroupHotelSorter.GetHotelsByGroupPreferences(id).Take(20));
         }
 
-        [HttpGet]
-        [Route("AddUser")]
+        [HttpPost]
+        [Route("AddUsers/{groupId:int?}")]
         // if groupId empty, creates new group
-        public IHttpActionResult AddUserToGroup(int userId, int? groupId = null)
+        public IHttpActionResult AddUsersToGroup([FromBody] int[] newUserIds, [FromUri] int? groupId = null)
         {
             // trust the data - don't check the if user exists
             // var user = _userRepository.Get(userId);
@@ -54,8 +61,8 @@ namespace hackaton_engine.Controllers
                 group = new Group()
                 {
                     Id = _groupRepository.GetHighestId() + 1,
-                    AdminUserId = userId,
-                    UserIds = new[] {userId}
+                    AdminUserId = newUserIds.First(),
+                    UserIds = newUserIds
                 };
 
                 _groupRepository.Add(group);
@@ -64,8 +71,7 @@ namespace hackaton_engine.Controllers
             else
             {
                 group = _groupRepository.Get(groupId.Value);
-                var userIds = new HashSet<int>(group.UserIds) {userId};
-                group.UserIds = userIds.ToArray();
+                group.UserIds = group.UserIds.Concat(newUserIds).ToArray();
 
                 _groupRepository.Update(groupId.Value, group);
             }

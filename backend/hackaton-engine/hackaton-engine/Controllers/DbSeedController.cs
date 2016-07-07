@@ -93,7 +93,7 @@ namespace hackaton_engine.Controllers
                     DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue),
                     PriceRange = new Tuple<double, double>(random.Next(100), 300 + random.Next(1700)),
                     Localizations = new[] { (Localizations)(i % 7), (Localizations)((i + 1) % 7), (Localizations)((i + 2) % 7), (Localizations)((i + 6) % 7) },
-                    Tags = new[] { (Tags)(i % 6), (Tags)(i + 1 % 6), (Tags)(i + 2 % 6) },
+                    Tags = new[] { (Tags)(i % 6), (Tags)((i + 1) % 6), (Tags)((i + 2) % 6) },
                     MustHaves = new MustHaves[0]
                 });
                 group.UserPreferences.Add(i + 1, new Preference()
@@ -101,7 +101,7 @@ namespace hackaton_engine.Controllers
                     DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue),
                     PriceRange = new Tuple<double, double>(random.Next(100), 700 + random.Next(500)),
                     Localizations = new[] { (Localizations)(i % 7), (Localizations)((i + 2) % 7), (Localizations)((i + 3) % 7) },
-                    Tags = new[] { (Tags)(i % 6), (Tags)((i + 2) % 6), (Tags)(i + 4 % 6) },
+                    Tags = new[] { (Tags)(i % 6), (Tags)((i + 2) % 6), (Tags)((i + 4) % 6) },
                     MustHaves = new[] { (MustHaves)random.Next(2) }
                 });
                 //group.UserPreferences.Add(i + 2, new Preference()
