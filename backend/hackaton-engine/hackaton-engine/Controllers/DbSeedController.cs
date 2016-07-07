@@ -39,7 +39,7 @@ namespace hackaton_engine.Controllers
                 hotel.Address = "";
                 hotel.Localization = (Localizations)values.GetValue(random.Next(values.Length));
                 hotel.Address = String.Format("{0} Street, {1}", i, hotel.Localization.ToString());
-                hotel.Tags = new[] { (Tags)(i % 6), (Tags)(i % 6), (Tags)(i % 6) };
+                hotel.Tags = new[] { (Tags)(random.Next(5)), (Tags)(random.Next(5)) };
                 hotel.MustHaves = new[] { (MustHaves)(i % 2) };
                 hotel.ImageUrl = hotel.Name;
 
