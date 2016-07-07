@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.UT", "Common.UT\Common.UT.csproj", "{E0F9FAD1-95DA-49C0-A391-77F40287C2C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackaton-engine.UT", "hackaton-engine.UT\hackaton-engine.UT.csproj", "{7DD74B96-AEEE-4C44-96F9-6A35441A41C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E0F9FAD1-95DA-49C0-A391-77F40287C2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0F9FAD1-95DA-49C0-A391-77F40287C2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0F9FAD1-95DA-49C0-A391-77F40287C2C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DD74B96-AEEE-4C44-96F9-6A35441A41C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD74B96-AEEE-4C44-96F9-6A35441A41C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD74B96-AEEE-4C44-96F9-6A35441A41C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD74B96-AEEE-4C44-96F9-6A35441A41C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

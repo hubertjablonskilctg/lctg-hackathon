@@ -26,6 +26,11 @@ namespace Common.Mongo.Repositories
             return _collection.Find((x) => x.Id == id).FirstOrDefault();
         }
 
+        public IEnumerable<T> Find(Expression<Func<T, bool>> findFunc)
+        {
+            return _collection.Find(findFunc).ToList();
+        }
+
         public void Add(T item)
         {
             _collection.InsertOne(item);
