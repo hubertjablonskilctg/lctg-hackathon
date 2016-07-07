@@ -10,6 +10,7 @@ namespace hackaton_engine.Models
     {
         private Dictionary<int, Preference> _userPreferences = new Dictionary<int, Preference>();
         private Dictionary<int, int[]> _userHotelUpVotes = new Dictionary<int, int[]>();
+        private int[] _userIds = new int[0];
 
         public Group()
         {
@@ -19,8 +20,13 @@ namespace hackaton_engine.Models
         }
 
         public int AdminUserId { get; set; }
-        public int[] UserIds { get; set; }
         public string Name { get; set; }
+
+        public int[] UserIds
+        {
+            get { return _userIds; }
+            set { _userIds = value; }
+        }
 
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         // userId, preference

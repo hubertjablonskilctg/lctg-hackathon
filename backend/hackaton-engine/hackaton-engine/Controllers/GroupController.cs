@@ -13,10 +13,12 @@ namespace hackaton_engine.Controllers
     public class GroupController : ApiController
     {
         private readonly IMongoRepository<Group> _groupRepository;
+        private readonly IMongoRepository<User> _userRepository;
 
-        public GroupController(IMongoRepository<Group> groupRepository)
+        public GroupController(IMongoRepository<Group> groupRepository, IMongoRepository<User> userRepository)
         {
             _groupRepository = groupRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -49,10 +51,9 @@ namespace hackaton_engine.Controllers
         [HttpPost]
         [Route("AddUsers/{groupId:int?}")]
         // if groupId empty, creates new group
-        public IHttpActionResult AddUsersToGroup([FromBody] int[] newUserIds, [FromUri] int? groupId = null)
+        public IHttpActionResult AddUsersToGroup([FromBody] string[] newUserEmails, [FromUri] int? groupId = null)
         {
-            // trust the data - don't check the if user exists
-            // var user = _userRepository.Get(userId);
+            var userIds = CreateUsers(newUserEmails).ToArray();
 
             Group group;
 
@@ -61,8 +62,8 @@ namespace hackaton_engine.Controllers
                 group = new Group()
                 {
                     Id = _groupRepository.GetHighestId() + 1,
-                    AdminUserId = newUserIds.First(),
-                    UserIds = newUserIds
+                    AdminUserId = userIds.First(),
+                    UserIds = userIds.ToArray()
                 };
 
                 _groupRepository.Add(group);
@@ -71,12 +72,45 @@ namespace hackaton_engine.Controllers
             else
             {
                 group = _groupRepository.Get(groupId.Value);
-                group.UserIds = group.UserIds.Concat(newUserIds).ToArray();
+                group.UserIds = group.UserIds.Concat(userIds).Distinct().ToArray();
 
                 _groupRepository.Update(groupId.Value, group);
             }
 
             return Ok(group);
+        }
+
+        private IEnumerable<int> CreateUsers(string[] userEmails)
+        {
+            var users = _userRepository.GetAll().ToList();
+            var ids = new HashSet<int>();
+
+            foreach (var userEmail in userEmails)
+            {
+                // FirstOrDefault, not SingleOD because we'd rather 
+                // have incorrect data than exception during presentation
+                var existingUser = users.FirstOrDefault(u => u.Email == userEmail);
+
+                if (existingUser != null)
+                {
+                    ids.Add(existingUser.Id);
+                }
+                else
+                {
+                    var newUser = new User()
+                    {
+                        Email = userEmail,
+                        Id = _userRepository.GetHighestId() + 1
+                    };
+
+                    // create user
+                    _userRepository.Add(newUser);
+
+                    ids.Add(newUser.Id);
+                }
+            }
+
+            return ids;
         }
 
         [HttpPost]

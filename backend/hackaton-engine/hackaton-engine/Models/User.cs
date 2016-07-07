@@ -11,6 +11,8 @@ namespace hackaton_engine.Models
         }
 
         public string Name { get; set; }
+
+		public string Email { get; set; }
         public int Adults { get; set; }
         public int Youths { get; set; }
         public int Infants { get; set; }
