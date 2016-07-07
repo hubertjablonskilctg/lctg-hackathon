@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Date Time picker</title>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="app.css">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+	<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />	
+</head>
+
+<body>
+	<div id="timeline"></div>
+	<div class="input-group input-daterange">
+		<input id="fromDate" type="text" class="form-control" value="22/05/2016">
+		<span class="input-group-addon">to</span>
+		<input id="toDate" type="text" class="form-control" value="07/06/2016">
+	</div>
+	<button id="addTime" class="btn btn-active">Add your choice</button>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+	<script>
+		$(function () {
+			google.charts.load('current', {'packages':['timeline']});
+			google.charts.setOnLoadCallback(drawChart);
+		
+			$('#fromDate').datetimepicker({
+				format: 'DD/MM/YYYY',
+			});
+			$('#toDate').datetimepicker({
+				useCurrent: false,
+				format: 'DD/MM/YYYY',
+			});
+			$("#fromDate").on("dp.change", function (e) {
+				$('#toDate').data("DateTimePicker").minDate(e.date);
+			});
+			$("#toDate").on("dp.change", function (e) {
+				$('#fromDate').data("DateTimePicker").maxDate(e.date);
+			});
+		
+			var newData = [['Who', 'From', 'To'],
+            ['Bob',  new Date(2016, 4, 29), new Date(2016, 5, 4)],
+            ['Mike',  new Date(2016, 4, 27),  new Date(2016, 5, 14)],
+            ['Frank',  new Date(2016, 5, 1),  new Date(2016, 5, 10)]];
+		
+			$('#addTime').click( function() {
+				newData.push([
+					'Rob',
+					new Date(moment($('#fromDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD')),
+					new Date(moment($('#toDate').val(), 'DD/MM/YYYY').format('YYYY/MM/DD'))
+				]);
+				drawChart();
+			});
+			
+			
+			function drawChart() {
+				var container = document.getElementById('timeline');
+				var chart = new google.visualization.Timeline(container);
+				var dataTable = new google.visualization.DataTable();
+				
+				var numRows = newData.length;
+				var numCols = newData[0].length;
+
+				dataTable.addColumn('string', newData[0][0]);
+
+				for (var i = 1; i < numCols; i++)
+				dataTable.addColumn('date', newData[0][i]);           
+
+				for (var i = 1; i < numRows; i++)
+				dataTable.addRow(newData[i]);            
+
+				chart.draw(dataTable, { height: (numRows+1)*38 });
+			}		
+		});
+	</script>
+	      
+</body>
+</html>

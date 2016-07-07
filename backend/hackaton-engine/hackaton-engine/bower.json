@@ -19,6 +19,7 @@
     "bootstrap": "^3.3.6",
     "seiyria-bootstrap-slider": "^7.1.1",
     "jquery": "^3.0.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "font-awesome": "fontawesome#^4.6.3"
   }
 }

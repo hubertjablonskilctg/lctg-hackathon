@@ -8,7 +8,7 @@ namespace hackaton_engine.Models
     public class Group : Entity
     {
         public int AdminUserId { get; set; }
-        public int[] UserIds { get; set; }
+        public HashSet<int> UserIds { get; set; }
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, Preference> UserPreferences { get; set; }
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
