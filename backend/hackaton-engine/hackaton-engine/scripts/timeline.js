@@ -1,9 +1,28 @@
 angular.module('groupTripApp', [])
   .controller('TimelineController', function () {
-	var ctrl = this;  
-	  
-	google.charts.load('current', {'packages':['timeline']});
-	google.charts.setOnLoadCallback(drawChart);
+      var ctrl = this;
+
+      var groupId = localStorage.getItem("groupId");
+
+          $.ajax({
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId,
+              type: 'GET',
+              data: JSON.stringify([1]),
+              contentType: 'application/json; charset=utf-8',
+              success: function (data) {
+                  console.log(data);
+                  
+              },
+              error: function (data) {
+                  console.log(data);
+              }
+          }
+         )
+      
+
+
+      google.charts.load('current', { 'packages': ['timeline'] });
+      google.charts.setOnLoadCallback(drawChart);
 
 	$('#fromDate').datetimepicker({
 		format: 'DD/MM/YYYY',
@@ -19,11 +38,11 @@ angular.module('groupTripApp', [])
 		$('#fromDate').data("DateTimePicker").maxDate(e.date);
 	});
 
-	ctrl.selectedDates = [['Who', 'From', 'To'],
-	['Bob',  new Date(2016, 4, 29), new Date(2016, 5, 8)],
-	['Mike',  new Date(2016, 4, 27),  new Date(2016, 5, 14)],
-	['Frank',  new Date(2016, 5, 1),  new Date(2016, 5, 10)],
-	['Michelle',  new Date(2016, 4, 25),  new Date(2016, 5, 7)]];
+      ctrl.selectedDates = [['Who', 'From', 'To'],
+      ['Bob', new Date(2016, 4, 29), new Date(2016, 5, 8)],
+      ['Mike', new Date(2016, 4, 27), new Date(2016, 5, 14)],
+      ['Frank', new Date(2016, 5, 1), new Date(2016, 5, 10)],
+      ['Michelle', new Date(2016, 4, 25), new Date(2016, 5, 7)]];
 
 	ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
 	ctrl.datesSelected = false;
@@ -122,4 +141,4 @@ angular.module('groupTripApp', [])
 		}
 		return ['Common daterange', new Date(startDate), new Date(endDate)];
 	}
-}
+})

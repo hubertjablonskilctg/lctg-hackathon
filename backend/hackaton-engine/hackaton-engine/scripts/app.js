@@ -1,23 +1,27 @@
 angular.module('groupTripApp', [])
-  .controller('MainController', function () {
+  .controller('MainController', function ($window) {
       var ctrl = this;
-      
-      ctrl.tripMembers = [];
-
-      ctrl.newMemberName;
-
-      ctrl.addMember = function () {
-          ctrl.tripMembers.push(ctrl.newMemberName);
-          ctrl.newMemberName = "";
-      };
-
-      ctrl.removeMember = function (member) {
-          var index = ctrl.tripMembers.indexOf(member);
-          ctrl.tripMembers.splice(index, 1);
-      };
 
       ctrl.createTrip = function () {
-          alert("Create trip " + ctrl.tripMembers[0]);
+          var dataObject = {
+              newUserIds: "[1,2]"
+          };
+
+          $.ajax({
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/addUsers',
+              type: 'POST',
+              data: JSON.stringify([1]),
+              contentType: 'application/json; charset=utf-8',
+              success: function (data) {
+                  localStorage.setItem("groupId", data.Id);
+                  localStorage.setItem("userId", 1);
+                  $window.location.href = '/timelines.html';
+              },
+              error: function (data) {
+                  console.log(data);
+              }
+          }
+         )
       };
-      
+
   });

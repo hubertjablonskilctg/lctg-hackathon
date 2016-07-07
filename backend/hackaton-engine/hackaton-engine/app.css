@@ -1,5 +1,5 @@
 body{
-    background: url('images/accessories-84528_1280.jpg') no-repeat center center fixed;
+    background: url('images/accessories-dark.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -12,6 +12,31 @@ body{
     margin-left: auto;
     margin-right: auto;
     background: rgba(255, 255, 255, 0.8);
+}
+
+h1.main{
+    font-size: 500%;
+    color: #fff;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.max300px {
+    max-width: 300px;
+}
+
+.max400px {
+    max-width: 400px;
+}
+
+.bigger {
+    font-size: 200%;
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .members-content{

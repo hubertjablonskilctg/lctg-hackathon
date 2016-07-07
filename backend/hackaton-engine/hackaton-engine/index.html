@@ -9,7 +9,17 @@
 </head>
 
 <body ng-controller="MainController as ctrl" ng-cloak>
-    <div class="content members-content">
+    <div class="text-center">
+        <h1 class="main">Welcome in GroupTripPlanner</h1>
+        <div class="max300px centered">
+
+            <input class="form-control" placeholder="Type Your Email" ng-model="ctrl.newMemberName" />
+            <br />
+            <button class="form-control btn btn-primary btn-large" ng-click="ctrl.createTrip()">Create Trip</button>
+        </div>
+    </div>
+
+    <!--<div class="content members-content">
         <h3>Trip Members:</h3>
         <div ng-repeat="member in ctrl.tripMembers">
             <div class="row row-padding">
@@ -35,8 +45,7 @@
             </div>
 
         </div>
-
-    </div>
+    </div>-->
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
