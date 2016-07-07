@@ -72,28 +72,63 @@
 			</div>
 		</div>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-		<script>
-			$(function() {
-				var chosenElements = {
-					tags: [],
-					localization: [],
-					musthaves: []
-				};
+        <script>
+            $(function() {
+                var chosenElements = {
+                    tags: [],
+                    localization: [],
+                    musthaves: []
+                };
 
-				$('.badgeSelect').click(function() {
-					var arrRefference = chosenElements[$(this).parent().attr('data-group')];
-					if(arrRefference.indexOf($(this).text()) != -1) {
-						$(this).removeClass('active');
-						arrRefference.splice(arrRefference.indexOf($(this).text()), 1);
-					} else {
-						$(this).addClass('active');
-						arrRefference.push($(this).text())
-						
-					}
-				});
-			});
-		
-		</script>
+                $('.badgeSelect').click(function () {
+                    // highlight badge
+                    var arrRefference = chosenElements[$(this).parent().attr('data-group')];
+                    if (arrRefference.indexOf($(this).text()) != -1) {
+                        $(this).removeClass('active');
+                        arrRefference.splice(arrRefference.indexOf($(this).text()), 1);
+                    } else {
+                        $(this).addClass('active');
+                        arrRefference.push($(this).text());
+                    }
+                    // /highglight badge
+
+                    // save selection
+                    var selectedName = $(this).text();
+
+                    var groupId = localStorage.getItem("groupId");
+                    var userId = localStorage.getItem("userId");
+
+                    // TODO
+                    // assume they're there
+                    groupId = 1;
+                    userId = 1;
+
+                    var postSelection = function (userId, groupId, selectedName) {
+                        $.ajax({
+                            url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/' + selectedName + '/',
+                            // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+                            success: function (data) {
+                                console.log(data);
+                                console.log('success');
+                                //localStorage.setItem("groupId", data.Id);
+                                //localStorage.setItem("userId", data.UserIds[0]);
+                                //localStorage.setItem("userEmail", ctrl.email);
+                                //$window.location.href = '/timelines.html';
+                            },
+                            error: function(data) {
+                                console.log(data);
+                                console.log('error');
+                            }
+                        });
+                    }
+
+                    postSelection(userId, groupId, selectedName);
+
+                    // /save selection
+                });
+            });
+
+        </script>
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>

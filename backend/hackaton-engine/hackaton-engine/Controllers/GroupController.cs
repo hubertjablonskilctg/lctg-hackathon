@@ -120,6 +120,84 @@ namespace hackaton_engine.Controllers
             return ids;
         }
 
+        /// <summary>
+        /// BRUTAL NIGHTLY HACKATHON CODING
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="groupId"></param>
+        /// <param name="preferenceName"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("ChangePreferences/{userId}/{groupId}/{preferenceName}")]
+        public IHttpActionResult ChangeUserPreferences(int userId, int groupId, string preferenceName)
+        {
+            var group = _groupRepository.Get(groupId);
+
+            try
+            {
+                Tags selectedTag = ParseEnum<Tags>(preferenceName);
+                if (group.UserPreferences[userId].Tags.Contains(selectedTag))
+                {
+                    group.UserPreferences[userId].Tags =
+                        group.UserPreferences[userId].Tags.Except(new[] {selectedTag}).ToArray();
+                }
+                else
+                {
+                    group.UserPreferences[userId].Tags = group.UserPreferences[userId].Tags.Concat(new[] {selectedTag}).ToArray();
+                }
+
+                _groupRepository.Update(groupId, group);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                Localizations selectedTag = ParseEnum<Localizations>(preferenceName);
+                if (group.UserPreferences[userId].Localizations.Contains(selectedTag))
+                {
+                    group.UserPreferences[userId].Localizations =
+                        group.UserPreferences[userId].Localizations.Except(new[] { selectedTag }).ToArray();
+                }
+                else
+                {
+                    group.UserPreferences[userId].Localizations = group.UserPreferences[userId].Localizations.Concat(new[] { selectedTag }).ToArray();
+                }
+
+                _groupRepository.Update(groupId, group);
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                MustHaves selectedTag = ParseEnum<MustHaves>(preferenceName);
+                if (group.UserPreferences[userId].MustHaves.Contains(selectedTag))
+                {
+                    group.UserPreferences[userId].MustHaves =
+                        group.UserPreferences[userId].MustHaves.Except(new[] { selectedTag }).ToArray();
+                }
+                else
+                {
+                    group.UserPreferences[userId].MustHaves = group.UserPreferences[userId].MustHaves.Concat(new[] { selectedTag }).ToArray();
+                }
+
+                _groupRepository.Update(groupId, group);
+            }
+            catch
+            {
+            }
+
+            return Ok(group);
+        }
+
+        static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
+        }
+
         [HttpPost]
         [Route("ChangePreferences/{userId}/{groupId}")]
         public IHttpActionResult ChangeUserPreferences([FromUri] int userId, [FromUri] int groupId, Preference preferences)
