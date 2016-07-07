@@ -85,6 +85,15 @@ namespace hackaton_engine.UT
                             DateRange = new Tuple<DateTime,DateTime>(DateTime.MinValue, DateTime.MaxValue)
                         }
                     },
+                    { 3, new Preference()
+                        {
+                            Tags = new Tags[] {},
+                            MustHaves = new MustHaves[] {},
+                            Localizations = new Localizations[] {},
+                            PriceRange = new Tuple<double, double>(0,1000),
+                            DateRange = new Tuple<DateTime,DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        }
+                    },
                 }
             });
         }
