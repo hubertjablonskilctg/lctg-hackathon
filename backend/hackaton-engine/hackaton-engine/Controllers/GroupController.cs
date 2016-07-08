@@ -98,6 +98,7 @@ namespace hackaton_engine.Controllers
                     UserIds = userIds.ToArray(),
                     UserPreferences = userIds.ToDictionary(uid => uid, uid => new Preference())
                 };
+                group.HydrateUsers(_userRepository);
 
                 _groupRepository.Add(group);
 
@@ -110,6 +111,7 @@ namespace hackaton_engine.Controllers
                 {
                     group.UserPreferences[userId] = new Preference();
                 }
+                group.HydrateUsers(_userRepository);
                 _groupRepository.Update(groupId.Value, group);
             }
 
