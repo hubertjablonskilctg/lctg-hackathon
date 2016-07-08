@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using Common.Mongo.Repositories;
 using hackaton_engine.Helpers;
@@ -9,7 +11,7 @@ using MongoDB.Driver;
 
 namespace hackaton_engine.Controllers
 {
-    [RoutePrefix("api/Group")]
+    [System.Web.Http.RoutePrefix("api/Group")]
     public class GroupController : ApiController
     {
         private readonly IMongoRepository<Group> _groupRepository;
@@ -21,7 +23,7 @@ namespace hackaton_engine.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult Get(int id)
         {
             var group = _groupRepository.Get(id);
@@ -30,33 +32,56 @@ namespace hackaton_engine.Controllers
             return Ok(group);
         }
 
-        [HttpGet]
-        [Route("{groupId}/hotelvotes")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("{groupId}/hotelvotes")]
         public IHttpActionResult GetHotelVotes(int groupId)
         {
-            var group = _groupRepository.Get(groupId);
-            var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(groupId);
-
-            var hotelIdUpVotes = group.UserHotelUpVotes.SelectMany(x => x.Value);
-            var hotels = preferencedHotels.OrderByDescending(h => hotelIdUpVotes.Count(hid => hid == h.Id));
-
-            foreach (var hotel in hotels)
+            try
             {
-                hotel.HydrateUsersWhoUpvoted(groupId, _groupRepository, _userRepository);
-            }
+                var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(groupId);
+                var group = _groupRepository.Get(groupId);
 
-            return Json<IEnumerable<Hotel>>(hotels);
+                if (group == null)
+                {
+                    return Json<IEnumerable<Hotel>>(preferencedHotels);
+                }
+
+                var hotelIdUpVotes = group.UserHotelUpVotes.SelectMany(x => x.Value);
+                var hotels = preferencedHotels.OrderByDescending(h => hotelIdUpVotes.Count(hid => hid == h.Id));
+
+                foreach (var hotel in hotels)
+                {
+                    hotel.HydrateUsersWhoUpvoted(groupId, _groupRepository, _userRepository);
+                }
+
+                return Json<IEnumerable<Hotel>>(hotels);
+            }
+            catch (Exception ex)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent(ex.Message);
+                throw new HttpResponseException(response);
+            }
         }
 
-        [HttpGet]
-        [Route("{id}/hotelpreferences")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("{id}/hotelpreferences")]
         public IHttpActionResult GetHotelPreferences(int id)
         {
-            return Json<IEnumerable<Hotel>>(GroupHotelSorter.GetHotelsByGroupPreferences(id).Take(20));
+            try
+            {
+                return Json<IEnumerable<Hotel>>(GroupHotelSorter.GetHotelsByGroupPreferences(id).Take(20));
+            }
+            catch (Exception ex)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                response.Content = new StringContent(ex.Message);
+                throw new HttpResponseException(response);
+            }
         }
 
-        [HttpPost]
-        [Route("AddUsers/{groupId:int?}")]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("AddUsers/{groupId:int?}")]
         // if groupId empty, creates new group
         public IHttpActionResult AddUsersToGroup([FromBody] string[] newUserEmails, [FromUri] int? groupId = null)
         {
@@ -127,8 +152,8 @@ namespace hackaton_engine.Controllers
         /// <param name="groupId"></param>
         /// <param name="preferenceName"></param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("ChangePreferences/{userId}/{groupId}/{preferenceName}")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("ChangePreferences/{userId}/{groupId}/{preferenceName}")]
         public IHttpActionResult ChangeUserPreferences(int userId, int groupId, string preferenceName)
         {
             var group = _groupRepository.Get(groupId);
@@ -139,11 +164,11 @@ namespace hackaton_engine.Controllers
                 if (group.UserPreferences[userId].Tags.Contains(selectedTag))
                 {
                     group.UserPreferences[userId].Tags =
-                        group.UserPreferences[userId].Tags.Except(new[] {selectedTag}).ToArray();
+                        group.UserPreferences[userId].Tags.Except(new[] { selectedTag }).ToArray();
                 }
                 else
                 {
-                    group.UserPreferences[userId].Tags = group.UserPreferences[userId].Tags.Concat(new[] {selectedTag}).ToArray();
+                    group.UserPreferences[userId].Tags = group.UserPreferences[userId].Tags.Concat(new[] { selectedTag }).ToArray();
                 }
 
                 _groupRepository.Update(groupId, group);
@@ -198,8 +223,8 @@ namespace hackaton_engine.Controllers
             return (T)Enum.Parse(typeof(T), value, true);
         }
 
-        [HttpPost]
-        [Route("ChangePreferences/{userId}/{groupId}")]
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("ChangePreferences/{userId}/{groupId}")]
         public IHttpActionResult ChangeUserPreferences([FromUri] int userId, [FromUri] int groupId, Preference preferences)
         {
             var group = _groupRepository.Get(groupId);
@@ -209,8 +234,8 @@ namespace hackaton_engine.Controllers
             return Ok(group);
         }
 
-        [HttpGet]
-        [Route("UpvoteHotel/{userId}/{groupId}/{hotelId}/{upvote}")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("UpvoteHotel/{userId}/{groupId}/{hotelId}/{upvote}")]
         public IHttpActionResult UpvoteHotel(int userId, int groupId, int hotelId, bool upvote)
         {
             var group = _groupRepository.Get(groupId);
@@ -240,8 +265,8 @@ namespace hackaton_engine.Controllers
             return Ok(group);
         }
 
-        [HttpGet]
-        [Route("AdvanceTripStage/{groupId}")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("AdvanceTripStage/{groupId}")]
         public IHttpActionResult AdvanceTripStage(int groupId)
         {
             var group = _groupRepository.Get(groupId);
@@ -254,7 +279,7 @@ namespace hackaton_engine.Controllers
                 throw new InvalidOperationException("Maximum stage reached.");
             }
 
-            group.CurrentTripPreparationStage = (TripPreparationStages) (currentTripPreparationStageId + 1);
+            group.CurrentTripPreparationStage = (TripPreparationStages)(currentTripPreparationStageId + 1);
 
             _groupRepository.Update(group.Id, group);
 

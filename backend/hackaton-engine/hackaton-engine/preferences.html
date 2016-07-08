@@ -12,6 +12,9 @@
 
 <body ng-controller="PreferencesController as ctrl" ng-cloak>
     <div class="content">
+		<h3>Choose your preferrences:</h3>
+		<div id="timeline"></div>
+		<div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>
         <div class="row">
             <!--<div class="col-xs-2">
                 How many people are with you:
@@ -22,35 +25,38 @@
             <div class="col-xs-2">
                 Your budget:
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
                 <div class="input-group">
                     <span class="input-group-addon">From</span>
                     <input type="text" class="form-control" id="budget-from"/>
                 </div>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
                 <div class="input-group">
                     <span class="input-group-addon">To</span>
                     <input type="text" class="form-control" id="budget-to"/>
                 </div>
             </div>
             <br clear="left"/>
-            <div class="col-xs-2">
-                DateRange:
-            </div>
-            <div class="col-xs-2">
-                <div class="input-group">
-                    <span class="input-group-addon">From</span>
-                    <input type="date" class="form-control" id="date-from"/>
-                </div>
-            </div>
-            <div class="col-xs-2">
-                <div class="input-group">
-                    <span class="input-group-addon">To</span>
-                    <input type="date" class="form-control" id="date-to"/>
-                </div>
-            </div>
-        </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">Preferred dates:</div>
+			<div class="col-xs-6">
+				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
+					<span class="input-group-addon">From</span>
+					<input id="date-from" type="text" class="form-control">
+					<span class="input-group-addon">To</span>
+					<input id="date-to" type="text" class="form-control">
+				</div>
+				<div class="" ng-show="ctrl.datesSelected">
+					<h4>{{ctrl.datesSelectedValues}}</h4>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.addPreferences()" class="btn btn-primary">Add your dates</button>
+				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDate()" class="btn btn-default">Edit your dates</button>
+			</div>
+		</div>
         <br clear="left" />
         <div class="row">
             <div class="col-xs-2">

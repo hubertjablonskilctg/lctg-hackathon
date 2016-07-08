@@ -100,10 +100,7 @@ angular.module('groupTripApp', [])
       };
 
       ctrl.editSelectedDate = function () {
-          ctrl.selectedDates.pop();
-          ctrl.selectedDates.pop();
-          ctrl.datesSelected = false;
-          drawChart();
+          
       };
 
 	  function getMinValue() {

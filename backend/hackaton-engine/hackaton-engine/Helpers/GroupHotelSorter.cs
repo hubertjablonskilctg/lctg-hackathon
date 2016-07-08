@@ -16,7 +16,8 @@ namespace hackaton_engine.Helpers
             var group = IocConfig.GetKernel().Get<MongoRepository<Group>>().Get(groupId);
             if (group == null)
             {
-                throw new ArgumentNullException("Group " + groupId + " not found!");
+                //throw new ArgumentNullException("Group " + groupId + " not found!");
+                return IocConfig.GetKernel().Get<MongoRepository<Hotel>>().GetAll();
             }
             List<Preference> preferences = group.UserPreferences.Values.ToList();
             if (preferences.Count < 1)
