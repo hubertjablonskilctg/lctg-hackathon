@@ -254,9 +254,9 @@
 
 			if(!tagsAlready) {
 				$('#tagCloud').jQCloud(jqCloudResults, {
-						width: 200,
-						height: 200,
-						colors: ["#ffffff"]
+					width: 600,
+					height: 150,
+					colors: ["#ffffff"]
 				});
 			} else {
 				$('#tagCloud').html('')
