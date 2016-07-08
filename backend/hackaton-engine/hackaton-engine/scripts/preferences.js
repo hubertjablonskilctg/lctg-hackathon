@@ -11,7 +11,6 @@ angular.module('groupTripApp', [])
 		  type: 'GET',
 		  contentType: 'application/json; charset=utf-8',
           success: function (data) {
-			  console.log(data)
 				refreshData(data)
           },
           error: function (data) {
@@ -27,20 +26,17 @@ angular.module('groupTripApp', [])
 			
 			ctrl.selectedDates = [];
 			angular.forEach(data.Users, function (user) {
-				console.log(userPreferences)
-			  if (userPreferences && userPreferences.DateRange) {
-				  ctrl.selectedDates.push([moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD'), moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD'),user.Email, 'user']);
-				  console.log(user.Id, userId)
+			  if (data.UserPreferences && data.UserPreferences[user.Id]) {
+				  ctrl.selectedDates.push([moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD'), moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD'),user.Email, 'user']);
 				  if(user.Id == userId) {
-					ctrl.datesSelectedValues = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD') + ' - ' + moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
-					ctrl.dateFrom = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD');
-					ctrl.dateTo = moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
+					ctrl.datesSelectedValues = moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD') + ' - ' + moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD');
+					ctrl.dateFrom = moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD');
+					ctrl.dateTo = moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD');
 					ctrl.datesSelected = true;
 				  }
 			  }
 
 			});
-			console.log(ctrl.selectedDates)
 			ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
 			drawChart();				
 
@@ -65,15 +61,13 @@ angular.module('groupTripApp', [])
 		
 		ctrl.editSelectedDates = function() {
 			ctrl.selectedDates.pop();
-			  ctrl.selectedDates.pop();
 			  ctrl.datesSelected = false;
 			  drawChart();
 		}
 		
 		ctrl.savePreferences = function() {
 			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
-				console.log(data);
-				console.log(ctrl.dateFrom, ctrl.dateTo)
+				
 				// TODO userid zahardkodowane
 				var preferences = data.UserPreferences[userId];
 				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
@@ -199,9 +193,10 @@ angular.module('groupTripApp', [])
 				  var duration1 = moment.duration(max1.diff(max2, 'days', true));
                   var days1 = duration1.asDays();
 				  if(days1<0)
-					  max = dataTable[i][1];
+					  max = dataTable[i+1][1];
 			  }
 		  }
+		  console.log(max)
 		  return moment(max).add(2,'days').format('YYYY/MM/DD');
 	  }
 
@@ -229,7 +224,6 @@ angular.module('groupTripApp', [])
 					  var days1 = duration1.asDays();
 					  var duration2 = moment.duration(start2.diff(end1, 'days', true));
 					  var days2 = duration2.asDays();
-					  console.log(days1, days2)
 					  if (!(days1 < 0 && days2 < 0)) {
 						  doesntOverlaps++;
 					  }
