@@ -40,26 +40,26 @@
                     <input type="text" class="form-control" id="budget-to" />
                 </div>
             </div>
-            <br clear="left"/>
-		</div>
-		<div class="row light-background rom-margin row-padding">
-			<div class="col-xs-2"><b>Preferred dates:</b></div>
-			<div class="col-xs-6">
-				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
-					<span class="input-group-addon">From</span>
-					<input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
-					<span class="input-group-addon">To</span>
-					<input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
-				</div>
-				<div class="" ng-show="ctrl.datesSelected">
-					<h4>{{ctrl.datesSelectedValues}}</h4>
-				</div>
-			</div>
-			<div class="col-xs-2">
-				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
-				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
-			</div>
-		</div>
+            <br clear="left" />
+        </div>
+        <div class="row light-background rom-margin row-padding">
+            <div class="col-xs-2"><b>Preferred dates:</b></div>
+            <div class="col-xs-6">
+                <div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
+                    <span class="input-group-addon">From</span>
+                    <input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
+                    <span class="input-group-addon">To</span>
+                    <input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
+                </div>
+                <div class="" ng-show="ctrl.datesSelected">
+                    <h4>{{ctrl.datesSelectedValues}}</h4>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
+                <button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
+            </div>
+        </div>
         <br clear="left" />
         <div class="row light-background rom-margin row-padding">
             <div class="col-xs-2">
@@ -104,7 +104,12 @@
         <div class="max400px centered">
             <a class="form-control btn btn-primary btn-large" ng-click="ctrl.showHotels()">Show Hotels</a>
         </div>
-
+        <br />
+        <div class="row light-background rom-margin row-padding">
+            <div>
+                <div ng-include="'commentsPart.html'"></div>
+            </div>
+        </div>
         <script type="text/javascript" src="scripts/timesheet.js"></script>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
@@ -113,6 +118,7 @@
         <script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/preferences.js"></script>
+        <script src="scripts/comments.js"></script>
     </div>
 </body>
 </html>

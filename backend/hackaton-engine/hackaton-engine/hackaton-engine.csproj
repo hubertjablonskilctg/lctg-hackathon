@@ -200,6 +200,7 @@
     <Content Include="app.css" />
     <Content Include="bootstrap-datetimepicker.min.css" />
     <Content Include="comments.html" />
+    <Content Include="commentsPart.html" />
     <Content Include="images\accessories-dark.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -365,6 +366,7 @@
     <Content Include="login.html" />
     <Content Include="preferences.html" />
     <Content Include="results.html" />
+    <Content Include="scripts\comments.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="scripts\preferences.js" />

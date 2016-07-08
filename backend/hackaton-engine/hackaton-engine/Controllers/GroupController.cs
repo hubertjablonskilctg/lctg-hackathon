@@ -301,7 +301,7 @@ namespace hackaton_engine.Controllers
             group.Comments.Add(new Tuple<string, DateTime, string>(user.Email, now, comment));
             _groupRepository.Update(group.Id, group);
 
-            return Ok(now);
+            return Ok(group);
         }
     }
 }
