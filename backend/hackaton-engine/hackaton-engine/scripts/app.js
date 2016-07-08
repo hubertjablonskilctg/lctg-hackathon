@@ -25,7 +25,7 @@ angular.module('groupTripApp', [])
                       localStorage.setItem("groupId", data.Id);
                       localStorage.setItem("userId", data.UserIds[0]);
                       localStorage.setItem("userEmail", ctrl.email);
-                      $window.location.href = '/timelines.html';
+                      $window.location.href = '/preferences.html';
                   },
                   error: function (data) {
                       console.log(data);
