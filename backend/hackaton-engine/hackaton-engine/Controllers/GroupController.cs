@@ -260,5 +260,19 @@ namespace hackaton_engine.Controllers
 
             return Ok(group);
         }
+
+        [Route("PostComment")]
+        public IHttpActionResult PostComment([FromUri] int groupId, [FromUri] int userId, [FromBody] string comment)
+        {
+            var group = _groupRepository.Get(groupId);
+            var user = _userRepository.Get(userId);
+
+            var now = DateTime.Now;
+
+            group.Comments.Add(new Tuple<string, DateTime, string>(user.Email, now, comment));
+            _groupRepository.Update(group.Id, group);
+
+            return Ok(now);
+        }
     }
 }
