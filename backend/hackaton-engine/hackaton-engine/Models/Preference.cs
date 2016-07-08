@@ -39,7 +39,7 @@ namespace hackaton_engine.Models
             MustHaves = new MustHaves[0];
 
             PriceRange = new Tuple<double, double>(0,0);
-            DateRange = new Tuple<DateTime, DateTime>(DateTime.Now.Date, DateTime.Now.Date.AddDays(14));
+            DateRange = new Tuple<DateTime, DateTime>(DateTime.Now.Date.AddDays(14), DateTime.Now.Date.AddDays(28));
         }
 
         public Tags[] Tags
