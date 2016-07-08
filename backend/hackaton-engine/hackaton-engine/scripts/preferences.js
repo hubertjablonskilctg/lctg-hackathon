@@ -78,7 +78,7 @@ angular.module('groupTripApp', [])
 				preferences.DateRange.m_Item2 = ctrl.dateTo;
 				console.log('pref',preferences)
 				$.ajax({
-					url: 'http://localhost/takeoff2016/api/group/changePreferences/' + 4 + '/' + groupId + '/',
+					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + 4 + '/' + groupId + '/',
 					type: 'POST',
 					data: JSON.stringify(preferences),
 					contentType: 'application/json; charset=utf-8',
