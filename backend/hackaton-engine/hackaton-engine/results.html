@@ -10,33 +10,37 @@
 
 <body ng-controller="ResultsController as ctrl" ng-init="ctrl.init()">
     <div class="content results-content">
-        <h3>Results:</h3>
+        <div class="row">
+            <div class="col-sm-9"><h4>We found the following hotels which match your criteria:</h4></div>
+            <div class="col-sm-3"><span class="booking-info"><i class="fa fa-phone"></i> Call to book now: <b>(020) 1234 5678</b></span></div>
+        </div>
         <div class="row row-padding" ng-repeat="hotel in ctrl.hotels| orderBy:ctrl.rankHotels">
             <div class="col-sm-3">
                 <img class="hotel-image" ng-src="images/Hotels/{{hotel.Id}}.jpg" />
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <div class="row">
                     <div class="col-sm-12"><h3 class=" without-top-margin">{{hotel.Name}}</h3></div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12"><span class="hotel-address">{{hotel.Address}}</span></div>
                 </div>
-                
+                <br />
+                <div class="row">
+                    <div class="col-sm-12"><span class="badge">Up votes: {{-ctrl.rankHotels(hotel)}}</span></div>
+                </div>
             </div>
             <div class="col-sm-2">
                 <h1 class="without-top-margin price">{{hotel.Price}}£</h1>
             </div>
-            <div class="col-sm-1">
-                <div class="col-sm-12"><h3><i class="fa fa-thumbs-up" ng-class="{selected: ctrl.isSelected(hotel)}" ng-click="ctrl.approveHotel(hotel)"></i></h3></div>
-                <div class="col-sm-12">{{-ctrl.rankHotels(hotel)}}</div>
+            <div class="col-sm-2">
+                <div class="col-sm-12">
+                    <button class="btn btn-info" ng-show="!ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"><i class="fa fa-thumbs-up"></i> I like it</button>
+                    <button class="btn btn-info" ng-show="ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"> Vote added</button>
+                </div>
                 
-            </div>
-        </div>
 
-        <div class="row" id="createTripRow">
-            <div class="col-sm-12 text-center">
-                <button id="createTrip" class="form-control btn btn-primary btn-main">Create Trip</button>
             </div>
-
         </div>
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
