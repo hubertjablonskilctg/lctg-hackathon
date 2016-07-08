@@ -28,6 +28,12 @@ namespace hackaton_engine.Models
     */
     public class Preference
     {
+        public Preference()
+        {
+            PriceRange = new Tuple<double, double>(0,0);
+            DateRange = new Tuple<DateTime, DateTime>(DateTime.Now, DateTime.Now);
+        }
+
         public Tags[] Tags { get; set; }
         public Localizations[] Localizations { get; set; }
         public MustHaves[] MustHaves { get; set; }
