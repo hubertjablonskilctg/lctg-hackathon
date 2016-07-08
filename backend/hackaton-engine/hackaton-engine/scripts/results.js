@@ -22,19 +22,11 @@ angular.module('groupTripApp', [])
               url: "http://takeoff2016-krkteam.azurewebsites.net/api/group/" + groupId,
               type: 'GET',
               contentType: 'application/json; charset=utf-8'
-          }).then(function (data) {
-              $scope.$apply(() => {
-                  ctrl.group = data;
-                  for (var key in ctrl.group.UserHotelUpVotes) {
-                      var value = ctrl.group.UserHotelUpVotes[key];
-                      for (var i = 0; i < value.length; ++i) {
-                          addRankToHotel(value[i]);
-                      }
-                  }
+          })
+              .then(handleGroup)
+              .fail(function (data) {
+                  console.log(data);
               });
-          }).fail(function (data) {
-              console.log(data);
-          });
       }
 
       ctrl.approveHotel = function (hotel) {
@@ -44,17 +36,7 @@ angular.module('groupTripApp', [])
               ctrl.group.UserHotelUpVotes = {};
 
           var index = $.inArray(hotelId, ctrl.group.UserHotelUpVotes[userId]);
-          if (index > -1) {
-              ctrl.group.UserHotelUpVotes[userId].splice(index, 1);
-              removeRankFromHotel()
-              hotel["isApproved"] = true;
-          } else {
-              if (!ctrl.group.UserHotelUpVotes[userId])
-                  ctrl.group.UserHotelUpVotes[userId] = [];
-              ctrl.group.UserHotelUpVotes[userId].push(hotelId);
-              addRankToHotel(hotelId);
-              hotel["isApproved"] = false;
-          }
+          upVoteHotel(hotelId, index === -1);
       }
 
       var addRankToHotel = function (hotelId) {
@@ -65,6 +47,30 @@ angular.module('groupTripApp', [])
 
       var removeRankFromHotel = function (hotelId) {
           hotelsOrder[hotelId]--;
+      }
+
+      var handleGroup = function (data) {
+          $scope.$apply(() => {
+              ctrl.group = data;
+              for (var key in ctrl.group.UserHotelUpVotes) {
+                  var value = ctrl.group.UserHotelUpVotes[key];
+                  for (var i = 0; i < value.length; ++i) {
+                      addRankToHotel(value[i]);
+                  }
+              }
+          });
+      }
+
+      var upVoteHotel = function (hotelId, upVote) {
+          $.ajax({
+              url: 'http://localhost:62200/api/group/upvotehotel/' + userId + '/' + groupId + '/' + hotelId + "/" + upVote,
+              type: 'GET',
+              contentType: 'application/json; charset=utf-8'
+          })
+              .then(handleGroup)
+              .fail(function (data) {
+                  console.log(data);
+              });
       }
 
       ctrl.rankHotels = function (hotel) {
