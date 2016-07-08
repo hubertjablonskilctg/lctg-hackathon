@@ -9,14 +9,14 @@
         var groupId = 1;
 
         var postComment = function(groupId, userId, comment, callback) {
-            $.post('http://localhost/takeoff2016/api/group/PostComment?groupId=' + groupId + '&userId=' + userId, '=' + comment, function (s) {
+            $.post('http://takeoff2016-krkteam.azurewebsites.net/api/group/PostComment?groupId=' + groupId + '&userId=' + userId, '=' + comment, function (s) {
                 console.log(s);
                 if (callback != null) callback();
             });
         }
 
         $(function() {
-            $.get('http://localhost/takeoff2016/api/group/' + groupId, function(data) {
+            $.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function (data) {
                 console.log(data);
                 var mappedComments = data.Comments.map(function(c) {
                     return c.m_Item1 + ' [' + c.m_Item2 + "]: " + c.m_Item3;
