@@ -167,7 +167,11 @@ namespace hackaton_engine.Controllers
             try
             {
                 Tags selectedTag = ParseEnum<Tags>(preferenceName);
-                if (group.UserPreferences[userId].Tags.Contains(selectedTag))
+                if (group.UserPreferences[userId].Tags == null)
+                {
+                    group.UserPreferences[userId].Tags = new[] { selectedTag };
+                }
+                else if (group.UserPreferences[userId].Tags.Contains(selectedTag))
                 {
                     group.UserPreferences[userId].Tags =
                         group.UserPreferences[userId].Tags.Except(new[] { selectedTag }).ToArray();
@@ -186,7 +190,11 @@ namespace hackaton_engine.Controllers
             try
             {
                 Localizations selectedTag = ParseEnum<Localizations>(preferenceName);
-                if (group.UserPreferences[userId].Localizations.Contains(selectedTag))
+                if (group.UserPreferences[userId].Localizations == null)
+                {
+                    group.UserPreferences[userId].Localizations = new[] { selectedTag };
+                }
+                else if (group.UserPreferences[userId].Localizations.Contains(selectedTag))
                 {
                     group.UserPreferences[userId].Localizations =
                         group.UserPreferences[userId].Localizations.Except(new[] { selectedTag }).ToArray();
@@ -205,7 +213,11 @@ namespace hackaton_engine.Controllers
             try
             {
                 MustHaves selectedTag = ParseEnum<MustHaves>(preferenceName);
-                if (group.UserPreferences[userId].MustHaves.Contains(selectedTag))
+                if (group.UserPreferences[userId].MustHaves == null)
+                {
+                    group.UserPreferences[userId].MustHaves = new[] { selectedTag };
+                }
+                else if (group.UserPreferences[userId].MustHaves.Contains(selectedTag))
                 {
                     group.UserPreferences[userId].MustHaves =
                         group.UserPreferences[userId].MustHaves.Except(new[] { selectedTag }).ToArray();
