@@ -4,28 +4,24 @@ angular.module('groupTripApp', [])
 
       var groupId = localStorage.getItem("groupId");
 
-      ctrl.loadChartData = $.ajax({
+      $.ajax({
           url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId,
           type: 'GET',
-          data: JSON.stringify([1]),
           contentType: 'application/json; charset=utf-8',
           success: function (data) {
               ctrl.selectedDates = [];
-              ctrl.selectedDates.push(['Who', 'From', 'To']);
-
               angular.forEach(data.Users, function (user) {
                   if (data.UserPreferences[user.Id] && data.UserPreferences[user.Id].DateRange) {
-                      ctrl.selectedDates.push([user.Email, new Date(data.UserPreferences[user.Id].DateRange.m_Item1), new Date(data.UserPreferences[user.Id].DateRange.m_Item2)]);
+                      ctrl.selectedDates.push([moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD'), moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD'),user.Email, 'user']);
                   }
               });
+			  ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
               drawChart();
-
           },
           error: function (data) {
               console.log(data);
           }
-      }
-     )
+		});
 
       ctrl.addPreferences = function () {
           var groupId = localStorage.getItem("groupId");
@@ -62,8 +58,6 @@ angular.module('groupTripApp', [])
               contentType: 'application/json; charset=utf-8',
               success: function (data) {
                   var userPreferences = data.UserPreferences;
-
-                  console.log(data);
                   ctrl.addNewDate();
 
               },
@@ -73,11 +67,6 @@ angular.module('groupTripApp', [])
           }
          )
       }
-
-      google.charts.load('current', { 'packages': ['timeline'] });
-      google.charts.setOnLoadCallback(function () {
-          setTimeout(ctrl.loadChartData, 2000);
-      });
 
       $('#fromDate').datetimepicker({
           format: 'YYYY-MM-DD',
@@ -93,13 +82,6 @@ angular.module('groupTripApp', [])
           $('#fromDate').data("DateTimePicker").maxDate(e.date);
       });
 
-      ctrl.selectedDates = [['Who', 'From', 'To'],
-      ['Bob', new Date(2016, 4, 29), new Date(2016, 5, 8)],
-      ['Mike', new Date(2016, 4, 27), new Date(2016, 5, 14)],
-      ['Frank', new Date(2016, 5, 1), new Date(2016, 5, 10)],
-      ['Michelle', new Date(2016, 4, 25), new Date(2016, 5, 7)]];
-
-      ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
       ctrl.datesSelected = false;
 
       ctrl.addNewDate = function () {
@@ -126,39 +108,57 @@ angular.module('groupTripApp', [])
           drawChart();
       };
 
+	  function getMinValue() {
+		  var dataTable = ctrl.selectedDates;
+		  var min = dataTable[0][0];
+		  for(var i=0;i<dataTable.length-1;i++) {
+			  if(dataTable[i+1]) {
+				  var min1 = moment(min);
+                  var min2 = moment(dataTable[i + 1][0]);
+				  var duration1 = moment.duration(min1.diff(min2, 'days', true));
+                  var days1 = duration1.asDays();
+				  if(days1>0)
+					  min = dataTable[i][0];
+			  }
+		  }
+		  return moment(min).subtract(2,'days').format('YYYY/MM/DD');
+	  }
+	  
+	  function getMaxValue() {
+		  var dataTable = ctrl.selectedDates;
+		  var max = dataTable[0][1];
+		  for(var i=0;i<dataTable.length-1;i++) {
+			  if(dataTable[i+1]) {
+				  var max1 = moment(max);
+                  var max2 = moment(dataTable[i + 1][1]);
+				  var duration1 = moment.duration(max1.diff(max2, 'days', true));
+                  var days1 = duration1.asDays();
+				  if(days1<0)
+					  max = dataTable[i][1];
+			  }
+		  }
+		  return moment(max).add(2,'days').format('YYYY/MM/DD');
+	  }
+
       function drawChart() {
           var numRows = ctrl.selectedDates.length;
-          var numCols = ctrl.selectedDates[0].length;
-          if (numRows > 1) {
-
-              var container = document.getElementById('timeline');
-              var chart = new google.visualization.Timeline(container);
-              var dataTable = new google.visualization.DataTable();
-              if (numRows > 2) {
+          if (numRows > 0) {
+              if (numRows > 1) {
                   ctrl.selectedDates.push(findCommonRange());
               }
-
-              dataTable.addColumn('string', ctrl.selectedDates[0][0]);
-
-              for (var i = 1; i < numCols; i++)
-                  dataTable.addColumn('date', ctrl.selectedDates[0][i]);
-
-              for (var i = 1; i < numRows; i++)
-                  dataTable.addRow(ctrl.selectedDates[i]);
-
-              chart.draw(dataTable, { height: (numRows + 1) * 38 });
+			new Timesheet('timeline', getMinValue(), getMaxValue(), ctrl.selectedDates);  
           }
       }
 
       function checkIfAllDatesOverlaps() {
           var numRows = ctrl.selectedDates.length;
           var doesntOverlaps = 0;
-          for (var i = 1; i < numRows; i++) {
+          for (var i = 0; i < numRows; i++) {
               if (ctrl.selectedDates[i + 1]) {
-                  var start1 = moment(ctrl.selectedDates[i][1]);
-                  var end1 = moment(ctrl.selectedDates[i][2])
-                  var start2 = moment(ctrl.selectedDates[i + 1][1]);
-                  var end2 = moment(ctrl.selectedDates[i + 1][2])
+                  var start1 = moment(ctrl.selectedDates[i][0]);
+                  var end1 = moment(ctrl.selectedDates[i][1])
+                  var start2 = moment(ctrl.selectedDates[i + 1][0]);
+                  var end2 = moment(ctrl.selectedDates[i + 1][1])
                   var duration1 = moment.duration(start1.diff(end2, 'days', true));
                   var days1 = duration1.asDays();
                   var duration2 = moment.duration(start2.diff(end1, 'days', true));
@@ -173,30 +173,24 @@ angular.module('groupTripApp', [])
 
       function findCommonRange() {
           var numRows = ctrl.selectedDates.length;
-          var startDate = ctrl.selectedDates[1][1];
-          var endDate = ctrl.selectedDates[1][1];
-          for (var i = 1; i < numRows; i++) {
+          var startDate = ctrl.selectedDates[0][0];
+          var endDate = ctrl.selectedDates[0][1];
+          for (var i = 0; i < numRows; i++) {
               if (ctrl.selectedDates[i + 1]) {
-                  var start1 = moment(ctrl.selectedDates[i][1]);
-                  var start2 = moment(ctrl.selectedDates[i + 1][1]);
+                  var start1 = moment(startDate);
+                  var start2 = moment(ctrl.selectedDates[i + 1][0]);
                   var duration1 = moment.duration(start1.diff(start2, 'days', true));
                   var days1 = duration1.asDays();
                   if (days1 < 0)
-                      startDate = start2;
-                  var end1 = moment(ctrl.selectedDates[i][2]);
-                  var end2 = moment(ctrl.selectedDates[i + 1][2]);
+                      startDate = start2.format('YYYY/MM/DD');
+                  var end1 = moment(endDate);
+                  var end2 = moment(ctrl.selectedDates[i + 1][1]);
                   var duration2 = moment.duration(end1.diff(end2, 'days', true));
                   var days2 = duration2.asDays();
                   if (days2 > 0)
-                      endDate = end2;
+                      endDate = end2.format('YYYY/MM/DD');
               }
           }
-          var duration = moment.duration(endDate.diff(startDate)).asDays();
-          if (duration < 7) {
-
-          } else {
-
-          }
-          return ['Common daterange', new Date(startDate), new Date(endDate)];
+          return [startDate, endDate,'Common daterange', 'common'];
       }
   })
