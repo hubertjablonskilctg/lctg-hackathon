@@ -18,11 +18,11 @@ angular.module('groupTripApp', [])
                       localStorage.setItem("userEmail", data.User.Email);
                       $window.location.href = '/preferences.html';
                   } else {
-                      allert("Wrong email. Dont try to cheat me!!");
+                      alert("Incorrect login credentials. Please try again later.");
                   }
               },
               error: function (data) {
-                  console.log(data);
+                  alert("Incorrect login credentials. Please try again later.");
               }
           })
       }
