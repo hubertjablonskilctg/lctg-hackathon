@@ -22,14 +22,14 @@
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">From</span>
-                    <input type="text" class="form-control"/>
+                    <span class="input-group-addon">From</span>
+                    <input type="text" class="form-control" id="budget-from"/>
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">To</span>
-                    <input type="text" class="form-control"/>
+                    <span class="input-group-addon">To</span>
+                    <input type="text" class="form-control" id="budget-to"/>
                 </div>
             </div>
             <br clear="left"/>
@@ -38,14 +38,14 @@
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">From</span>
-                    <input type="date" class="form-control"/>
+                    <span class="input-group-addon">From</span>
+                    <input type="date" class="form-control" id="date-from"/>
                 </div>
             </div>
             <div class="col-xs-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">To</span>
-                    <input type="date" class="form-control"/>
+                    <span class="input-group-addon">To</span>
+                    <input type="date" class="form-control" id="date-to"/>
                 </div>
             </div>
         </div>
@@ -91,12 +91,6 @@
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
         <script>
             $(function () {
-                var chosenElements = {
-                    tags: [],
-                    localization: [],
-                    musthaves: []
-                };
-
                 var groupId = localStorage.getItem("groupId");
                 var userId = localStorage.getItem("userId");
 
@@ -105,31 +99,80 @@
                 groupId = 1;
                 userId = 1;
 
+                $('#next-page').click(function () {
+                    console.log('next page');
+                    var savePreferences = function() {
+                        // what's to be sent in preferences?
+                        // tags are already sent, so
+                        // * budget
+                        // * date range
+
+                        var budgetFrom = $('#budget-from').val();
+                        var budgetTo = $('#budget-to').val();
+
+                        var dateFrom = $('#date-from').val();
+                        var dateTo = $('#date-to').val();
+
+                        var postPreferences = function (userId, groupId) {
+                            console.log('posting');
+                            $.get('http://localhost/takeoff2016/api/group/' + groupId, function(data) {
+                                //console.log(data);
+
+                                // TODO userid zahardkodowane
+                                var preferences = data.UserPreferences[2];
+                                console.log(preferences);
+                                preferences.DateRange.m_Item1 = dateFrom;
+                                preferences.DateRange.m_Item2 = dateTo;
+
+                                preferences.PriceRange.m_Item1 = budgetFrom;
+                                preferences.PriceRange.m_Item2 = budgetTo;
+                                console.log(preferences);
+
+                                $.ajax({
+                                    url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/',
+                                    type: 'POST',
+                                    data: preferences,
+                                    contentType: 'application/json; charset=utf-8',
+                                    // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+                                    success: function(data) {
+                                        // console.log(data);
+                                        // console.log('success');
+                                    },
+                                    error: function(data) {
+                                        // console.log(data);
+                                        // console.log('error');
+                                    }
+                                });
+                            });
+                        }
+
+                        postPreferences(userId, groupId);
+                    }
+
+                    savePreferences();
+                });
+
                 var highlightAssignedInDatabase = function (userId, groupId) {
                     $.get('http://localhost/takeoff2016/api/group/' + groupId + '/',
                         // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
                         function (data) {
-                            console.log(data);
+                            // console.log(data);
 
                             var userPreferences = data.UserPreferences[userId];
                             var localizations = userPreferences.Localizations;
                             var tags = userPreferences.Tags;
                             var mustHaves = userPreferences.MustHaves;
 
-                            console.log(localizations);
-                            console.log(tags);
-                            console.log(mustHaves);
-
-                            for (var i = 0; i < localizations.length; i++) {
+                            for (var i = 0; localizations != null && i < localizations.length; i++) {
                                 $('p#' + localizations[i]).addClass('active');
                                 // console.log('p#' + localizations[i]);
                             }
 
-                            for (var i = 0; i < tags.length; i++) {
+                            for (var i = 0; tags != null && i < tags.length; i++) {
                                 $('p#' + tags[i]).addClass('active');
                             }
 
-                            for (var i = 0; i < mustHaves.length; i++) {
+                            for (var i = 0; mustHaves != null && i < mustHaves.length; i++) {
                                 $('p#' + mustHaves[i]).addClass('active');
                                 console.log('p#' + mustHaves[i]);
                             }
@@ -156,12 +199,12 @@
                             url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/' + selectedName + '/',
                             // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
                             success: function (data) {
-                                console.log(data);
-                                console.log('success');
+                                // console.log(data);
+                                // console.log('success');
                             },
                             error: function (data) {
-                                console.log(data);
-                                console.log('error');
+                                // console.log(data);
+                                // console.log('error');
                             }
                         });
                     }
@@ -176,7 +219,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="scripts/app.js"></script>
-        <div>Next page</div>
+        <div id="next-page">Next page</div>
     </div>
 </body>
 </html>
