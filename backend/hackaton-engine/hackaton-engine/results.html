@@ -29,10 +29,19 @@
                 <div class="row">
                     <div class="col-sm-12"><span class="hotel-address">{{hotel.Address}}</span></div>
                 </div>
-                <br />
                 <div class="row">
                     <div class="col-sm-12">
-                        <span class="badge" ng-repeat="tag in hotel.Tags">{{tag}}</span>
+                        Tags: <span class="badge" ng-repeat="tag in hotel.Tags">{{tag}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        Must Have: <span class="badge must-have-badge" ng-repeat="mh in hotel.MustHaves">{{mh}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        Hotel Score: <span class="badge search-score-badge">{{hotel.SearchScore}}</span>
                     </div>
                 </div>
             </div>

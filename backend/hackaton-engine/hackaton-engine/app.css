@@ -24,6 +24,10 @@ body{
     margin-right: 5px;
 }
 
+.badgeSelect{
+    margin-right: 5px;
+}
+
 .paddingLeft{
     padding-left: 10px;
 }
@@ -171,13 +175,21 @@ body{
 }
 
 .badgeSelect.active {
-	background-color: #286090;
+	background-color: green;
 	box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.75);
 }
 
 
 .badgeSelect .fa {
 	margin-top: 15px;
+}
+
+.must-have-badge{
+    background-color: rgb(58, 186, 61)!important;
+}
+
+.search-score-badge{
+    background-color: rgb(219, 151, 30)!important;
 }
 
 .badgeSelect .flag img {
