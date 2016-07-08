@@ -399,6 +399,10 @@
     </Content>
     <Content Include="index.html" />
     <Content Include="map.js" />
+    <Content Include="scripts\slider\bootstrap-slider.js" />
+    <Content Include="scripts\slider\bootstrap-slider.min.js" />
+    <Content Include="scripts\slider\css\bootstrap-slider.css" />
+    <Content Include="scripts\slider\css\bootstrap-slider.min.css" />
     <Content Include="scripts\timeline.js" />
     <Content Include="scripts\timesheet.js" />
     <Content Include="tagCloud.html" />

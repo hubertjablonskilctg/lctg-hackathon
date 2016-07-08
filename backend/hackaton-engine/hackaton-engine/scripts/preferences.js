@@ -1,4 +1,4 @@
-angular.module('groupTripApp', [])
+﻿angular.module('groupTripApp', [])
   .controller('PreferencesController', function ($scope, $window) {
 		var ctrl = this;
 		var groupId = localStorage.getItem("groupId");
@@ -68,13 +68,12 @@ angular.module('groupTripApp', [])
 		ctrl.savePreferences = function() {
 			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
 				
-				// TODO userid zahardkodowane
 				var preferences = data.UserPreferences[userId];
 				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
 				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
 				
-				preferences.PriceRange.m_Item1 = $('#budget-from').val();
-				preferences.PriceRange.m_Item2 = $('#budget-to').val();
+				preferences.PriceRange.m_Item1 = $('#budgetFrom').text();
+				preferences.PriceRange.m_Item2 = $('#budgetTo').text();
 				
 				console.log('pref',preferences)
 				$.ajax({
@@ -97,13 +96,12 @@ angular.module('groupTripApp', [])
 		ctrl.showHotels = function () {
 			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
 				
-				// TODO userid zahardkodowane
 				var preferences = data.UserPreferences[userId];
 				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
 				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
 				
-				preferences.PriceRange.m_Item1 = $('#budget-from').val();
-				preferences.PriceRange.m_Item2 = $('#budget-to').val();
+				preferences.PriceRange.m_Item1 = $('#budgetFrom').text();
+				preferences.PriceRange.m_Item2 = $('#budgetTo').text();
 				
 				$.ajax({
 					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
@@ -137,6 +135,17 @@ angular.module('groupTripApp', [])
 			  $("#date-to").on("dp.change", function (e) {
 				  $('#date-from').data("DateTimePicker").maxDate(e.date);
 			  });
+
+			  var slideChange = function (val) {
+			      $("#budgetFrom").text(val.value[0]);
+			      $("#budgetTo").text(val.value[1]);
+			  };
+
+			  $('#sliderinput').slider({
+			      formatter: function (value) {
+			          return value;
+			      },
+			  }).on('slideStop', slideChange).data('slider');
 		  });
 
 		$('.badgeSelect').click(function () {

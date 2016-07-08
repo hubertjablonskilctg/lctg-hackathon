@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="timesheet.min.css">
     <link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="scripts/slider/css/bootstrap-slider.css">
 </head>
 
 <body ng-controller="PreferencesController as ctrl" ng-cloak>
@@ -48,19 +49,11 @@
             <div class="col-xs-2">
                 <b>Your budget:</b>
             </div>
-            <div class="col-xs-4">
-                <div class="input-group">
-                    <span class="input-group-addon">From</span>
-                    <input type="text" class="form-control" id="budget-from" />
+            <div class="col-xs-10">
+                <div class="slider-input">
+                    <span id="budgetFrom">0</span><span class="paddingRight">£</span> <input id="sliderinput" data-slider-id='sliderinput' data-slider-value="[0,1000]" type="text" data-slider-min="0" data-slider-max="1000" data-slider-step="10" /> <span id="budgetTo" class="paddingLeft">1000</span>£
                 </div>
             </div>
-            <div class="col-xs-4">
-                <div class="input-group">
-                    <span class="input-group-addon">To</span>
-                    <input type="text" class="form-control" id="budget-to" />
-                </div>
-            </div>
-            <br clear="left"/>
 		</div>
         <br clear="left" />
         <div class="row light-background rom-margin row-padding">
@@ -113,6 +106,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
+        <script src="scripts/slider/bootstrap-slider.min.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/preferences.js"></script>
     </div>

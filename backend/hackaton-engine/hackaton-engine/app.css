@@ -16,6 +16,14 @@ body{
     text-align: center;
 }
 
+.paddingRight{
+    padding-right: 10px;
+}
+
+.paddingLeft{
+    padding-left: 10px;
+}
+
 .content{
     padding: 20px;
     width: 95%;
