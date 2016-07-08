@@ -95,7 +95,8 @@ namespace hackaton_engine.Controllers
                 {
                     Id = _groupRepository.GetHighestId() + 1,
                     AdminUserId = userIds.First(),
-                    UserIds = userIds.ToArray()
+                    UserIds = userIds.ToArray(),
+                    UserPreferences = userIds.ToDictionary(uid => uid, uid => new Preference())
                 };
 
                 _groupRepository.Add(group);
@@ -105,7 +106,10 @@ namespace hackaton_engine.Controllers
             {
                 group = _groupRepository.Get(groupId.Value);
                 group.UserIds = group.UserIds.Concat(userIds).Distinct().ToArray();
-
+                foreach (var userId in userIds)
+                {
+                    group.UserPreferences[userId] = new Preference();
+                }
                 _groupRepository.Update(groupId.Value, group);
             }
 
