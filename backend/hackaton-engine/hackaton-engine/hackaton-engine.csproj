@@ -366,6 +366,7 @@
     <Content Include="results.html" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="scripts\preferences.js" />
     <Content Include="scripts\results.js" />
     <Content Include="scripts\app.js" />
     <Content Include="Global.asax" />
@@ -396,6 +397,7 @@
     <Content Include="index.html" />
     <Content Include="map.js" />
     <Content Include="scripts\timeline.js" />
+    <Content Include="scripts\timesheet.js" />
     <Content Include="timelines.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
