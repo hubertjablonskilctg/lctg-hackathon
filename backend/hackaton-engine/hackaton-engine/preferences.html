@@ -1,14 +1,16 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="groupTripApp">
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="timesheet.min.css">
+	<link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
 </head>
 
-<body>
+<body ng-controller="PreferencesController as ctrl" ng-cloak>
     <div class="content">
         <div class="row">
             <!--<div class="col-xs-2">
@@ -88,137 +90,14 @@
                 <p class="badgeSelect" id="Vegetarian"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-        <script>
-            $(function () {
-                var groupId = localStorage.getItem("groupId");
-                var userId = localStorage.getItem("userId");
-
-                // TODO
-                // assume they're there
-                groupId = 1;
-                userId = 1;
-
-                $('#next-page').click(function () {
-                    console.log('next page');
-                    var savePreferences = function() {
-                        // what's to be sent in preferences?
-                        // tags are already sent, so
-                        // * budget
-                        // * date range
-
-                        var budgetFrom = $('#budget-from').val();
-                        var budgetTo = $('#budget-to').val();
-
-                        var dateFrom = $('#date-from').val();
-                        var dateTo = $('#date-to').val();
-
-                        var postPreferences = function (userId, groupId) {
-                            console.log('posting');
-                            $.get('http://localhost/takeoff2016/api/group/' + groupId, function(data) {
-                                //console.log(data);
-
-                                // TODO userid zahardkodowane
-                                var preferences = data.UserPreferences[2];
-                                console.log(preferences);
-                                preferences.DateRange.m_Item1 = dateFrom;
-                                preferences.DateRange.m_Item2 = dateTo;
-
-                                preferences.PriceRange.m_Item1 = budgetFrom;
-                                preferences.PriceRange.m_Item2 = budgetTo;
-                                console.log(preferences);
-
-                                $.ajax({
-                                    url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/',
-                                    type: 'POST',
-                                    data: preferences,
-                                    contentType: 'application/json; charset=utf-8',
-                                    // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
-                                    success: function(data) {
-                                        // console.log(data);
-                                        // console.log('success');
-                                    },
-                                    error: function(data) {
-                                        // console.log(data);
-                                        // console.log('error');
-                                    }
-                                });
-                            });
-                        }
-
-                        postPreferences(userId, groupId);
-                    }
-
-                    savePreferences();
-                });
-
-                var highlightAssignedInDatabase = function (userId, groupId) {
-                    $.get('http://localhost/takeoff2016/api/group/' + groupId + '/',
-                        // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
-                        function (data) {
-                            // console.log(data);
-
-                            var userPreferences = data.UserPreferences[userId];
-                            var localizations = userPreferences.Localizations;
-                            var tags = userPreferences.Tags;
-                            var mustHaves = userPreferences.MustHaves;
-
-                            for (var i = 0; localizations != null && i < localizations.length; i++) {
-                                $('p#' + localizations[i]).addClass('active');
-                                // console.log('p#' + localizations[i]);
-                            }
-
-                            for (var i = 0; tags != null && i < tags.length; i++) {
-                                $('p#' + tags[i]).addClass('active');
-                            }
-
-                            for (var i = 0; mustHaves != null && i < mustHaves.length; i++) {
-                                $('p#' + mustHaves[i]).addClass('active');
-                                console.log('p#' + mustHaves[i]);
-                            }
-                        }
-                    );
-                }
-
-                highlightAssignedInDatabase(userId, groupId);
-
-                $('.badgeSelect').click(function () {
-                    // highlight badge
-                    if ($(this).hasClass('active')) {
-                        $(this).removeClass('active');
-                    } else {
-                        $(this).addClass('active');
-                    }
-                    // /highglight badge
-
-                    // save selection
-                    var selectedName = $(this).attr('id');
-
-                    var postSelection = function (userId, groupId, selectedName) {
-                        $.ajax({
-                            url: 'http://localhost/takeoff2016/api/group/changePreferences/' + userId + '/' + groupId + '/' + selectedName + '/',
-                            // url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
-                            success: function (data) {
-                                // console.log(data);
-                                // console.log('success');
-                            },
-                            error: function (data) {
-                                // console.log(data);
-                                // console.log('error');
-                            }
-                        });
-                    }
-
-                    postSelection(userId, groupId, selectedName);
-                    // /save selection
-                });
-            });
-
-        </script>
-
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+		<script type="text/javascript" src="scripts/timesheet.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+		<script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
         <script src="scripts/app.js"></script>
+		<script src="scripts/preferences.js"></script>
         <div id="next-page">Next page</div>
     </div>
 </body>
