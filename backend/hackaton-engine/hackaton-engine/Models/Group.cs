@@ -13,12 +13,12 @@ namespace hackaton_engine.Models
         private Dictionary<int, Preference> _userPreferences = new Dictionary<int, Preference>();
         private Dictionary<int, int[]> _userHotelUpVotes = new Dictionary<int, int[]>();
         private int[] _userIds = new int[0];
+        private IList<Tuple<string, DateTime, string>> _comments = new List<Tuple<string, DateTime, string>>();
 
         public Group()
         {
             CurrentTripPreparationStage = TripPreparationStages.GatherPreferences;
             IsPublic = false;
-            Comments = new List<Tuple<int, DateTime, string>>();
         }
 
         public int AdminUserId { get; set; }
@@ -58,8 +58,12 @@ namespace hackaton_engine.Models
 
         public TripPreparationStages CurrentTripPreparationStage { get; set; }
 
-        //userId, DateTime.Now, comment
-        public IList<Tuple<int, DateTime, string>> Comments { get; set; }
+        //username, creation date, comment
+        public IList<Tuple<string, DateTime, string>> Comments
+        {
+            get { return _comments; }
+            set { _comments = value; }
+        }
 
         public bool IsPublic { get; set; }
     }
