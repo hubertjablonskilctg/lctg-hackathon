@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html ng-app="groupTripApp">
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="images/fav/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/fav/apple-touch-icon-60x60.png">
+    <link rel="icon" type="image/png" href="images/fav/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="images/fav/favicon-16x16.png" sizes="16x16">
+</head>
+
+<body ng-controller="LoginController as ctrl" ng-cloak>
+ <div class="logo_small"><img src="images/krk1.png" /></div>
+    <div class="logo"><img src="images/trip~connector.png"/></div>
+    
+<div class="text-center">
+        <h3 class="main">Join existing team</h3>
+        <div class="max400px centered">
+
+            <div class="row row-padding">
+                <div class="col-sm-12">
+                    <input class="form-control" placeholder="Email" ng-model="ctrl.email" />
+                </div>
+            </div>
+            <div class="row row-padding">
+                <div class="col-sm-12">
+                    <input class="form-control" placeholder="Password" type="password" />
+                </div>
+            </div>
+            <br />
+            <button class="form-control btn btn-primary btn-large" ng-click="ctrl.loginUser()">Login</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="scripts/login.js"></script>
+</body>
+</html>

@@ -360,8 +360,10 @@
     <Content Include="images\trip~connector.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="login.html" />
     <Content Include="preferences.html" />
     <Content Include="results.html" />
+    <Content Include="scripts\login.js" />
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="scripts\results.js" />
     <Content Include="scripts\app.js" />

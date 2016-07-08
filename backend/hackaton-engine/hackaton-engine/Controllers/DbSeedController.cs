@@ -293,7 +293,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {},
                         Localizations = new Localizations[] {Localizations.Poland, Localizations.France, },
                         PriceRange = new Tuple<double,double>(100,500),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,7,1), new DateTime(2016,7,30))
                     } },
                     { 2,new Preference()
                     {
@@ -301,7 +301,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {},
                         Localizations = new Localizations[] {Localizations.Germany, Localizations.France, },
                         PriceRange = new Tuple<double,double>(100,500),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,7,15), new DateTime(2016,8,15))
                     } }
                 }
             });
@@ -323,7 +323,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {},
                         Localizations = new Localizations[] {Localizations.Poland, Localizations.Italy, },
                         PriceRange = new Tuple<double,double>(400,800),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,8,10), new DateTime(2016,9,10))
                     } },
                     { 3,new Preference()
                     {
@@ -331,7 +331,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {MustHaves.ChildFriendly, },
                         Localizations = new Localizations[] {Localizations.Poland, Localizations.France, },
                         PriceRange = new Tuple<double,double>(400,800),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,8,20), new DateTime(2016,9,1))
                     } }
                 }
             });
@@ -356,7 +356,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {},
                         Localizations = new Localizations[] {Localizations.United_Kingdom, Localizations.Italy, },
                         PriceRange = new Tuple<double,double>(600,800),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,7,1), new DateTime(2016,9,1))
                     } },
                     { 4,new Preference()
                     {
@@ -364,7 +364,7 @@ namespace hackaton_engine.Controllers
                         MustHaves = new MustHaves[] {MustHaves.ChildFriendly, },
                         Localizations = new Localizations[] {Localizations.United_Kingdom, Localizations.France, },
                         PriceRange = new Tuple<double,double>(600,800),
-                        DateRange = new Tuple<DateTime, DateTime>(DateTime.MinValue, DateTime.MaxValue)
+                        DateRange = new Tuple<DateTime, DateTime>(new DateTime(2016,8,1), new DateTime(2016,9,1))
                     } }
                 }
             });
