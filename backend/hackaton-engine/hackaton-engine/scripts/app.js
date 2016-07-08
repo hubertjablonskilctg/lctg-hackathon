@@ -2,7 +2,7 @@ angular.module('groupTripApp', [])
   .controller('MainController', function ($window) {
       var ctrl = this;
       ctrl.email = "";
-      
+
       ctrl.tripMembers = [];
 
       ctrl.addMember = function () {
@@ -16,20 +16,20 @@ angular.module('groupTripApp', [])
       };
 
       ctrl.createTrip = function () {
-              $.ajax({
-                  url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/addUsers',
-                  type: 'POST',
-                  data: JSON.stringify(ctrl.tripMembers),
-                  contentType: 'application/json; charset=utf-8',
-                  success: function (data) {
-                      localStorage.setItem("groupId", data.Id);
-                      localStorage.setItem("userId", data.UserIds[0]);
-                      localStorage.setItem("userEmail", ctrl.email);
-                      $window.location.href = '/preferences.html';
-                  },
-                  error: function (data) {
-                      console.log(data);
-                  }
-              })
+          $.ajax({
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/addUsers',
+              type: 'POST',
+              data: JSON.stringify(ctrl.tripMembers),
+              contentType: 'application/json; charset=utf-8',
+              success: function (data) {
+                  localStorage.setItem("groupId", data.Id);
+                  localStorage.setItem("userId", data.UserIds[0]);
+                  localStorage.setItem("userEmail", ctrl.tripMembers.length > 0 ? ctrl.tripMembers[0] : ctrl.email);
+                  $window.location.href = '/preferences.html';
+              },
+              error: function (data) {
+                  console.log(data);
               }
-      });
+          })
+      }
+  });
