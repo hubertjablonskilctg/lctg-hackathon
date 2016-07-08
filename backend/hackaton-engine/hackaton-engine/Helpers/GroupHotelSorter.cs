@@ -81,7 +81,7 @@ namespace hackaton_engine.Helpers
                 Localizations = preference1.Localizations.Concat(preference2.Localizations).Distinct().ToArray(),
                 MustHaves = preference1.MustHaves.Concat(preference2.MustHaves).Distinct().ToArray(),
                 PriceRange = new Tuple<double, double>(
-                    Math.Min(preference1.PriceRange.Item1, preference2.PriceRange.Item1),
+                    Math.Max(preference1.PriceRange.Item1, preference2.PriceRange.Item1),
                     Math.Min(preference1.PriceRange.Item2, preference2.PriceRange.Item2)),
                 Tags = preference1.Tags.Concat(preference2.Tags).Distinct().ToArray()
             };
