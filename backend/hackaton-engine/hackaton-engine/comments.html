@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+        var userId = 1;
+        var groupId = 1;
+
+        $(function() {
+            var comments;
+            $.get('http://localhost/takeoff2016/api/group/' + groupId, function(data) {
+                console.log(data);
+                var mappedComments = data.Comments.map(function(c) {
+                    return c.m_Item1 + ' [' + c.m_Item2 + "]: " + c.m_Item3;
+                });
+
+                var formattedComments = mappedComments.reduce(function(previous, current) {
+                    return previous + "\n" + current;
+                });
+
+                $('#comments').text(formattedComments);
+            });
+        });
+    </script>
+</head>
+<body>
+<pre>
+    <div id="comments"></div>
+</pre>
+</body>
+</html>
