@@ -21,7 +21,8 @@ namespace hackaton_engine.Helpers
             List<Preference> preferences = group.UserPreferences.Values.ToList();
             if (preferences.Count < 1)
             {
-                throw new Exception("Group " + groupId + " has no preferences");
+                //throw new Exception("Group " + groupId + " has no preferences");
+                return IocConfig.GetKernel().Get<MongoRepository<Hotel>>().GetAll();
             }
 
             Preference joinedPreference = JoinPreferences(preferences);
