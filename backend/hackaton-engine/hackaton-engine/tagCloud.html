@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <link rel="stylesheet" href="scripts/external/jqcloud.css" />
+    <script type="text/javascript" src="scripts/external/jqcloud.js"></script>
+    <script type="text/javascript">
+        var userId = 1;
+        var groupId = 1;
+
+        var preferencesAndWeights = {};
+
+        $(function () {
+            $.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function (data) {
+                //console.log(data);
+
+                var allTags = [];
+                Object.keys(data.UserPreferences).forEach(function(key,index) {
+                    var current = data.UserPreferences[key];
+                    if(current == null) return;
+                    allTags = allTags.concat(current.Tags);
+                    allTags = allTags.concat(current.Localizations);
+                });
+
+                var results = {};
+                for (var i = 0; i < allTags.length; i++){
+                    if (allTags[i] in results){
+                        results[allTags[i]]++;
+                    }
+                    else{
+                        results[allTags[i]] = 1;
+                    }
+                }
+
+                var jqCloudResults = [];
+                var resultKeys = Object.keys(results);
+                for (var i = 0; i < resultKeys.length; i++) {
+                    // console.log('text', resultKeys[i]);
+                    // console.log('results', results[resultKeys[i]]);
+
+                    var tmp = { text: resultKeys[i], weight: results[resultKeys[i]] };
+                    jqCloudResults.push(tmp);
+                }
+
+                $('#demo').jQCloud(jqCloudResults, {
+                    width: 500,
+                    height: 500
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="demo"></div>
+</body>
+</html>

@@ -365,6 +365,8 @@
     <Content Include="login.html" />
     <Content Include="preferences.html" />
     <Content Include="results.html" />
+    <Content Include="scripts\external\jqcloud.css" />
+    <Content Include="scripts\external\jqcloud.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="scripts\preferences.js" />
@@ -399,6 +401,7 @@
     <Content Include="map.js" />
     <Content Include="scripts\timeline.js" />
     <Content Include="scripts\timesheet.js" />
+    <Content Include="tagCloud.html" />
     <Content Include="timelines.html" />
     <Content Include="timesheet.min.css" />
     <Content Include="Web.config" />
