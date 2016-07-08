@@ -2,6 +2,7 @@
 using System.Linq;
 using Common.Mongo;
 using Common.Mongo.Repositories;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace hackaton_engine.Models
 {
@@ -16,6 +17,10 @@ namespace hackaton_engine.Models
         public Tags[] Tags { get; set; }
         public Localizations Localization { get; set; }
         public MustHaves[] MustHaves { get; set; }
+
+        // used only for search results
+        [BsonIgnore]
+        public double SearchScore { get; set; }
 
         public IEnumerable<User> UsersWhoUpvoted { get; set; }
 

@@ -1,4 +1,4 @@
-angular.module('groupTripApp', [])
+﻿angular.module('groupTripApp', [])
   .controller('PreferencesController', function ($scope, $window) {
 		var ctrl = this;
 		var groupId = localStorage.getItem("groupId");
@@ -23,7 +23,7 @@ angular.module('groupTripApp', [])
 			var localizations = userPreferences.Localizations;
 			var tags = userPreferences.Tags;
 			var mustHaves = userPreferences.MustHaves;
-			
+			console.log(data)
 			ctrl.selectedDates = [];
 			angular.forEach(data.Users, function (user) {
 			  if (data.UserPreferences && data.UserPreferences[user.Id]) {
@@ -37,7 +37,7 @@ angular.module('groupTripApp', [])
 			  }
 
 			});
-			ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
+			ctrl.timelinesOverlapping = false; //checkIfAllDatesOverlaps();
 			drawChart();				
 
 			for (var i = 0; localizations != null && i < localizations.length; i++) {
@@ -68,10 +68,13 @@ angular.module('groupTripApp', [])
 		ctrl.savePreferences = function() {
 			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
 				
-				// TODO userid zahardkodowane
 				var preferences = data.UserPreferences[userId];
 				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
 				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
+				
+				preferences.PriceRange.m_Item1 = $('#budgetFrom').text();
+				preferences.PriceRange.m_Item2 = $('#budgetTo').text();
+				
 				console.log('pref',preferences)
 				$.ajax({
 					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
@@ -91,7 +94,30 @@ angular.module('groupTripApp', [])
 		}
 
 		ctrl.showHotels = function () {
-		    $window.location.href = '/results.html';
+			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
+				
+				var preferences = data.UserPreferences[userId];
+				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
+				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
+				
+				preferences.PriceRange.m_Item1 = $('#budgetFrom').text();
+				preferences.PriceRange.m_Item2 = $('#budgetTo').text();
+				
+				$.ajax({
+					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+					type: 'POST',
+					data: JSON.stringify(preferences),
+					contentType: 'application/json; charset=utf-8',
+					success: function(data) {
+						$window.location.href = '/results.html';
+					},
+					error: function(data) {
+						console.log(data);
+						console.log('error');
+					}
+				});
+			});
+		    
 		}
 		
 		//has to wait for DOM
@@ -109,32 +135,18 @@ angular.module('groupTripApp', [])
 			  $("#date-to").on("dp.change", function (e) {
 				  $('#date-from').data("DateTimePicker").maxDate(e.date);
 			  });
+
+			  var slideChange = function (val) {
+			      $("#budgetFrom").text(val.value[0]);
+			      $("#budgetTo").text(val.value[1]);
+			  };
+
+			  $('#sliderinput').slider({
+			      formatter: function (value) {
+			          return value;
+			      },
+			  }).on('slideStop', slideChange).data('slider');
 		  });
-
-		$('#next-page').click(function () {
-			console.log('next page');
-			var savePreferences = function() {
-				// what's to be sent in preferences?
-				// tags are already sent, so
-				// * budget
-				// * date range
-
-				var budgetFrom = $('#budget-from').val();
-				var budgetTo = $('#budget-to').val();
-
-				var dateFrom = $('#date-from').val();
-				var dateTo = $('#date-to').val();
-
-				var postPreferences = function (userId, groupId) {
-					console.log('posting');
-					
-				}
-
-				postPreferences(userId, groupId);
-			}
-
-			savePreferences();
-		});
 
 		$('.badgeSelect').click(function () {
 			// highlight badge
