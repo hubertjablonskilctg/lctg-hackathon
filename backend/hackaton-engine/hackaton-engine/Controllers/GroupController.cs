@@ -32,7 +32,7 @@ namespace hackaton_engine.Controllers
 
         [HttpGet]
         [Route("{groupId}/hotelvotes")]
-        public IHttpActionResult GetDHotelVotes(int groupId)
+        public IHttpActionResult GetHotelVotes(int groupId)
         {
             var group = _groupRepository.Get(groupId);
             var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(groupId);

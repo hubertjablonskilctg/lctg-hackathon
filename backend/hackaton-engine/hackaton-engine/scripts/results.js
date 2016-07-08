@@ -1,13 +1,75 @@
-$(document).ready(function () {
-    $.ajax({
-        url: "http://takeoff2016-krkteam.azurewebsites.net/api/group/0/hotels"
-    }).then(function (data) {
-        data.forEach(function (entry) {
-            console.log(entry);
-        });
-    }).fail(function (data) {
-        alert('fail');
-    });
+angular.module('groupTripApp', [])
+  .controller('ResultsController', function ($scope) {
+      ctrl = this;
+      var userId = 2;
+      var groupId = 3; //localStorage.getItem("groupId");
 
+      var hotelsOrder = {};
+      ctrl.init = function () {
+          $.ajax({
+              url: "http://takeoff2016-krkteam.azurewebsites.net/api/group/" + groupId + "/hotelvotes",
+              type: 'GET',
+              contentType: 'application/json; charset=utf-8'
+          }).then(function (data) {
+              $scope.$apply(() => {
+                  ctrl.hotels = data;
+              });
+          }).fail(function (data) {
+              console.log(data);
+          });
 
-});
+          $.ajax({
+              url: "http://takeoff2016-krkteam.azurewebsites.net/api/group/" + groupId,
+              type: 'GET',
+              contentType: 'application/json; charset=utf-8'
+          }).then(function (data) {
+              $scope.$apply(() => {
+                  ctrl.group = data;
+                  for (var key in ctrl.group.UserHotelUpVotes) {
+                      var value = ctrl.group.UserHotelUpVotes[key];
+                      for (var i = 0; i < value.length; ++i) {
+                          addRankToHotel(value[i]);
+                      }
+                  }
+              });
+          }).fail(function (data) {
+              console.log(data);
+          });
+      }
+
+      ctrl.approveHotel = function (hotelId) {
+          //ctrl.groups.UserPreferences[userId]
+          if (!ctrl.group.UserHotelUpVotes)
+              ctrl.group.UserHotelUpVotes = {};
+
+          var index = $.inArray(hotelId, ctrl.group.UserHotelUpVotes[userId]);
+          if (index > -1) {
+              ctrl.group.UserHotelUpVotes[userId].splice(index, 1);
+              removeRankFromHotel()
+              hotel.isApproved = true;
+          } else {
+              if (!ctrl.group.UserHotelUpVotes[userId])
+                  ctrl.group.UserHotelUpVotes[userId] = [];
+              ctrl.group.UserHotelUpVotes[userId].push(hotelId);
+              addRankToHotel(hotelId);
+              hotel.isApproved = false;
+          }
+      }
+
+      var addRankToHotel = function (hotelId) {
+          if (!hotelsOrder[hotelId])
+              hotelsOrder[hotelId] = 0;
+          hotelsOrder[hotelId]++;
+      }
+
+      var removeRankFromHotel = function (hotelId) {
+          hotelsOrder[hotelId]--;
+      }
+
+      ctrl.rankHotels = function (hotel) {
+          if (hotelsOrder[hotelId])
+              return hotelsOrder[hotelId];
+          else
+              return 0;
+      }
+  })
