@@ -32,9 +32,7 @@
       var bubble = this.createBubble(widthDay, this.year.min, cur.start, cur.end);
 
       var line = [
-        '<p style="margin-left: ' + bubble.getStartOffset() + 'px; width: ' + bubble.getWidth() + 'px;" class="bubble bubble-' + (cur.type || 'default') + '" data-duration="' + (cur.end ? Math.round((cur.end-cur.start)/1000/60/60/24/39) : '') + '" title="'+bubble.getDateLabel()+'"></p>',
-        '<span class="date">' + bubble.getDateLabel() + '</span>',
-        '<span class="label">' + cur.label + '</span>'
+        '<p style="margin-left: ' + bubble.getStartOffset() + 'px; width: ' + bubble.getWidth() + 'px;" class="bubble bubble-' + (cur.type || 'default') + '" data-duration="' + (cur.end ? Math.round((cur.end-cur.start)/1000/60/60/24/39) : '') + '" title="'+bubble.getDateLabel()+'"><span class="date">' + bubble.getDateLabel() + '</span><span class="label">' + cur.label + '</span></p>',
       ].join('');
 
       html.push('<li>' + line + '</li>');
@@ -50,7 +48,9 @@
     var html = [];
 	var times = moment.duration(moment(this.year.max).diff(moment(this.year.min))).asDays();
 	for(var c=0; c<times;c++) {
-      html.push('<section style="width: '+(100/times)+'%;">' + moment(this.year.max).add(c,'days').format('YYYY/MM/DD') + '</section>');
+		var dateScale = (c%7 == 2) ? moment(this.year.max).add(c,'days').format('YYYY/MM/DD') : '';
+		var scaleClass = (dateScale) ? 'timescale' : ''; 
+      html.push('<section style="width: '+(100/times)+'%;" class="'+scaleClass+'"><span>' + dateScale  + '</span></section>');
     }
 
     this.container.className = 'timesheet color-scheme-default';
@@ -78,7 +78,6 @@
    */
   Timesheet.prototype.parse = function(data) {
     for (var n = 0, m = data.length; n<m; n++) {
-		console.log(data[n])
       var beg = this.parseDate(data[n][0]);
       var end = data[n].length === 4 ? this.parseDate(data[n][1]) : null;
       var lbl = data[n].length === 4 ? data[n][2] : data[n][1];
@@ -151,7 +150,7 @@
    * Get bubble's width in pixel
    */
   Bubble.prototype.getWidth = function() {
-    return (this.widthDay) * this.getDays();
+    return (this.widthDay) * this.getDays()+4;
   };
 
   /**

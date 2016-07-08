@@ -11,21 +11,24 @@
 <body ng-controller="ResultsController as ctrl" ng-init="ctrl.init()">
     <div class="content results-content">
         <h3>Results:</h3>
-        <div class="row" ng-repeat="hotel in ctrl.hotels| orderBy:ctrl.rankHotels">
+        <div class="row row-padding" ng-repeat="hotel in ctrl.hotels| orderBy:ctrl.rankHotels">
             <div class="col-sm-3">
-                <img ng-src="images/Hotels/{{hotel.Id}}.jpg" />
+                <img class="hotel-image" ng-src="images/Hotels/{{hotel.Id}}.jpg" />
             </div>
-            <div class="col-sm-3">
-                <h3>{{hotel.Name}}</h3>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12"><h3 class=" without-top-margin">{{hotel.Name}}</h3></div>
+                    <div class="col-sm-12"><span class="hotel-address">{{hotel.Address}}</span></div>
+                </div>
+                
             </div>
             <div class="col-sm-2">
-                <h3>{{hotel.Price}}</h3>
-            </div>
-            <div class="col-sm-3">
-                <h3>{{hotel.Address}}</h3>
+                <h1 class="without-top-margin price">{{hotel.Price}}£</h1>
             </div>
             <div class="col-sm-1">
-                <h3><i class="fa fa-thumbs-up" ng-click="ctrl.approveHotel(hotel)"></i></h3>
+                <div class="col-sm-12"><h3><i class="fa fa-thumbs-up" ng-class="{selected: ctrl.isSelected(hotel)}" ng-click="ctrl.approveHotel(hotel)"></i></h3></div>
+                <div class="col-sm-12">{{-ctrl.rankHotels(hotel)}}</div>
+                
             </div>
         </div>
 

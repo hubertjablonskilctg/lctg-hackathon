@@ -39,6 +39,11 @@ angular.module('groupTripApp', [])
           upVoteHotel(hotelId, index === -1);
       }
 
+      ctrl.isSelected = function (hotel) {
+          var index = $.inArray(hotel.Id, ctrl.group.UserHotelUpVotes[userId]);
+          return index > -1;
+      }
+
       var addRankToHotel = function (hotelId) {
           if (!hotelsOrder[hotelId])
               hotelsOrder[hotelId] = 0;
@@ -51,6 +56,7 @@ angular.module('groupTripApp', [])
 
       var handleGroup = function (data) {
           $scope.$apply(() => {
+              hotelsOrder = {};
               ctrl.group = data;
               for (var key in ctrl.group.UserHotelUpVotes) {
                   var value = ctrl.group.UserHotelUpVotes[key];
@@ -63,7 +69,7 @@ angular.module('groupTripApp', [])
 
       var upVoteHotel = function (hotelId, upVote) {
           $.ajax({
-              url: 'http://localhost:62200/api/group/upvotehotel/' + userId + '/' + groupId + '/' + hotelId + "/" + upVote,
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/upvotehotel/' + userId + '/' + groupId + '/' + hotelId + "/" + upVote,
               type: 'GET',
               contentType: 'application/json; charset=utf-8'
           })
