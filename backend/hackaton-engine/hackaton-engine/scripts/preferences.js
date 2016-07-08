@@ -173,6 +173,8 @@
 						// console.log('error');
 					}
 				});
+
+			    return false;
 			}
 
 			postSelection(userId, groupId, selectedName);
