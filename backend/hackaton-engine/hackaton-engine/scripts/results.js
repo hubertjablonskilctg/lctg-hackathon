@@ -1,8 +1,8 @@
 angular.module('groupTripApp', [])
   .controller('ResultsController', function ($scope) {
       ctrl = this;
-      var userId = 2;
-      var groupId = 3; //localStorage.getItem("groupId");
+      var userId = localStorage.getItem("userId");
+      var groupId = localStorage.getItem("groupId");
 
       var hotelsOrder = {};
       ctrl.init = function () {
