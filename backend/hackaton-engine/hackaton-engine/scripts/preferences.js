@@ -3,6 +3,7 @@
 		var ctrl = this;
 		var groupId = localStorage.getItem("groupId");
 		var userId = localStorage.getItem("userId");
+		ctrl.userEmail = localStorage.getItem("userEmail");
 
 		
 		//get initial data

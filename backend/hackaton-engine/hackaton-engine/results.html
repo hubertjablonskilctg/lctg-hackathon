@@ -9,9 +9,10 @@
 </head>
 
 <body ng-controller="ResultsController as ctrl" ng-init="ctrl.init()">
+    <div class="logo_small"><img src="images/krk1.png" /></div>
     <div class="content-alpha">
         <div class="row">
-            <div class="col-sm-3"></div>
+            <div class="col-sm-3"><span class="user-info">{{ctrl.userEmail?'Welcome, '+ctrl.userEmail:''}}</span></div>
             <div class="col-sm-6"></div>
             <div class="col-sm-3"><span class="booking-info"><i class="fa fa-phone"></i> Call to book now: <b>(020) 1234 5678</b></span></div>
         </div>

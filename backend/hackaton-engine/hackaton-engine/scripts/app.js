@@ -2,7 +2,7 @@ angular.module('groupTripApp', [])
   .controller('MainController', function ($window) {
       var ctrl = this;
       ctrl.email = "";
-
+      
       ctrl.tripMembers = [];
 
       ctrl.addMember = function () {

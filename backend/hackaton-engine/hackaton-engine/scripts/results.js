@@ -3,6 +3,7 @@ angular.module('groupTripApp', [])
       ctrl = this;
       var userId = localStorage.getItem("userId");
       var groupId = localStorage.getItem("groupId");
+      ctrl.userEmail = localStorage.getItem("userEmail");
 
       var hotelsOrder = {};
       ctrl.init = function () {
