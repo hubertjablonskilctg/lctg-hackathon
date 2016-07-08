@@ -232,6 +232,7 @@
 				if(current == null) return;
 				allTags = allTags.concat(current.Tags);
 				allTags = allTags.concat(current.Localizations);
+				allTags = allTags.concat(current.MustHaves);
 			});
 
 			var results = {};
@@ -243,27 +244,26 @@
 					results[allTags[i]] = 1;
 				}
 			}
-
 			var jqCloudResults = [];
 			var resultKeys = Object.keys(results);
 			for (var i = 0; i < resultKeys.length; i++) {
 				// console.log('text', resultKeys[i]);
 				// console.log('results', results[resultKeys[i]]);
-
 				var tmp = { text: resultKeys[i], weight: results[resultKeys[i]] };
 				jqCloudResults.push(tmp);
 			}
-			ctrl.tagCloudResults = jqCloudResults.length;
+			ctrl.tagCloudResults = (jqCloudResults.length-1 > 0) ? true : false;
 
-			if(!tagsAlready) {
-				$('#tagCloud').jQCloud(jqCloudResults, {
-					width: 600,
-					height: 150,
-					colors: ["#ffffff"]
-				});
-			} else {
-				$('#tagCloud').html('')
-				$('#tagCloud').jQCloud('update', jqCloudResults);
+			if(ctrl.tagCloudResults) {
+				if(tagsAlready == '') {
+					$('#tagCloud').jQCloud(jqCloudResults, {
+						width: 600,
+						height: 150,
+						colors: ["#ffffff"]
+					});
+				} else {
+					$('#tagCloud').jQCloud('update', jqCloudResults);
+				}
 			}
 	  }
 
