@@ -18,12 +18,29 @@
     <div class="logo"><img src="images/trip~connector.png"/></div>
     
 <div class="text-center">
-        <h1 class="main">Welcome</h1>
-        <div class="max300px centered">
+        <h3 class="main">Invite your co-travellers to plan together with you</h3>
+        <div class="max400px centered">
 
-            <input class="form-control" placeholder="Type Your Email" ng-model="ctrl.email" />
+            <div class="row row-padding">
+                <div class="col-sm-9">
+                    <input class="form-control" placeholder="Member Email" ng-model="ctrl.email" />
+                </div>
+                <div class="col-sm-3">
+                    <button class="form-control btn btn-primary" ng-click="ctrl.addMember()">Add</button>
+                </div>
+
+            </div>
+            <div ng-repeat="member in ctrl.tripMembers">
+                <div class="row row-padding row-user">
+                    <div class="col-sm-10">{{member}}</div>
+                    <div class="col-sm-2"><i class="fa fa-close" ng-click="ctrl.removeMember(member)"></i></div>
+                </div>
+            </div>
+            
             <br />
-            <button class="form-control btn btn-primary btn-large" ng-click="ctrl.createTrip()">Create Trip</button>
+            <button class="form-control btn btn-primary btn-large" ng-show="ctrl.tripMembers.length" ng-click="ctrl.createTrip()">Create Trip</button>
+
+
         </div>
     </div>
 

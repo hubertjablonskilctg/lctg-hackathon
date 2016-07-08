@@ -27,12 +27,17 @@ body{
     background: rgba(255, 255, 255, 0.8);
 }
 
-h1.main{
-    font-size: 500%;
+.main{
     color: #fff;
     margin-top: 100px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.row-user {
+    color: white;
+    text-align: left;
+    font-size: 200%;
 }
 
 .max300px {
