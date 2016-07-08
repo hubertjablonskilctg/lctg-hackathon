@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="timesheet.min.css">
     <link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" href="scripts/slider/css/bootstrap-slider.css">
+	<link rel="stylesheet" href="scripts/external/jqcloud.css" />
 </head>
 
 <body ng-controller="PreferencesController as ctrl" ng-cloak>
@@ -91,10 +92,19 @@
             </div>
             <div class="col-xs-10" data-group="musthaves">
                 <p class="badgeSelect" id="WheelchairAccessible"><span class="fa fa-wheelchair fa-4x"></span><span>Disability</span></p>
-                <p class="badgeSelect" id="ChildFriendly"><span class="fa fa-child fa-4x"></span><span>Childs</span></p>
+                <p class="badgeSelect" id="ChildFriendly"><span class="fa fa-child fa-4x"></span><span>Children</span></p>
                 <p class="badgeSelect" id="Vegetarian"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
             </div>
         </div>
+		<br />
+		<div ng-show="ctrl.tagCloudResults" class="row dark-background rom-margin row-padding">
+			<div class="col-xs-2">
+				<b>Your group's choices:</b>
+			</div>
+			<div class="col-xs-10">
+				<div id="tagCloud"></div>
+			</div>
+		</div>
         <br />
         <div class="max400px centered">
             <a class="form-control btn btn-primary btn-large" ng-click="ctrl.showHotels()">Show Hotels</a>
@@ -102,6 +112,7 @@
 
         <script type="text/javascript" src="scripts/timesheet.js"></script>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="scripts/external/jqcloud.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>

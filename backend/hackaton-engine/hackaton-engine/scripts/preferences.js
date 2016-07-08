@@ -11,6 +11,7 @@
 		  type: 'GET',
 		  contentType: 'application/json; charset=utf-8',
           success: function (data) {
+			  console.log(data)
 				refreshData(data)
           },
           error: function (data) {
@@ -23,7 +24,6 @@
 			var localizations = userPreferences.Localizations;
 			var tags = userPreferences.Tags;
 			var mustHaves = userPreferences.MustHaves;
-			console.log(data)
 			ctrl.selectedDates = [];
 			angular.forEach(data.Users, function (user) {
 			  if (data.UserPreferences && data.UserPreferences[user.Id]) {
@@ -39,7 +39,7 @@
 			});
 			ctrl.timelinesOverlapping = false; //checkIfAllDatesOverlaps();
 			drawChart();				
-
+			createTagCloud(data);
 			for (var i = 0; localizations != null && i < localizations.length; i++) {
 				$('p#' + localizations[i]).addClass('active');
 				// console.log('p#' + localizations[i]);
@@ -208,7 +208,6 @@
 					  max = dataTable[i+1][1];
 			  }
 		  }
-		  console.log(max)
 		  return moment(max).add(2,'days').format('YYYY/MM/DD');
 	  }
 
@@ -221,6 +220,44 @@
 			new Timesheet('timeline', getMinValue(), getMaxValue(), ctrl.selectedDates);  
           }
       }
+	  
+	  function createTagCloud (data) {
+		  var allTags = [];
+			Object.keys(data.UserPreferences).forEach(function(key,index) {
+				var current = data.UserPreferences[key];
+				if(current == null) return;
+				allTags = allTags.concat(current.Tags);
+				allTags = allTags.concat(current.Localizations);
+			});
+
+			var results = {};
+			for (var i = 0; i < allTags.length; i++){
+				if (allTags[i] in results){
+					results[allTags[i]]++;
+				}
+				else{
+					results[allTags[i]] = 1;
+				}
+			}
+
+			var jqCloudResults = [];
+			var resultKeys = Object.keys(results);
+			for (var i = 0; i < resultKeys.length; i++) {
+				// console.log('text', resultKeys[i]);
+				// console.log('results', results[resultKeys[i]]);
+
+				var tmp = { text: resultKeys[i], weight: results[resultKeys[i]] };
+				jqCloudResults.push(tmp);
+			}
+			
+			ctrl.tagCloudResults = jqCloudResults.length;
+
+			$('#tagCloud').jQCloud(jqCloudResults, {
+				width: 200,
+				height: 200,
+				colors: ["#ffffff"]
+			});
+	  }
 
       function checkIfAllDatesOverlaps() {
           var numRows = ctrl.selectedDates.length;

@@ -43,6 +43,14 @@ body{
     background: rgba(255, 255, 255, 0.8);
 }
 
+.dark-background {
+	background: rgba(25, 25, 25, 0.8);
+}
+
+.dark-background b {
+	color: #fff;
+}
+
 .content-alpha{
     padding: 20px;
     width: 95%;
