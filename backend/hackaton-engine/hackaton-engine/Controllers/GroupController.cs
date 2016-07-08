@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Mvc;
 using Common.Mongo.Repositories;
 using hackaton_engine.Helpers;
 using hackaton_engine.Models;
