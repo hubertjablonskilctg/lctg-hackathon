@@ -44,6 +44,16 @@
                         Hotel Score: <span class="badge search-score-badge">{{hotel.SearchScore}}</span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        Star Rating: 
+                        <span class="fa fa-star" ng-if="hotel.Rating == 0"></span>
+                        <span class="fa fa-star" ng-if="hotel.Rating > 0"></span>
+                        <span class="fa fa-star" ng-if="hotel.Rating > 1"></span>
+                        <span class="fa fa-star" ng-if="hotel.Rating > 2"></span>
+                        <span class="fa fa-star" ng-if="hotel.Rating > 3"></span>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-2">
                 <h1 class="without-top-margin price">{{hotel.Price}}£</h1>

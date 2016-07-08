@@ -38,7 +38,7 @@ namespace hackaton_engine.Models
             Localizations = new Localizations[0];
             MustHaves = new MustHaves[0];
 
-            PriceRange = new Tuple<double, double>(0,0);
+            PriceRange = new Tuple<double, double>(0, 1000);
             DateRange = new Tuple<DateTime, DateTime>(DateTime.Now.Date.AddDays(14), DateTime.Now.Date.AddDays(28));
         }
 

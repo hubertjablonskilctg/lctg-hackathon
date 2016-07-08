@@ -188,6 +188,10 @@ body{
     background-color: rgb(58, 186, 61)!important;
 }
 
+.fa-star {
+    color: rgb(255, 156, 0);
+}
+
 .search-score-badge{
     background-color: rgb(219, 151, 30)!important;
 }
