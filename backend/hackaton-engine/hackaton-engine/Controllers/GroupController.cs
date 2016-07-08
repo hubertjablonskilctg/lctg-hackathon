@@ -38,8 +38,13 @@ namespace hackaton_engine.Controllers
         {
             try
             {
-                var group = _groupRepository.Get(groupId);
                 var preferencedHotels = GroupHotelSorter.GetHotelsByGroupPreferences(groupId);
+                var group = _groupRepository.Get(groupId);
+
+                if (group == null)
+                {
+                    return Json<IEnumerable<Hotel>>(preferencedHotels);
+                }
 
                 var hotelIdUpVotes = group.UserHotelUpVotes.SelectMany(x => x.Value);
                 var hotels = preferencedHotels.OrderByDescending(h => hotelIdUpVotes.Count(hid => hid == h.Id));
