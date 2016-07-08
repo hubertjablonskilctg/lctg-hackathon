@@ -68,29 +68,27 @@ angular.module('groupTripApp', [])
          )
       }
 
-      $('#fromDate').datetimepicker({
-          format: 'YYYY-MM-DD',
-      });
-      $('#toDate').datetimepicker({
-          useCurrent: false,
-          format: 'YYYY-MM-DD',
-      });
-      $("#fromDate").on("dp.change", function (e) {
-          $('#toDate').data("DateTimePicker").minDate(e.date);
-      });
-      $("#toDate").on("dp.change", function (e) {
-          $('#fromDate').data("DateTimePicker").maxDate(e.date);
-      });
+	  //has to wait for DOM
+	  $(document).ready( function() {
+		  $('#fromDate').datetimepicker({
+			  format: 'YYYY/MM/DD',
+		  });
+		  $('#toDate').datetimepicker({
+			  useCurrent: false,
+			  format: 'YYYY/MM/DD',
+		  });
+		  $("#fromDate").on("dp.change", function (e) {
+			  $('#toDate').data("DateTimePicker").minDate(e.date);
+		  });
+		  $("#toDate").on("dp.change", function (e) {
+			  $('#fromDate').data("DateTimePicker").maxDate(e.date);
+		  });
+	  });
 
       ctrl.datesSelected = false;
 
       ctrl.addNewDate = function () {
           ctrl.selectedDates.pop();
-          ctrl.selectedDates.push([
-              'Rob',
-              new Date(moment($('#fromDate').val(), 'YYYY-MM-DD').format('YYYY-MM-DD')),
-              new Date(moment($('#toDate').val(), 'YYYY-MM-DD').format('YYYY-MM-DD'))
-          ]);
           if (!checkIfAllDatesOverlaps()) {
               ctrl.selectedDates.pop();
               ctrl.timelinesOverlapping = false;

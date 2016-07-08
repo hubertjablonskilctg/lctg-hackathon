@@ -61,6 +61,29 @@ body{
     max-width: 500px;
 }
 
+.hotel-image{
+    width: 220px;
+}
+
+.without-top-margin {
+    margin-top: 0px;
+}
+
+.price {
+}
+
+.selected {
+    color: rgb(52, 222, 26);
+}
+
+.fa-hands-up:hover{
+    color: #222;
+}
+
+.hotel-address {
+    color: #222;
+}
+
 .row-padding {
     padding-top: 10px;
     padding-bottom: 10px;
