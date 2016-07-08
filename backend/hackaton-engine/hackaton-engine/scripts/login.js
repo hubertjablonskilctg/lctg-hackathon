@@ -13,9 +13,13 @@ angular.module('groupTripApp', [])
               success: function (data) {
                   if (data.Groups && data.Groups.length > 0)
                       localStorage.setItem("groupId", data.Groups[0].Id);
-                  localStorage.setItem("userId", data.User.Id);
-                  localStorage.setItem("userEmail", ctrl.User.Email);
-                  $window.location.href = '/timelines.html';
+                  if (data.User) {
+                      localStorage.setItem("userId", data.User.Id);
+                      localStorage.setItem("userEmail", data.User.Email);
+                      $window.location.href = '/preferences.html';
+                  } else {
+                      allert("Wrong email. Dont try to cheat me!!");
+                  }
               },
               error: function (data) {
                   console.log(data);

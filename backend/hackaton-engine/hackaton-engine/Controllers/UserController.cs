@@ -40,7 +40,7 @@ namespace hackaton_engine.Controllers
             {
                 User = user,
                 Groups = groups
-            }.ToJson();
+            };
 
             return Ok(result);
         }
