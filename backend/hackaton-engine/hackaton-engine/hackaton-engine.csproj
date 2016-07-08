@@ -400,6 +400,7 @@
     <Content Include="scripts\timeline.js" />
     <Content Include="scripts\timesheet.js" />
     <Content Include="timelines.html" />
+    <Content Include="timesheet.min.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
