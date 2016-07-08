@@ -8,8 +8,14 @@
         var userId = 1;
         var groupId = 1;
 
+        var postComment = function(groupId, userId, comment, callback) {
+            $.post('http://localhost/takeoff2016/api/group/PostComment?groupId=' + groupId + '&userId=' + userId, '=' + comment, function (s) {
+                console.log(s);
+                if (callback != null) callback();
+            });
+        }
+
         $(function() {
-            var comments;
             $.get('http://localhost/takeoff2016/api/group/' + groupId, function(data) {
                 console.log(data);
                 var mappedComments = data.Comments.map(function(c) {
@@ -22,10 +28,15 @@
 
                 $('#comments').text(formattedComments);
             });
+
+            $('#submit').click(function() {
+                postComment(userId, groupId, $('#comment').val(), function (){location.reload()});
+            });
         });
     </script>
 </head>
 <body>
+    <input id="comment" type="text" /> <button type="button" id="submit">submit</button>
 <pre>
     <div id="comments"></div>
 </pre>
