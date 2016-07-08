@@ -13,7 +13,7 @@
 
     this.parse(data || []);
 
-    if (typeof document !== 'undefined') {
+    if (typeof document !== 'undefined' && container) {
       this.container = (typeof container === 'string') ? document.querySelector('#'+container) : container;
       this.drawSections();
       this.insertData();
@@ -53,8 +53,10 @@
       html.push('<section style="width: '+(100/times)+'%;" class="'+scaleClass+'"><span>' + dateScale  + '</span></section>');
     }
 
-    this.container.className = 'timesheet color-scheme-default';
-    this.container.innerHTML = '<div class="scale">' + html.join('') + '</div>';
+	if(this.container) {
+		this.container.className = 'timesheet color-scheme-default';
+		this.container.innerHTML = '<div class="scale">' + html.join('') + '</div>';
+	}
   };
 
   /**

@@ -15,9 +15,29 @@
         <div class="text-center white-text">
             <div><h3>Choose your preferrences:</h3></div>
         </div>
-
-        <div id="timeline light-background"></div>
-        <div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>
+		<div class="row light-background rom-margin row-padding">
+			<div id="timeline"></div>
+		</div>
+		<br />
+        <!--<div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>-->
+		<div class="row light-background rom-margin row-padding">
+			<div class="col-xs-2"><b>Preferred dates:</b></div>
+			<div class="col-xs-6">
+				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
+					<span class="input-group-addon">From</span>
+					<input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
+					<span class="input-group-addon">To</span>
+					<input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
+				</div>
+				<div class="" ng-show="ctrl.datesSelected">
+					<h4>{{ctrl.datesSelectedValues}}</h4>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
+				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
+			</div>
+		</div>
         <div class="row light-background rom-margin row-padding">
             <!--<div class="col-xs-2">
                 How many people are with you:
@@ -41,24 +61,6 @@
                 </div>
             </div>
             <br clear="left"/>
-		</div>
-		<div class="row light-background rom-margin row-padding">
-			<div class="col-xs-2"><b>Preferred dates:</b></div>
-			<div class="col-xs-6">
-				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
-					<span class="input-group-addon">From</span>
-					<input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
-					<span class="input-group-addon">To</span>
-					<input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
-				</div>
-				<div class="" ng-show="ctrl.datesSelected">
-					<h4>{{ctrl.datesSelectedValues}}</h4>
-				</div>
-			</div>
-			<div class="col-xs-2">
-				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
-				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
-			</div>
 		</div>
         <br clear="left" />
         <div class="row light-background rom-margin row-padding">
