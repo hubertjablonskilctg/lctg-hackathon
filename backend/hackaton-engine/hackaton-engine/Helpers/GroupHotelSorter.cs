@@ -38,11 +38,14 @@ namespace hackaton_engine.Helpers
                     filteredHotels.Where(h => GetFilterExpression(preference)(h)));
             }
 
-            return filteredHotels.OrderByDescending(h =>
-                preferenceMatchedHotels.Count(pmh => pmh.Id == h.Id) +
-                //if have same preference hits take Rating into account (not bigger than 1.0)
-                (double)h.Rating / (double)Enum.GetValues(typeof(HotelRating)).Cast<HotelRating>().Max()
-            );
+            foreach (var hotelToBeScored in filteredHotels)
+            {
+                hotelToBeScored.SearchScore = preferenceMatchedHotels.Count(pmh => pmh.Id == hotelToBeScored.Id) +
+                    //if have same preference hits take Rating into account (not bigger than 1.0)
+                    (double)hotelToBeScored.Rating / ((double)Enum.GetValues(typeof(HotelRating)).Cast<HotelRating>().Max() + 1.0);
+            }
+
+            return filteredHotels.OrderByDescending(h => h.SearchScore);
         }
 
         private static Expression<Func<Hotel, bool>> GetDbFilterExpression(Preference joinedPreference)
