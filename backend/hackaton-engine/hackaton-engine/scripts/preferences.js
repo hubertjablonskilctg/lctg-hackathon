@@ -1,13 +1,9 @@
 angular.module('groupTripApp', [])
-  .controller('PreferencesController', function ($scope) {
+  .controller('PreferencesController', function ($scope, $window) {
 		var ctrl = this;
 		var groupId = localStorage.getItem("groupId");
 		var userId = localStorage.getItem("userId");
 
-		// TODO
-		// assume they're there
-		groupId = 3;
-		userId = 3;
 		
 		//get initial data
 		$.ajax({
@@ -15,76 +11,79 @@ angular.module('groupTripApp', [])
 		  type: 'GET',
 		  contentType: 'application/json; charset=utf-8',
           success: function (data) {
-				var userPreferences = data.UserPreferences[userId];
-				console.log(data.UserPreferences)
-				var localizations = userPreferences.Localizations;
-				var tags = userPreferences.Tags;
-				var mustHaves = userPreferences.MustHaves;
-				
-				ctrl.selectedDates = [];
-				angular.forEach(data.Users, function (user) {
-				  if (userPreferences && userPreferences.DateRange) {
-					  ctrl.selectedDates.push([moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD'), moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD'),user.Email, 'user']);
-					  console.log(user.Id, userId)
-					  if(user.Id == userId) {
-						ctrl.datesSelectedValues = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD') + ' - ' + moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
-						ctrl.dateFrom = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD');
-						ctrl.dateTo = moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
-						ctrl.datesSelected = true;
-					  }
-				  }
-
-				});
-				ctrl.timelinesOverlapping = checkIfAllDatesOverlaps();
-				drawChart();				
-
-				for (var i = 0; localizations != null && i < localizations.length; i++) {
-					$('p#' + localizations[i]).addClass('active');
-					// console.log('p#' + localizations[i]);
-				}
-
-				for (var i = 0; tags != null && i < tags.length; i++) {
-					$('p#' + tags[i]).addClass('active');
-				}
-
-				for (var i = 0; mustHaves != null && i < mustHaves.length; i++) {
-					$('p#' + mustHaves[i]).addClass('active');
-					console.log('p#' + mustHaves[i]);
-				}
-				
-				$scope.$apply(() => {
-				  ctrl = ctrl;
-				});
+				refreshData(data)
           },
           error: function (data) {
               console.log(data);
           }
 		});
 		
+		var refreshData = function(data) {
+			var userPreferences = data.UserPreferences[userId];
+			var localizations = userPreferences.Localizations;
+			var tags = userPreferences.Tags;
+			var mustHaves = userPreferences.MustHaves;
+			console.log(data)
+			ctrl.selectedDates = [];
+			angular.forEach(data.Users, function (user) {
+			  if (data.UserPreferences && data.UserPreferences[user.Id]) {
+				  ctrl.selectedDates.push([moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD'), moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD'),user.Email, 'user']);
+				  if(user.Id == userId) {
+					ctrl.datesSelectedValues = moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD') + ' - ' + moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD');
+					ctrl.dateFrom = moment(data.UserPreferences[user.Id].DateRange.m_Item1).format('YYYY/MM/DD');
+					ctrl.dateTo = moment(data.UserPreferences[user.Id].DateRange.m_Item2).format('YYYY/MM/DD');
+					ctrl.datesSelected = true;
+				  }
+			  }
+
+			});
+			ctrl.timelinesOverlapping = false; //checkIfAllDatesOverlaps();
+			drawChart();				
+
+			for (var i = 0; localizations != null && i < localizations.length; i++) {
+				$('p#' + localizations[i]).addClass('active');
+				// console.log('p#' + localizations[i]);
+			}
+
+			for (var i = 0; tags != null && i < tags.length; i++) {
+				$('p#' + tags[i]).addClass('active');
+			}
+
+			for (var i = 0; mustHaves != null && i < mustHaves.length; i++) {
+				$('p#' + mustHaves[i]).addClass('active');
+				console.log('p#' + mustHaves[i]);
+			}
+			
+			$scope.$apply(() => {
+			  ctrl = ctrl;
+			});
+		}
+		
 		ctrl.editSelectedDates = function() {
 			ctrl.selectedDates.pop();
-			  ctrl.selectedDates.pop();
 			  ctrl.datesSelected = false;
 			  drawChart();
 		}
 		
 		ctrl.savePreferences = function() {
 			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
-				console.log(data);
-
+				
 				// TODO userid zahardkodowane
 				var preferences = data.UserPreferences[userId];
-				preferences.DateRange.m_Item1 = ctrl.dateFrom;
-				preferences.DateRange.m_Item2 = ctrl.dateTo;
+				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
+				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
+				
+				preferences.PriceRange.m_Item1 = $('#budget-from').val();
+				preferences.PriceRange.m_Item2 = $('#budget-to').val();
+				
 				console.log('pref',preferences)
 				$.ajax({
-					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + 4 + '/' + groupId + '/',
+					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
 					type: 'POST',
 					data: JSON.stringify(preferences),
 					contentType: 'application/json; charset=utf-8',
-					// url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
 					success: function(data) {
-						console.log(data);
+						refreshData(data)
 						console.log('success');
 					},
 					error: function(data) {
@@ -93,6 +92,34 @@ angular.module('groupTripApp', [])
 					}
 				});
 			});
+		}
+
+		ctrl.showHotels = function () {
+			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
+				
+				// TODO userid zahardkodowane
+				var preferences = data.UserPreferences[userId];
+				preferences.DateRange.m_Item1 = moment($('#date-from').val()).format()+'Z';
+				preferences.DateRange.m_Item2 = moment($('#date-to').val()).format()+'Z';
+				
+				preferences.PriceRange.m_Item1 = $('#budget-from').val();
+				preferences.PriceRange.m_Item2 = $('#budget-to').val();
+				
+				$.ajax({
+					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+					type: 'POST',
+					data: JSON.stringify(preferences),
+					contentType: 'application/json; charset=utf-8',
+					success: function(data) {
+						$window.location.href = '/results.html';
+					},
+					error: function(data) {
+						console.log(data);
+						console.log('error');
+					}
+				});
+			});
+		    
 		}
 		
 		//has to wait for DOM
@@ -111,31 +138,6 @@ angular.module('groupTripApp', [])
 				  $('#date-from').data("DateTimePicker").maxDate(e.date);
 			  });
 		  });
-
-		$('#next-page').click(function () {
-			console.log('next page');
-			var savePreferences = function() {
-				// what's to be sent in preferences?
-				// tags are already sent, so
-				// * budget
-				// * date range
-
-				var budgetFrom = $('#budget-from').val();
-				var budgetTo = $('#budget-to').val();
-
-				var dateFrom = $('#date-from').val();
-				var dateTo = $('#date-to').val();
-
-				var postPreferences = function (userId, groupId) {
-					console.log('posting');
-					
-				}
-
-				postPreferences(userId, groupId);
-			}
-
-			savePreferences();
-		});
 
 		$('.badgeSelect').click(function () {
 			// highlight badge
@@ -194,9 +196,10 @@ angular.module('groupTripApp', [])
 				  var duration1 = moment.duration(max1.diff(max2, 'days', true));
                   var days1 = duration1.asDays();
 				  if(days1<0)
-					  max = dataTable[i][1];
+					  max = dataTable[i+1][1];
 			  }
 		  }
+		  console.log(max)
 		  return moment(max).add(2,'days').format('YYYY/MM/DD');
 	  }
 
@@ -224,7 +227,6 @@ angular.module('groupTripApp', [])
 					  var days1 = duration1.asDays();
 					  var duration2 = moment.duration(start2.diff(end1, 'days', true));
 					  var days2 = duration2.asDays();
-					  console.log(days1, days2)
 					  if (!(days1 < 0 && days2 < 0)) {
 						  doesntOverlaps++;
 					  }

@@ -6,41 +6,22 @@
     <link rel="stylesheet" href="app.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-	<link rel="stylesheet" href="timesheet.min.css">
-	<link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="timesheet.min.css">
+    <link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
 </head>
 
 <body ng-controller="PreferencesController as ctrl" ng-cloak>
-    <div class="content">
-		<h3>Choose your preferrences:</h3>
-		<div id="timeline"></div>
-		<div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>
-        <div class="row">
-            <!--<div class="col-xs-2">
-                How many people are with you:
-            </div>
-            <div class="col-xs-4 form-group">
-                <input type="text" class="form-control"/>
-            </div>-->
-            <div class="col-xs-2">
-                Your budget:
-            </div>
-            <div class="col-xs-4">
-                <div class="input-group">
-                    <span class="input-group-addon">From</span>
-                    <input type="text" class="form-control" id="budget-from"/>
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <div class="input-group">
-                    <span class="input-group-addon">To</span>
-                    <input type="text" class="form-control" id="budget-to"/>
-                </div>
-            </div>
-            <br clear="left"/>
+    <div class="content-alpha">
+        <div class="text-center white-text">
+            <div><h3>Choose your preferrences:</h3></div>
+        </div>
+		<div class="row light-background rom-margin row-padding">
+			<div id="timeline"></div>
 		</div>
-		<div class="row">
-			<div class="col-xs-2">Preferred dates:</div>
+		<br />
+        <!--<div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>-->
+		<div class="row light-background rom-margin row-padding">
+			<div class="col-xs-2"><b>Preferred dates:</b></div>
 			<div class="col-xs-6">
 				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
 					<span class="input-group-addon">From</span>
@@ -57,10 +38,34 @@
 				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
 			</div>
 		</div>
-        <br clear="left" />
-        <div class="row">
+        <div class="row light-background rom-margin row-padding">
+            <!--<div class="col-xs-2">
+                How many people are with you:
+            </div>
+            <div class="col-xs-4 form-group">
+                <input type="text" class="form-control"/>
+            </div>-->
             <div class="col-xs-2">
-                Interests:
+                <b>Your budget:</b>
+            </div>
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <span class="input-group-addon">From</span>
+                    <input type="text" class="form-control" id="budget-from" />
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <span class="input-group-addon">To</span>
+                    <input type="text" class="form-control" id="budget-to" />
+                </div>
+            </div>
+            <br clear="left"/>
+		</div>
+        <br clear="left" />
+        <div class="row light-background rom-margin row-padding">
+            <div class="col-xs-2">
+                <b>Interests:</b>
             </div>
             <div class="col-xs-10" data-group="tags">
                 <p class="badgeSelect" id="Cities"><span class="fa fa-building-o fa-4x"></span><span>Cities</span></p>
@@ -71,9 +76,10 @@
                 <p class="badgeSelect" id="Nightlife"><span class="fa fa-music fa-4x"></span><span>Nightlife</span></p>
             </div>
         </div>
-        <div class="row">
+        <br />
+        <div class="row light-background rom-margin row-padding">
             <div class="col-xs-2">
-                Preffered locations:
+                <b>Preferred locations:</b>
             </div>
             <div class="col-xs-10" data-group="localization">
                 <p class="badgeSelect" id="Spain"><span class="flag"><img src="images/Flags/Spain.png" /></span><span>Spain</span></p>
@@ -85,10 +91,10 @@
                 <p class="badgeSelect" id="Italy"><span class="flag"><img src="images/Flags/Italy.png" /></span><span>Italy</span></p>
             </div>
         </div>
-
-        <div class="row">
+        <br />
+        <div class="row light-background rom-margin row-padding">
             <div class="col-xs-2">
-                Must haves:
+                <b>Must haves:</b>
             </div>
             <div class="col-xs-10" data-group="musthaves">
                 <p class="badgeSelect" id="WheelchairAccessible"><span class="fa fa-wheelchair fa-4x"></span><span>Disability</span></p>
@@ -96,15 +102,19 @@
                 <p class="badgeSelect" id="Vegetarian"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
             </div>
         </div>
-		<script type="text/javascript" src="scripts/timesheet.js"></script>
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-		<script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
+        <br />
+        <div class="max400px centered">
+            <a class="form-control btn btn-primary btn-large" ng-click="ctrl.showHotels()">Show Hotels</a>
+        </div>
+
+        <script type="text/javascript" src="scripts/timesheet.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script type="text/javascript" src="scripts/bootstrap-datetimepicker.min.js"></script>
         <script src="scripts/app.js"></script>
-		<script src="scripts/preferences.js"></script>
-        <div id="next-page">Next page</div>
+        <script src="scripts/preferences.js"></script>
     </div>
 </body>
 </html>

@@ -13,7 +13,7 @@
 
     this.parse(data || []);
 
-    if (typeof document !== 'undefined') {
+    if (typeof document !== 'undefined' && container) {
       this.container = (typeof container === 'string') ? document.querySelector('#'+container) : container;
       this.drawSections();
       this.insertData();
@@ -48,13 +48,15 @@
     var html = [];
 	var times = moment.duration(moment(this.year.max).diff(moment(this.year.min))).asDays();
 	for(var c=0; c<times;c++) {
-		var dateScale = (c%7 == 2) ? moment(this.year.max).add(c,'days').format('YYYY/MM/DD') : '';
+		var dateScale = (c%7 == 2) ? moment(this.year.min).add(c,'days').format('YYYY/MM/DD') : '';
 		var scaleClass = (dateScale) ? 'timescale' : ''; 
       html.push('<section style="width: '+(100/times)+'%;" class="'+scaleClass+'"><span>' + dateScale  + '</span></section>');
     }
 
-    this.container.className = 'timesheet color-scheme-default';
-    this.container.innerHTML = '<div class="scale">' + html.join('') + '</div>';
+	if(this.container) {
+		this.container.className = 'timesheet color-scheme-default';
+		this.container.innerHTML = '<div class="scale">' + html.join('') + '</div>';
+	}
   };
 
   /**
