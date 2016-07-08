@@ -6,7 +6,7 @@ angular.module('groupTripApp', [])
 
       ctrl.loginUser = function () {
           $.ajax({
-              url: 'http://localhost:62200/api/user/get',
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/user/get',
               type: 'POST',
               data: JSON.stringify(ctrl.email),
               contentType: 'application/json; charset=utf-8',
