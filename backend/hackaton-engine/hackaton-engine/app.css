@@ -27,6 +27,24 @@ body{
     background: rgba(255, 255, 255, 0.8);
 }
 
+.white-text{
+    color: white;
+}
+
+.light-background{
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.content-alpha{
+    padding: 20px;
+    width: 95%;
+    margin-top: 10px;
+    min-height: 500px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .main{
     color: #fff;
     margin-top: 100px;
@@ -100,6 +118,10 @@ body{
 .row-padding {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.row-margin {
+    margin-bottom: 10px;
 }
 
 .slider-input {

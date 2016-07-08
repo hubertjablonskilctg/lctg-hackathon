@@ -6,7 +6,7 @@ angular.module('groupTripApp', [])
 
       ctrl.loginUser = function () {
           $.ajax({
-              url: 'http://localhost:62200/api/user/get',
+              url: 'http://takeoff2016-krkteam.azurewebsites.net/api/user/get',
               type: 'POST',
               data: JSON.stringify(ctrl.email),
               contentType: 'application/json; charset=utf-8',
@@ -18,11 +18,11 @@ angular.module('groupTripApp', [])
                       localStorage.setItem("userEmail", data.User.Email);
                       $window.location.href = '/preferences.html';
                   } else {
-                      allert("Wrong email. Dont try to cheat me!!");
+                      alert("Incorrect login credentials. Please try again later.");
                   }
               },
               error: function (data) {
-                  console.log(data);
+                  alert("Incorrect login credentials. Please try again later.");
               }
           })
       }
