@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="groupTripApp">
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
@@ -8,16 +8,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 </head>
 
-<body>
+<body ng-controller="ResultsController as ctrl" ng-init="ctrl.init()">
     <div class="content results-content">
         <h3>Results:</h3>
-
-        <div class="row">
+        <div class="row" ng-repeat="hotel in ctrl.hotels| orderBy:ctrl.rankHotels">
             <div class="col-sm-3">
-                <img src="images/Hotels/hotel1.jpg" />
+                <img ng-src="images/Hotels/{{hotel.Id}}.jpg" />
             </div>
-            <div class="col-sm-9">
-                <h3></h3>
+            <div class="col-sm-3">
+                <h3>{{hotel.Name}}</h3>
+            </div>
+            <div class="col-sm-2">
+                <h3>{{hotel.Price}}</h3>
+            </div>
+            <div class="col-sm-3">
+                <h3>{{hotel.Address}}</h3>
+            </div>
+            <div class="col-sm-1">
+                <h3><i class="fa fa-thumbs-up" ng-click="ctrl.approveHotel(hotel)"></i></h3>
             </div>
         </div>
 
@@ -30,6 +38,7 @@
 
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="scripts/results.js"></script>
     </div>
 </body>
