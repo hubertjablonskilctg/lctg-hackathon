@@ -20,6 +20,10 @@ body{
     padding-right: 10px;
 }
 
+.badge{
+    margin-right: 5px;
+}
+
 .paddingLeft{
     padding-left: 10px;
 }

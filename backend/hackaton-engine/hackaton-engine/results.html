@@ -11,7 +11,8 @@
 <body ng-controller="ResultsController as ctrl" ng-init="ctrl.init()">
     <div class="content-alpha">
         <div class="row">
-            <div class="col-sm-9"></div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6"></div>
             <div class="col-sm-3"><span class="booking-info"><i class="fa fa-phone"></i> Call to book now: <b>(020) 1234 5678</b></span></div>
         </div>
         <div class="text-center white-text">
@@ -30,18 +31,26 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-sm-12"><span class="badge">Up votes: {{-ctrl.rankHotels(hotel)}}</span></div>
+                    <div class="col-sm-12">
+                        <span class="badge" ng-repeat="tag in hotel.Tags">{{tag}}</span>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-2">
                 <h1 class="without-top-margin price">{{hotel.Price}}£</h1>
             </div>
             <div class="col-sm-2">
-                <div class="col-sm-12">
-                    <button class="btn btn-info" ng-show="!ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"><i class="fa fa-thumbs-up"></i> I like it</button>
-                    <button class="btn btn-info" ng-show="ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"> Vote added</button>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button class="btn btn-info" ng-show="!ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"><i class="fa fa-thumbs-up"></i> I like it</button>
+                        <button class="btn btn-info" ng-show="ctrl.isSelected(hotel)" ng-click="ctrl.approveHotel(hotel)"> Vote added</button>
+                    </div>
                 </div>
-                
+                <br />
+                <div class="row">
+                    <div class="col-sm-12"><span class="badge">Up votes: {{-ctrl.rankHotels(hotel)}}</span></div>
+                </div>
+
 
             </div>
         </div>
