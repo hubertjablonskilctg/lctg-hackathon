@@ -9,37 +9,43 @@
     <link rel="stylesheet" href="timesheet.min.css">
     <link rel="stylesheet" href="bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" href="scripts/slider/css/bootstrap-slider.css">
-	<link rel="stylesheet" href="scripts/external/jqcloud.css" />
+    <link rel="stylesheet" href="scripts/external/jqcloud.css" />
 </head>
 
 <body ng-controller="PreferencesController as ctrl" ng-cloak>
+    <div class="logo_small"><img src="images/krk1.png" /></div>
     <div class="content-alpha">
+        <div class="row">
+            <div class="col-sm-3"><span class="user-info">{{ctrl.userEmail?'Welcome, '+ctrl.userEmail:''}}</span></div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-3"></div>
+        </div>
         <div class="text-center white-text">
             <div><h3>What are your preferences for a 7 days trip?</h3></div>
         </div>
-		<div class="row light-background rom-margin row-padding">
-			<div id="timeline"></div>
-		</div>
-		<br />
+        <div class="row light-background rom-margin row-padding">
+            <div id="timeline"></div>
+        </div>
+        <br />
         <!--<div data-ng-show="ctrl.timelinesOverlapping" class="alert alert-danger" role="alert">Seems that your date does not overlaps with the other people :( Please choose another one if you want to go with your friends.</div>-->
-		<div class="row light-background rom-margin row-padding">
-			<div class="col-xs-2"><b>Preferred dates:</b></div>
-			<div class="col-xs-6">
-				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
-					<span class="input-group-addon">From</span>
-					<input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
-					<span class="input-group-addon">To</span>
-					<input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
-				</div>
-				<div class="" ng-show="ctrl.datesSelected">
-					<h4>{{ctrl.datesSelectedValues}}</h4>
-				</div>
-			</div>
-			<div class="col-xs-2">
-				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
-				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
-			</div>
-		</div>
+        <div class="row light-background rom-margin row-padding">
+            <div class="col-xs-2"><b>Preferred dates:</b></div>
+            <div class="col-xs-6">
+                <div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
+                    <span class="input-group-addon">From</span>
+                    <input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
+                    <span class="input-group-addon">To</span>
+                    <input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
+                </div>
+                <div class="" ng-show="ctrl.datesSelected">
+                    <h4>{{ctrl.datesSelectedValues}}</h4>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
+                <button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
+            </div>
+        </div>
         <div class="row light-background rom-margin row-padding">
             <!--<div class="col-xs-2">
                 How many people are with you:
@@ -55,7 +61,7 @@
                     <span id="budgetFrom">0</span><span class="paddingRight">£</span> <input id="sliderinput" data-slider-id='sliderinput' data-slider-value="[0,1000]" type="text" data-slider-min="0" data-slider-max="1000" data-slider-step="10" /> <span id="budgetTo" class="paddingLeft">1000</span>£
                 </div>
             </div>
-		</div>
+        </div>
         <br clear="left" />
         <div class="row light-background rom-margin row-padding">
             <div class="col-xs-2">
@@ -96,15 +102,15 @@
                 <p class="badgeSelect" id="Vegetarian"><span class="fa fa-paragraph fa-4x"></span><span>Parking</span></p>
             </div>
         </div>
-		<br />
-		<div ng-show="ctrl.tagCloudResults" class="row dark-background rom-margin row-padding">
-			<div class="col-xs-2">
-				<b>Your group's choices:</b>
-			</div>
-			<div class="col-xs-10">
-				<div id="tagCloud"></div>
-			</div>
-		</div>
+        <br />
+        <div ng-show="ctrl.tagCloudResults" class="row dark-background rom-margin row-padding">
+            <div class="col-xs-2">
+                <b>Your group's choices:</b>
+            </div>
+            <div class="col-xs-10">
+                <div id="tagCloud"></div>
+            </div>
+        </div>
         <br />
         <div class="max400px centered">
             <a class="form-control btn btn-primary btn-large" ng-click="ctrl.showHotels()">Show Hotels</a>
@@ -117,7 +123,7 @@
         </div>-->
         <script type="text/javascript" src="scripts/timesheet.js"></script>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="scripts/external/jqcloud.js"></script>
+        <script type="text/javascript" src="scripts/external/jqcloud.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
