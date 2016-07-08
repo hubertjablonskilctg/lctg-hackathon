@@ -165,7 +165,7 @@
 					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/' + selectedName + '/',
 					// url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
 					success: function (data) {
-						// console.log(data);
+						refreshData(data)
 						// console.log('success');
 					},
 					error: function (data) {
@@ -222,6 +222,7 @@
       }
 	  
 	  function createTagCloud (data) {
+			var tagsAlready = $('#tagCloud').html();
 		  var allTags = [];
 			Object.keys(data.UserPreferences).forEach(function(key,index) {
 				var current = data.UserPreferences[key];
@@ -249,14 +250,18 @@
 				var tmp = { text: resultKeys[i], weight: results[resultKeys[i]] };
 				jqCloudResults.push(tmp);
 			}
-			
 			ctrl.tagCloudResults = jqCloudResults.length;
 
-			$('#tagCloud').jQCloud(jqCloudResults, {
-				width: 200,
-				height: 200,
-				colors: ["#ffffff"]
-			});
+			if(!tagsAlready) {
+				$('#tagCloud').jQCloud(jqCloudResults, {
+						width: 200,
+						height: 200,
+						colors: ["#ffffff"]
+				});
+			} else {
+				$('#tagCloud').html('')
+				$('#tagCloud').jQCloud('update', jqCloudResults);
+			}
 	  }
 
       function checkIfAllDatesOverlaps() {

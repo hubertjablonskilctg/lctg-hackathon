@@ -16,7 +16,38 @@
             $.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function (data) {
                 //console.log(data);
 
-                
+                var allTags = [];
+                Object.keys(data.UserPreferences).forEach(function(key,index) {
+                    var current = data.UserPreferences[key];
+                    if(current == null) return;
+                    allTags = allTags.concat(current.Tags);
+                    allTags = allTags.concat(current.Localizations);
+                });
+
+                var results = {};
+                for (var i = 0; i < allTags.length; i++){
+                    if (allTags[i] in results){
+                        results[allTags[i]]++;
+                    }
+                    else{
+                        results[allTags[i]] = 1;
+                    }
+                }
+
+                var jqCloudResults = [];
+                var resultKeys = Object.keys(results);
+                for (var i = 0; i < resultKeys.length; i++) {
+                    // console.log('text', resultKeys[i]);
+                    // console.log('results', results[resultKeys[i]]);
+
+                    var tmp = { text: resultKeys[i], weight: results[resultKeys[i]] };
+                    jqCloudResults.push(tmp);
+                }
+
+                $('#demo').jQCloud(jqCloudResults, {
+                    width: 500,
+                    height: 500
+                });
             });
         });
     </script>
