@@ -5,9 +5,9 @@ angular.module('groupTripApp', [])
       var groupId = localStorage.getItem("groupId");
 
       $.ajax({
-          url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId,
-          type: 'GET',
-          contentType: 'application/json; charset=utf-8',
+          url: "http://takeoff2016-krkteam.azurewebsites.net/api/group/" + groupId,
+		  type: 'GET',
+		  contentType: 'application/json; charset=utf-8',
           success: function (data) {
               ctrl.selectedDates = [];
               angular.forEach(data.Users, function (user) {
@@ -151,21 +151,25 @@ angular.module('groupTripApp', [])
       function checkIfAllDatesOverlaps() {
           var numRows = ctrl.selectedDates.length;
           var doesntOverlaps = 0;
-          for (var i = 0; i < numRows; i++) {
-              if (ctrl.selectedDates[i + 1]) {
-                  var start1 = moment(ctrl.selectedDates[i][0]);
-                  var end1 = moment(ctrl.selectedDates[i][1])
-                  var start2 = moment(ctrl.selectedDates[i + 1][0]);
-                  var end2 = moment(ctrl.selectedDates[i + 1][1])
-                  var duration1 = moment.duration(start1.diff(end2, 'days', true));
-                  var days1 = duration1.asDays();
-                  var duration2 = moment.duration(start2.diff(end1, 'days', true));
-                  var days2 = duration2.asDays();
-                  if (!(days1 < 0 && days2 < 0)) {
-                      doesntOverlaps++;
-                  }
-              }
-          }
+		  if(numRows > 1) {
+			  for (var i = 0; i < numRows; i++) {
+				  if (ctrl.selectedDates[i + 1]) {
+					  var start1 = moment(ctrl.selectedDates[i][0]);
+					  var end1 = moment(ctrl.selectedDates[i][1])
+					  var start2 = moment(ctrl.selectedDates[i + 1][0]);
+					  var end2 = moment(ctrl.selectedDates[i + 1][1])
+					  var duration1 = moment.duration(start1.diff(end2, 'days', true));
+					  var days1 = duration1.asDays();
+					  var duration2 = moment.duration(start2.diff(end1, 'days', true));
+					  var days2 = duration2.asDays();
+					  if (!(days1 < 0 && days2 < 0)) {
+						  doesntOverlaps++;
+					  }
+				  }
+			  }
+		  } else {
+			  doesntOverlaps = 1;
+		  }
           return (doesntOverlaps) ? false : true;
       }
 
