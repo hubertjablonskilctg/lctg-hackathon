@@ -44,17 +44,17 @@
 			<div class="col-xs-6">
 				<div class="input-group input-daterange" ng-show="!ctrl.datesSelected">
 					<span class="input-group-addon">From</span>
-					<input id="date-from" type="text" class="form-control">
+					<input id="date-from" type="text" class="form-control" ng-model="ctrl.dateFrom">
 					<span class="input-group-addon">To</span>
-					<input id="date-to" type="text" class="form-control">
+					<input id="date-to" type="text" class="form-control" ng-model="ctrl.dateTo">
 				</div>
 				<div class="" ng-show="ctrl.datesSelected">
 					<h4>{{ctrl.datesSelectedValues}}</h4>
 				</div>
 			</div>
 			<div class="col-xs-2">
-				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.addPreferences()" class="btn btn-primary">Add your dates</button>
-				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDate()" class="btn btn-default">Edit your dates</button>
+				<button ng-if="!ctrl.datesSelected" data-ng-click="ctrl.savePreferences()" class="btn btn-primary">Add your dates</button>
+				<button ng-if="ctrl.datesSelected" data-ng-click="ctrl.editSelectedDates()" class="btn btn-default">Edit your dates</button>
 			</div>
 		</div>
         <br clear="left" />

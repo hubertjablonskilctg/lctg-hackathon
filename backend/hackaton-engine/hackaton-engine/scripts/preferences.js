@@ -7,7 +7,7 @@ angular.module('groupTripApp', [])
 		// TODO
 		// assume they're there
 		groupId = 3;
-		userId = 4;
+		userId = 3;
 		
 		//get initial data
 		$.ajax({
@@ -16,6 +16,7 @@ angular.module('groupTripApp', [])
 		  contentType: 'application/json; charset=utf-8',
           success: function (data) {
 				var userPreferences = data.UserPreferences[userId];
+				console.log(data.UserPreferences)
 				var localizations = userPreferences.Localizations;
 				var tags = userPreferences.Tags;
 				var mustHaves = userPreferences.MustHaves;
@@ -27,6 +28,8 @@ angular.module('groupTripApp', [])
 					  console.log(user.Id, userId)
 					  if(user.Id == userId) {
 						ctrl.datesSelectedValues = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD') + ' - ' + moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
+						ctrl.dateFrom = moment(userPreferences.DateRange.m_Item1).format('YYYY/MM/DD');
+						ctrl.dateTo = moment(userPreferences.DateRange.m_Item2).format('YYYY/MM/DD');
 						ctrl.datesSelected = true;
 					  }
 				  }
@@ -58,11 +61,38 @@ angular.module('groupTripApp', [])
           }
 		});
 		
-		ctrl.editSelectedDate = function() {
+		ctrl.editSelectedDates = function() {
 			ctrl.selectedDates.pop();
 			  ctrl.selectedDates.pop();
 			  ctrl.datesSelected = false;
 			  drawChart();
+		}
+		
+		ctrl.savePreferences = function() {
+			$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
+				console.log(data);
+
+				// TODO userid zahardkodowane
+				var preferences = data.UserPreferences[userId];
+				preferences.DateRange.m_Item1 = ctrl.dateFrom;
+				preferences.DateRange.m_Item2 = ctrl.dateTo;
+				console.log('pref',preferences)
+				$.ajax({
+					url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + 4 + '/' + groupId + '/',
+					type: 'POST',
+					data: preferences,
+					contentType: 'application/json; charset=utf-8',
+					// url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
+					success: function(data) {
+						console.log(data);
+						console.log('success');
+					},
+					error: function(data) {
+						console.log(data);
+						console.log('error');
+					}
+				});
+			});
 		}
 		
 		//has to wait for DOM
@@ -98,35 +128,7 @@ angular.module('groupTripApp', [])
 
 				var postPreferences = function (userId, groupId) {
 					console.log('posting');
-					$.get('http://takeoff2016-krkteam.azurewebsites.net/api/group/' + groupId, function(data) {
-						//console.log(data);
-
-						// TODO userid zahardkodowane
-						var preferences = data.UserPreferences[2];
-						console.log(preferences);
-						preferences.DateRange.m_Item1 = dateFrom;
-						preferences.DateRange.m_Item2 = dateTo;
-
-						preferences.PriceRange.m_Item1 = budgetFrom;
-						preferences.PriceRange.m_Item2 = budgetTo;
-						console.log(preferences);
-
-						$.ajax({
-							url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
-							type: 'POST',
-							data: preferences,
-							contentType: 'application/json; charset=utf-8',
-							// url: 'http://takeoff2016-krkteam.azurewebsites.net/api/group/changePreferences/' + userId + '/' + groupId + '/',
-							success: function(data) {
-								// console.log(data);
-								// console.log('success');
-							},
-							error: function(data) {
-								// console.log(data);
-								// console.log('error');
-							}
-						});
-					});
+					
 				}
 
 				postPreferences(userId, groupId);
@@ -222,6 +224,7 @@ angular.module('groupTripApp', [])
 					  var days1 = duration1.asDays();
 					  var duration2 = moment.duration(start2.diff(end1, 'days', true));
 					  var days2 = duration2.asDays();
+					  console.log(days1, days2)
 					  if (!(days1 < 0 && days2 < 0)) {
 						  doesntOverlaps++;
 					  }
