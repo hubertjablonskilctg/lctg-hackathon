@@ -37,7 +37,8 @@ angular.module('groupTripApp', [])
           });
       }
 
-      ctrl.approveHotel = function (hotelId) {
+      ctrl.approveHotel = function (hotel) {
+          var hotelId = hotel.Id;
           //ctrl.groups.UserPreferences[userId]
           if (!ctrl.group.UserHotelUpVotes)
               ctrl.group.UserHotelUpVotes = {};
@@ -46,13 +47,13 @@ angular.module('groupTripApp', [])
           if (index > -1) {
               ctrl.group.UserHotelUpVotes[userId].splice(index, 1);
               removeRankFromHotel()
-              hotel.isApproved = true;
+              hotel["isApproved"] = true;
           } else {
               if (!ctrl.group.UserHotelUpVotes[userId])
                   ctrl.group.UserHotelUpVotes[userId] = [];
               ctrl.group.UserHotelUpVotes[userId].push(hotelId);
               addRankToHotel(hotelId);
-              hotel.isApproved = false;
+              hotel["isApproved"] = false;
           }
       }
 
@@ -67,8 +68,8 @@ angular.module('groupTripApp', [])
       }
 
       ctrl.rankHotels = function (hotel) {
-          if (hotelsOrder[hotelId])
-              return hotelsOrder[hotelId];
+          if (hotelsOrder[hotel.Id])
+              return -hotelsOrder[hotel.Id];
           else
               return 0;
       }
