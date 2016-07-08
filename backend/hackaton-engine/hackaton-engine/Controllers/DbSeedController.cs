@@ -368,6 +368,18 @@ namespace hackaton_engine.Controllers
                     } }
                 }
             });
+
+            _groupRepository.Add(new Group()
+            {
+                Id = 4,
+                AdminUserId = 1,
+                CurrentTripPreparationStage = TripPreparationStages.VoteForDestination,
+                Name = "EmptyPref",
+                UserIds = new[] { 4 },
+                Users = _userRepository.Find((u) => new[] { 4}.Contains(u.Id)),
+                UserHotelUpVotes = new Dictionary<int, int[]>(),
+                UserPreferences = new Dictionary<int, Preference>()
+            });
         }
     }
 }
