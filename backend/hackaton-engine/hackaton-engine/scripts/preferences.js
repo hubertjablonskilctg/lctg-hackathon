@@ -1,5 +1,5 @@
 angular.module('groupTripApp', [])
-  .controller('PreferencesController', function ($scope) {
+  .controller('PreferencesController', function ($scope, $window) {
 		var ctrl = this;
 		var groupId = localStorage.getItem("groupId");
 		var userId = localStorage.getItem("userId");
@@ -88,6 +88,10 @@ angular.module('groupTripApp', [])
 					}
 				});
 			});
+		}
+
+		ctrl.showHotels = function () {
+		    $window.location.href = '/results.html';
 		}
 		
 		//has to wait for DOM
